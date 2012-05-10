@@ -27,7 +27,7 @@ public class GerenciaDadosEmXML {
 	private final String[] ATRIBUTOS_DE_PERFIL = {"nome", "endereco", "email", 
 			"faltas em vagas de caronas", "historico de caronas",
 			"historico de vagas em caronas", "caronas seguras e tranquilas",
-			"caronas que n√£o funcionaram", "presen√ßas em vagas de caronas"};
+			"caronas que n„o funcionaram", "presenÁas em vagas de caronas"};
 
 	private final String[] ATRIBUTOS_DA_CARONA = {"origem", "destino", "data", "hora", 
 			"vagas", "Ponto de Encontro", "Caroneiros"};
@@ -61,8 +61,8 @@ public class GerenciaDadosEmXML {
 			usuarioRecuperado.getPerfil(login).setEmail(usuario.getChildText("email"));
 			usuarioRecuperado.getPerfil(login).setFaltaCaronas(usuario.getChildText("faltasemvagasdecaronas"));
 			usuarioRecuperado.getPerfil(login).setCaronasSeguras(usuario.getChildText("caronassegurasetranquilas"));
-			usuarioRecuperado.getPerfil(login).setCaronasNaoFuncionaram( usuario.getChildText("caronasquen√£ofuncionaram"));
-			usuarioRecuperado.getPerfil(login).setPresencaCaronas(usuario.getChildText("presen√ßasemvagasdecaronas"));
+			usuarioRecuperado.getPerfil(login).setCaronasNaoFuncionaram( usuario.getChildText("caronasquen„ofuncionaram"));
+			usuarioRecuperado.getPerfil(login).setPresencaCaronas(usuario.getChildText("presenÁasemvagasdecaronas"));
 			for (String caronaDoHistorico: usuario.getChildText("historicodevagasemcaronas").replace("[", "").
 					replace("]","").split(",")){
 				usuarioRecuperado.getPerfil(login).adicionaCarona(caronaDoHistorico)	;
@@ -75,6 +75,7 @@ public class GerenciaDadosEmXML {
 		}           
 		return usuarios;
 	}
+	
 	public List<Carona> recuperaCaronas(List<Element> caronas) throws Exception{
 		List<Carona> caronasRecuperadas = new ArrayList<Carona>();
 		Iterator<Element> iteraCaronas = caronas.iterator();

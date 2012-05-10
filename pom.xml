@@ -11,7 +11,7 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
   </properties>
   
   <dependencies>
@@ -45,7 +45,7 @@
           <compilerVersion>1.5</compilerVersion>
           <source>1.5</source>
           <target>1.5</target>
-          <encoding>UTF-8</encoding>
+          <encoding>ISO-8859-1</encoding>
         </configuration>
       </plugin>
       

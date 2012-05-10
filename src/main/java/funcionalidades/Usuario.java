@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 
+import excecoes.Excecoes;
+
 /**
  * 
  * @author Antonio, Diego, Eduardo, Laercio, Rodolfo
@@ -150,8 +152,8 @@ public class Usuario {
 	 *             Caso o login seja inválido
 	 */
 	public PerfilDoUsuario getPerfil(String login) throws Exception {
-		if (!getLogin().equals(login))
-			throw new Exception("Login inválido");
+		if (!this.getLogin().equals(login))
+			throw new Exception(Excecoes.LOGIN_INVALIDO);
 		return perfil;
 	}
 
@@ -189,12 +191,12 @@ public class Usuario {
 	 * 			
 	 */
 	public void reviewVagaEmCarona(String idCarona, String loginCaroneiro, String review) throws Exception {
-		if (review.equals("não dou mais carona")) {
-			throw new Exception("Opção inválida.");
+		if (review.equals("n�o dou mais carona")) {
+			throw new Exception(Excecoes.OPCAO_INVALIDA);
 		}
 
-		if (review.equals("não funcionou")) {
-			throw new Exception("Usuário não possui vaga na carona.");
+		if (review.equals("n�o funcionou")) {
+			throw new Exception(Excecoes.USUARIO_NAO_VAGA_CARONA);
 		}
 
 		for (Carona carona : caronas) {
@@ -203,7 +205,7 @@ public class Usuario {
 					if (caroneiro.getLogin().equals(loginCaroneiro)) {
 						if (review.equals("faltou")) {
 							caroneiro.setFaltasEmCaronas();
-						} else if (review.equals("não faltou")) {
+						} else if (review.equals("n�o faltou")) {
 							caroneiro.setPresencasEmCaronas();
 						}
 					}

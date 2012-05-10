@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import excecoes.Excecoes;
 import funcionalidades.Carona;
 import funcionalidades.SolicitacaoDeCarona;
 import funcionalidades.SugestaoDePonto;
@@ -39,7 +40,7 @@ public class GerenciadorDeSolicitacoes {
 		}else{
 			for (String ponto: novosPontos){
 				if (!novaSugestao.getPontosSugeridos().contains(ponto))//!carona.getPassageiros().keySet().containsAll(novosPontos)){
-					throw new Exception("Ponto Inválido");
+					throw new Exception(Excecoes.PONTO_INVALIDO);
 
 			}
 		}
@@ -49,7 +50,7 @@ public class GerenciadorDeSolicitacoes {
 
 	public void responderSugestao(Carona carona, SugestaoDePonto sugestaoDePonto, String novosPontos) throws Exception {
 		if (novosPontos.equals(""))
-			throw new Exception("Ponto Inválido");
+			throw new Exception(Excecoes.PONTO_INVALIDO);
 
 		List<String> pontosDoDono = Arrays.asList(novosPontos.split(";"));
 		sugestaoDePonto.getPontosSugeridos().retainAll(pontosDoDono);
@@ -75,7 +76,7 @@ public class GerenciadorDeSolicitacoes {
 
 	public String solicitarVaga(Carona carona, String donoDaCarona, Usuario donoDaSolicitacao, String pontoDeEncontro) throws Exception {
 		if (carona.getCaroneiros().contains(donoDaSolicitacao.getNome())){
-			throw new Exception("Ponto Inválido");
+			throw new Exception(Excecoes.PONTO_INVALIDO);
 		}
 		
 		SolicitacaoDeCarona novaSolicitacao = new SolicitacaoDeCarona(carona, donoDaCarona, donoDaSolicitacao, pontoDeEncontro);
@@ -100,7 +101,7 @@ public class GerenciadorDeSolicitacoes {
 			}
 		}
 		
-		throw new Exception("Solicitação inexistente");
+		throw new Exception(Excecoes.SOLICITACAO_INEXISTENTE);
 	}
 
 	public void validaSolicitacao(String idSolicitacao) throws NumberFormatException, Exception {
@@ -111,13 +112,12 @@ public class GerenciadorDeSolicitacoes {
 		solicitacao.getDonoDaSolicitacao().setHistoricoEmVagas(carona);
 		solicitacoesConfirmadas.add(solicitacao);
 		solicitacoesPendentes.remove(solicitacao);
-		//todasSolicitacoes.remove(solicitacao);
 	}
 
 	public void rejeitarSolicitacao(String idSessao, String idSolicitacao) throws Exception {
 		SolicitacaoDeCarona solicitacao = buscaSolicitacao(idSolicitacao);
 		if (solicitacao == null){
-			throw new Exception("Ponto Inválido");
+			throw new Exception(Excecoes.PONTO_INVALIDO);
 		}
 		todasSolicitacoes.remove(solicitacao);
 
@@ -146,7 +146,7 @@ public class GerenciadorDeSolicitacoes {
 			}
 			
 		}
-		throw new Exception("Solicitação não confirmada");
+		throw new Exception(Excecoes.SOLICITACAO_NAO_CONFIRMADA);
 	}
 	
 	public String getSolicitacoesPendentes(){

@@ -4,20 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import excecoes.AtributoInvalidoException;
-import excecoes.CaronaInexistenteException;
-import excecoes.CaronaInvalidaException;
-import excecoes.DestinoInvalidoException;
-import excecoes.EmailDuplicadoException;
-import excecoes.IdentificadorCaronaInvalidoException;
-import excecoes.ItemInexistenteException;
-import excecoes.LoginDuplicadoException;
-import excecoes.LoginInvalidoException;
-import excecoes.OrigemInvalidaException;
-import excecoes.SenhaInvalidaException;
-import excecoes.TrajetoInexistenteException;
-import excecoes.TrajetoInvalidoException;
-import excecoes.UsuarioInexistenteException;
+import excecoes.Excecoes;
+
 import gerenciadores.GerenciaDadosEmXML;
 import gerenciadores.GerenciadorDeSolicitacoes;
 
@@ -55,10 +43,10 @@ public class Sistema {
 	public String abrirSessao(String login, String senha) throws Exception {
 		// checaLoginValido(login, senha);
 		if (login == null || login.equals("")) {
-			throw new LoginInvalidoException();
+			throw new Exception(Excecoes.LOGIN_INVALIDO);
 		}
 		if (senha == null || senha.equals("")) {
-			throw new SenhaInvalidaException();
+			throw new Exception(Excecoes.SENHA_INVALIDA);
 		}
 		String idSession = "";
 		for (Usuario usuario : usuarios) {
@@ -69,11 +57,11 @@ public class Sistema {
 					return idSession;
 				} 
 				else {
-					throw new LoginInvalidoException();
+					throw new Exception(Excecoes.LOGIN_INVALIDO);
 				}
 			}
 		}
-		throw new UsuarioInexistenteException();
+		throw new Exception(Excecoes.USUARIO_INEXISTENTE);
 	}
 
 	/**
@@ -90,10 +78,10 @@ public class Sistema {
 	public boolean checaLoginValido(String login, String senha)
 			throws Exception {
 		if (login == null || login.equals("")) {
-			throw new LoginInvalidoException();
+			throw new Exception(Excecoes.LOGIN_INVALIDO);
 		}
 		if (senha == null || senha.equals("")) {
-			throw new SenhaInvalidaException();
+			throw new Exception(Excecoes.SENHA_INVALIDA);
 		}
 		boolean resposta = false;
 		for (Usuario usuario : usuarios) {
@@ -126,10 +114,10 @@ public class Sistema {
 			String endereco, String email) throws Exception {
 		for (Usuario u : usuarios) {
 			if (u.getLogin().equals(login)) {
-				throw new LoginDuplicadoException();
+				throw new Exception(Excecoes.LOGIN_DUPLICADO);
 			} 
 			else if (u.getEmail().equals(email)) {
-				throw new EmailDuplicadoException();
+				throw new Exception(Excecoes.EMAIL_DUPLICADO);
 			}
 		}
 		usuarios.add(new Usuario(login, senha, nome, endereco, email));
@@ -164,14 +152,14 @@ public class Sistema {
 	public String getAtributoPerfil(String login, String atributo)
 			throws Exception {
 		if (login == null || login.equals(""))
-			throw new LoginInvalidoException();
+			throw new Exception(Excecoes.LOGIN_INVALIDO);
 		if (atributo == null || atributo.equals(""))
-			throw new AtributoInvalidoException();
+			throw new Exception(Excecoes.ATRIBUTO_INVALIDO);
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equals(login))
 				return usuario.getAtributo(login, atributo);
 		}
-		throw new UsuarioInexistenteException();
+		throw new Exception(Excecoes.USUARIO_INEXISTENTE);
 	}
 
 	/**
@@ -201,9 +189,9 @@ public class Sistema {
 	public String getTrajeto(String IDCarona) throws Exception {
 		Carona carona = buscaCarona(IDCarona);
 		if (IDCarona == null)
-			throw new TrajetoInvalidoException();
+			throw new Exception(Excecoes.TRAJETO_INVALIDO);
 		if (carona == null)
-			throw new TrajetoInexistenteException();
+			throw new Exception(Excecoes.TRAJETO_INEXISTENTE);
 		return carona.getTrajeto();
 	}
 
@@ -220,15 +208,15 @@ public class Sistema {
 	 */
 	public String getAtributoCarona(String IDCarona, String atributo) throws Exception {
 		if (IDCarona == null || IDCarona.equals("")) {
-			throw new IdentificadorCaronaInvalidoException();
+			throw new Exception(Excecoes.IDENTIFICADOR_CARONA_INVALIDO);
 		}
 		if (atributo == null || atributo.equals("")) {
-			throw new AtributoInvalidoException();
+			throw new Exception(Excecoes.ATRIBUTO_INVALIDO);
 		}
 		Carona carona = buscaCarona(IDCarona);
 		if (carona != null)
 			return carona.getAtributoCarona(atributo);
-		throw new ItemInexistenteException();
+		throw new Exception(Excecoes.ITEM_INEXISTENTE);
 	}
 
 	/**
@@ -277,9 +265,9 @@ public class Sistema {
 	public String getCarona(String IDCarona) throws Exception {
 		Carona carona = buscaCarona(IDCarona);
 		if (IDCarona == null)
-			throw new CaronaInvalidaException();
+			throw new Exception(Excecoes.CARONA_INVALIDA);
 		if (carona == null)
-			throw new CaronaInexistenteException();
+			throw new Exception(Excecoes.CARONA_INEXISTENTE);
 		return carona.toString();
 	}
 
@@ -299,14 +287,11 @@ public class Sistema {
 	 */
 	public String localizarCarona(String idSessao, String origem, String destino)
 			throws Exception {
-		if (origem == null
-				|| !origem.matches("^[ a-zA-Z√Å√Ç√É√Ä√á√â√ä√ç√ì√î√ï√ö√ú√°√¢√£√†√ß√©√™√≠√≥√¥√µ√∫√º0-9]*$")) {
-			throw new OrigemInvalidaException();
+		if (origem == null 	|| !origem.matches("^[ a-zA-Z¡¬√¿«… Õ”‘’⁄‹·‚„‡ÁÈÍÌÛÙı˙¸0-9]*$")) {
+			throw new Exception(Excecoes.ORIGEM_INVALIDA);
 		}
-		if (destino == null
-				|| !destino
-						.matches("^[ a-zA-Z√Å√Ç√É√Ä√á√â√ä√ç√ì√î√ï√ö√ú√°√¢√£√†√ß√©√™√≠√≥√¥√µ√∫√º0-9]*$")) {
-			throw new DestinoInvalidoException();
+		if (destino == null || !destino	.matches("^[ a-zA-Z¡¬√¿«… Õ”‘’⁄‹·‚„‡ÁÈÍÌÛÙı˙¸0-9]*$")) {
+			throw new Exception(Excecoes.DESTINO_INVALIDO);
 		}
 		String todasCaronas = "{";
 		for (Usuario usuario : usuarios) {
@@ -351,16 +336,16 @@ public class Sistema {
 	 */
 	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, String vagas) throws Exception {
 		if (idSessao == null || idSessao.equals(""))
-			throw new Exception("Sess√£o inv√°lida");
+			throw new Exception(Excecoes.SESSAO_INVALIDA);
 		if (buscaUsuario(idSessao) == null)
-			throw new Exception("Sess√£o inexistente");
+			throw new Exception(Excecoes.SESSAO_INEXISTENTE);
 
 		for (Usuario usuario : usuarios) {
 			if (usuario.getID().equals(idSessao)) {
 				return usuario.cadastrarCarona(origem, destino, data, hora, vagas);
 			}
 		}
-		throw new UsuarioInexistenteException();
+		throw new Exception(Excecoes.USUARIO_INEXISTENTE);
 	}
 
 	/**
@@ -425,7 +410,7 @@ public class Sistema {
 	 */
 	public void encerrarSessao(String login) throws Exception {
 		if (login == null || login.equals("")) {
-			throw new LoginInvalidoException();
+			throw new Exception(Excecoes.LOGIN_INVALIDO);
 		}
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equals(login)) {
@@ -507,7 +492,7 @@ public class Sistema {
 					usuario.setHistoricoEmVagas(gerenciadorDeSolicitacoes.getSolicitacaoConfirmada(idSolicitacao).getCarona());
 				}
 				else{
-					throw new Exception("Solicita√ß√£o inexistente");
+					throw new Exception(Excecoes.SOLICITACAO_INEXISTENTE);
 				}
 			}
 		}
@@ -546,7 +531,7 @@ public class Sistema {
 					usuario.setHistoricoEmVagas(gerenciadorDeSolicitacoes.getSolicitacaoConfirmada(idSolicitacao).getCarona());
 				}
 				else{
-					throw new Exception("Solicita√ß√£o inexistente");
+					throw new Exception(Excecoes.SOLICITACAO_INEXISTENTE);
 				}
 			}
 		}
@@ -668,7 +653,6 @@ public class Sistema {
 	 */
 	public void encerrar() throws Exception {
 		gerenciadorDeDadosEmXML.salvaUsuariosXML(usuarios);
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -687,8 +671,7 @@ public class Sistema {
 	 * @throws Exception
 	 *             Caso a carona seja invalida
 	 */
-	public String reviewVagaEmCarona(String idSessao, String idCarona,
-			String loginCaroneiro, String review) throws Exception {
+	public String reviewVagaEmCarona(String idSessao, String idCarona, 	String loginCaroneiro, String review) throws Exception {
 		for (Usuario usuario : usuarios) {
 			if (usuario.getID().equals(idSessao)) {
 				usuario.reviewVagaEmCarona(idCarona, loginCaroneiro, review);

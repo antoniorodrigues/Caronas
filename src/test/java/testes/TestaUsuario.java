@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import excecoes.*;
+import excecoes.Excecoes;
 import funcionalidades.PerfilDoUsuario;
 import funcionalidades.Usuario;
 
@@ -16,7 +16,7 @@ public class TestaUsuario {
 	private PerfilDoUsuario p3;
 	private PerfilDoUsuario p4;
 		
-	private Usuario user1, user2, user3, user4, user5, userInvalido;
+	private Usuario user1, user2, user3, user4, user5;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -40,45 +40,45 @@ public class TestaUsuario {
 	@Test
 	public void TestaLoginInvalido() throws Exception{
 		try {
-			userInvalido = new Usuario(null,"1","usuario1","Campina Grande1","u1g@gmail.com");
-		} catch (LoginInvalidoException e) {
-			assertEquals("Login inválido", e.getMessage());
+			new Usuario(null,"1","usuario1","Campina Grande1","u1g@gmail.com");
+		} catch (Exception e) {
+			assertEquals(Excecoes.LOGIN_INVALIDO, e.getMessage());
 		}
 		
 		try {
-			userInvalido = new Usuario("", "123", "Fulano", "sem casa", "zeNinguem@bol.com");
-		} catch (LoginInvalidoException e) {
-			assertEquals("Login inválido", e.getMessage());
+			new Usuario("", "123", "Fulano", "sem casa", "zeNinguem@bol.com");
+		} catch (Exception e) {
+			assertEquals(Excecoes.LOGIN_INVALIDO, e.getMessage());
 		}
 	}
 
 	@Test
 	public void TestaNomeInvalido() throws Exception{
 		try {
-			userInvalido = new Usuario("u1","1",null,"Campina Grande1","u1g@gmail.com");
-		} catch (NomeInvalidoException e) {
-			assertEquals("Nome inválido", e.getMessage());
+			new Usuario("u1","1",null,"Campina Grande1","u1g@gmail.com");
+		} catch (Exception e) {
+			assertEquals(Excecoes.NOME_INVALIDO, e.getMessage());
 		}
 		
 		try {
-			userInvalido = new Usuario("u1","1","","Campina Grande1","u1g@gmail.com");
-		} catch (NomeInvalidoException e) {
-			assertEquals("Nome inválido", e.getMessage());
+			new Usuario("u1","1","","Campina Grande1","u1g@gmail.com");
+		} catch (Exception e) {
+			assertEquals(Excecoes.NOME_INVALIDO, e.getMessage());
 		}
 	}
 
 	@Test
 	public void TestaEmailInvalido() throws Exception{
 		try {
-			userInvalido = new Usuario("u1","1","usuario1","Campina Grande1",null);
-		} catch (EmailInvalidoException e) {
-			assertEquals("Email inválido", e.getMessage());
+			new Usuario("u1","1","usuario1","Campina Grande1",null);
+		} catch (Exception e) {
+			assertEquals(Excecoes.EMAIL_INVALIDO, e.getMessage());
 		}
 		
 		try {
-			userInvalido = new Usuario("u1","1","usuario1","Campina Grande1","");
-		} catch (EmailInvalidoException e) {
-			assertEquals("Email inválido", e.getMessage());
+			new Usuario("u1","1","usuario1","Campina Grande1","");
+		} catch (Exception e) {
+			assertEquals(Excecoes.EMAIL_INVALIDO, e.getMessage());
 		}
 	}
 	

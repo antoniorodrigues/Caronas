@@ -3,12 +3,9 @@ package funcionalidades;
 import java.util.ArrayList;
 import java.util.List;
 
-import excecoes.AtributoInexistenteException;
-import excecoes.EmailInvalidoException;
-import excecoes.EnderecoInvalidoException;
-import excecoes.LoginInvalidoException;
-import excecoes.NomeInvalidoException;
-import excecoes.SenhaInvalidaException;
+import excecoes.Excecoes;
+
+
 
 /**
  * 
@@ -105,7 +102,7 @@ public class PerfilDoUsuario {
 	 */
 	public void setNome(String nome) throws Exception {
 		if (nome == null || nome.equals("")) {
-			throw new NomeInvalidoException();
+			throw new Exception(Excecoes.NOME_INVALIDO);
 		}
 
 		this.nome = nome;
@@ -164,7 +161,7 @@ public class PerfilDoUsuario {
 	 */
 	public void setEmail(String email) throws Exception {
 		if (email == null || email.equals("")) {
-			throw new EmailInvalidoException();
+			throw new Exception(Excecoes.EMAIL_INVALIDO);
 		}
 		this.email = email;
 	}
@@ -186,9 +183,9 @@ public class PerfilDoUsuario {
 	 * @throws Exception
 	 *             Caso a senha seja em branco ou uma String nula
 	 */
-	public void setSenha(String senha) throws SenhaInvalidaException {
+	public void setSenha(String senha) throws Exception {
 		if(senha == null || senha.equals("")){ 
-			throw new SenhaInvalidaException();
+			throw new Exception(Excecoes.SENHA_INVALIDA);
 		}
 		
 		this.senha = senha;
@@ -213,7 +210,7 @@ public class PerfilDoUsuario {
 	 */
 	public void setLogin(String login) throws Exception {
 		if (login == null || login.equals("")) {
-			throw new LoginInvalidoException();
+			throw new Exception(Excecoes.LOGIN_INVALIDO);
 		}
 
 		this.login = login;
@@ -247,7 +244,7 @@ public class PerfilDoUsuario {
 	 */
 	public void setEndereco(String endereco) throws Exception {
 		if (endereco == null || endereco.equals("")) {
-			throw new EnderecoInvalidoException();
+			throw new Exception(Excecoes.ENDERECO_INVALIDO);
 		}
 		this.endereco = endereco;
 	}
@@ -313,32 +310,36 @@ public class PerfilDoUsuario {
 	public String getAtributo(String login, String atributo) throws Exception {
 		if (atributo.equals("nome")) {
 			return this.getNome();
-		} else if (atributo.equals("endereco")) {
+		} 
+		else if (atributo.equals("endereco")) {
 			return this.getEndereco();
-		} else if (atributo.equals("email")) {
+		} 
+		else if (atributo.equals("email")) {
 			return this.getEmail();
-		} else if (atributo.equals("faltas em vagas de caronas")) {
+		} 
+		else if (atributo.equals("faltas em vagas de caronas")) {
 			return this.getFaltaCaronas();
-		} else if (atributo.equals("historico de caronas")) {
+		} 
+		else if (atributo.equals("historico de caronas")) {
 			return this.getHistoricoCaronas();
-		} else if (atributo.equals("historico de vagas em caronas")) {
+		} 
+		else if (atributo.equals("historico de vagas em caronas")) {
 			return this.getHistoricoVagas();
 		}
-
 		else if (atributo.equals("caronas seguras e tranquilas")) {
 			return this.getCaronasSeguras();
 		}
-
-		else if (atributo.equals("caronas que n√£o funcionaram")) {
+		else if (atributo.equals("caronas que n„o funcionaram")) {
 			return this.getCaronasNaoFuncionaram();
 		}
-
 		else if (atributo.equals("faltas em vagas de caronas")) {
 			return this.getFaltaCaronas();
-		} else if (atributo.equals("presen√ßas em vagas de caronas")) {
+		}
+		else if (atributo.equals("presenÁas em vagas de caronas")) {
 			return this.getPresencaCaronas();
-		} else {
-			throw new AtributoInexistenteException();
+		} 
+		else {
+			throw new Exception(Excecoes.ATRIBUTO_INEXISTENTE);
 		}
 	}
 

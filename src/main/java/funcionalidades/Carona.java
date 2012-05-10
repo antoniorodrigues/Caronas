@@ -5,12 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import excecoes.AtributoInexistenteException;
-import excecoes.DataInvalidaException;
-import excecoes.DestinoInvalidoException;
-import excecoes.HoraInvalidaException;
-import excecoes.OrigemInvalidaException;
-import excecoes.VagaInvalidaException;
+
+import excecoes.Excecoes;
 
 /**
  * 
@@ -75,7 +71,7 @@ public class Carona {
 	 */
 	public void setData(String data) throws Exception {
 		if (!verificaDataValida(data))
-			throw new DataInvalidaException();
+			throw new Exception(Excecoes.DATA_INVALIDA);
 
 		this.data = data;
 	}
@@ -144,7 +140,7 @@ public class Carona {
 	 */
 	public void setHora(String hora) throws Exception {
 		if (!verificaHoraValida(hora))
-			throw new HoraInvalidaException();
+			throw new Exception(Excecoes.HORA_INVALIDA);
 		this.hora = hora;
 	}
 
@@ -167,7 +163,7 @@ public class Carona {
 	 */
 	public void setVagas(String vagas) throws Exception {
 		if (vagas == null || !vagas.matches("^[0-9]*$")) {
-			throw new VagaInvalidaException();
+			throw new Exception(Excecoes.VAGA_INVALIDA);
 		}
 		this.vagas = vagas;
 	}
@@ -191,7 +187,7 @@ public class Carona {
 	 */
 	public void setOrigem(String origem) throws Exception {
 		if (origem == null || origem.equals(""))
-			throw new OrigemInvalidaException();
+			throw new Exception(Excecoes.ORIGEM_INVALIDA);
 		this.origem = origem;
 	}
 
@@ -214,7 +210,7 @@ public class Carona {
 	 */
 	public void setDestino(String destino) throws Exception {
 		if (destino == null || destino.equals(""))
-			throw new DestinoInvalidoException();
+			throw new Exception(Excecoes.DESTINO_INVALIDO);
 
 		this.destino = destino;
 	}
@@ -255,7 +251,7 @@ public class Carona {
 		} else if (atributo.equals("Caroneiros")) {
 			return getSrtingCaroneiros();
 		} else {
-			throw new AtributoInexistenteException();
+			throw new Exception(Excecoes.ATRIBUTO_INEXISTENTE);
 		}
 
 	}
