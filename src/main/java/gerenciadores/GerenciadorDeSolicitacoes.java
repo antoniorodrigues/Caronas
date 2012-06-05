@@ -39,8 +39,9 @@ public class GerenciadorDeSolicitacoes {
 
 		}else{
 			for (String ponto: novosPontos){
-				if (!novaSugestao.getPontosSugeridos().contains(ponto))//!carona.getPassageiros().keySet().containsAll(novosPontos)){
+				if (!novaSugestao.getPontosSugeridos().contains(ponto)){
 					throw new Exception(Excecoes.PONTO_INVALIDO);
+				}
 
 			}
 		}

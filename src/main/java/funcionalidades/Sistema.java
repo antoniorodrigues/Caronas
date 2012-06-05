@@ -21,7 +21,7 @@ public class Sistema {
 	private GerenciaDadosEmXML gerenciadorDeDadosEmXML;
 
 	/**
-	 * Construtor da classe Sistema
+	 * Construtor da classe Sistema.
 	 */
 	public Sistema() {
 		usuarios = new ArrayList<Usuario>();
@@ -30,93 +30,108 @@ public class Sistema {
 	}
 
 	/**
-	 * Abre uma sess√£o para um usu√°rio logado
+	 * Abre uma sess„o para um usu·rio logado.
 	 * 
 	 * @param login
-	 *            Login do usu√°rio
+	 * 			O login do usu·rio.
 	 * @param senha
-	 *            Senha do usu√°rio
-	 * @return Um identificador (id) do usuario logado com sucesso
+	 * 			A senha do usu·rio.
+	 * @return Um identificador (id) do usu·rio logado com sucesso.
 	 * @throws Exception
-	 *             Caso o login seja realizado de maneira incorreta
+	 * 			Caso o login seja seja nulo, vazio ou j· exista e caso a senha seja nula, vazia ou j· exista.
 	 */
 	public String abrirSessao(String login, String senha) throws Exception {
-		// checaLoginValido(login, senha);
+		Usuario usuario = checaLoginValido(login, senha);
+		
+		if(usuario != null){
+			String idSessao = String.valueOf(Math.abs(new Random().nextInt()));
+			while(!checaSessaoValida(idSessao)){
+				idSessao = String.valueOf(Math.abs(new Random().nextInt()));
+			}
+			usuario.setID(idSessao);
+			return idSessao;
+		}
+		else{
+			throw new Exception(Excecoes.USUARIO_INEXISTENTE);
+		}
+	}
+	
+	/**
+	 * Verifica se uma sessao È valida ou n„o.
+	 * 
+	 * @param idSessao
+	 * 			Um identificador (id) da sess„o a ser checada.
+	 * @return True se o identificador (id) da sess„o checada È v·lida, False caso contr·rio.
+	 * @throws Exception
+	 * 			Caso o identificador da sess„o a ser verificada seja nulo ou vazio.
+	 */
+	private boolean checaSessaoValida(String idSessao) throws Exception{
+		if(idSessao == null || idSessao.equals("")){
+			throw new Exception(Excecoes.SESSAO_INVALIDA);
+		}
+		
+		for(Usuario usuario : usuarios){
+			if(usuario.getID().equals(idSessao)){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Verifica se o login de um usu·rio È v·lido.
+	 * 
+	 * @param login
+	 * 			O login do usu·rio.
+	 * @param senha
+	 * 			A senha do usu·rio.
+	 * @return O usu·rio confirmado pelo seu login e senha, ou nulo caso contr·rio.
+	 * @throws Exception
+	 * 			Caso o login seja nulo, vazio ou j· exista, ou caso a senha seja nula, vazia ou j· exista.
+	 */
+	public Usuario checaLoginValido(String login, String senha) throws Exception {
 		if (login == null || login.equals("")) {
 			throw new Exception(Excecoes.LOGIN_INVALIDO);
 		}
 		if (senha == null || senha.equals("")) {
 			throw new Exception(Excecoes.SENHA_INVALIDA);
 		}
-		String idSession = "";
+		
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equals(login)) {
 				if (usuario.getSenha().equals(senha)) {
-					idSession = String.valueOf(Math.abs(new Random().nextInt()));
-					usuario.setID(idSession);
-					return idSession;
-				} 
-				else {
+					return usuario;
+				}
+				else{
 					throw new Exception(Excecoes.LOGIN_INVALIDO);
 				}
 			}
 		}
-		throw new Exception(Excecoes.USUARIO_INEXISTENTE);
+		return null;
 	}
 
 	/**
-	 * M√©todo que verifica se o login √© v√°lido
+	 * Cria um usu·rio no sistema.
 	 * 
 	 * @param login
-	 *            Login do usu√°rio
+	 *            O login do usu·rio.
 	 * @param senha
-	 *            Senha do usu√°rio
-	 * @return True, caso o login seja v√°lido
+	 *            A senha do usu·rio.
+	 * @param nome
+	 *            O nome do usu·rio.
+	 * @param endereco
+	 *            O endereÁo do usu·rio.
+	 * @param email
+	 *            O email do usu·rio.
 	 * @throws Exception
-	 *             Caso o login n√£o seja v√°lido
+	 *             Caso qualquer dos atributos seja passado de forma n„o v·lida.
 	 */
-	public boolean checaLoginValido(String login, String senha)
-			throws Exception {
-		if (login == null || login.equals("")) {
-			throw new Exception(Excecoes.LOGIN_INVALIDO);
-		}
-		if (senha == null || senha.equals("")) {
-			throw new Exception(Excecoes.SENHA_INVALIDA);
-		}
-		boolean resposta = false;
+	public void criarUsuario(String login, String senha, String nome, String endereco, String email) throws Exception {
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equals(login)) {
-				if (usuario.getSenha().equals(senha)) {
-					resposta = true;
-				}
-			}
-		}
-		return resposta;
-	}
-
-	/**
-	 * M√©todo que cria um usu√°rio
-	 * 
-	 * @param login
-	 *            Login do usu√°rio
-	 * @param senha
-	 *            Senha do usu√°rio
-	 * @param nome
-	 *            Noe do usu√°rio
-	 * @param endereco
-	 *            Endere√ßo do usu√°rio
-	 * @param email
-	 *            Email do usu√°rio
-	 * @throws Exception
-	 *             Caso qualquer dos atributos seja passado de forma n√£o v√°lida
-	 */
-	public void criarUsuario(String login, String senha, String nome,
-			String endereco, String email) throws Exception {
-		for (Usuario u : usuarios) {
-			if (u.getLogin().equals(login)) {
 				throw new Exception(Excecoes.LOGIN_DUPLICADO);
 			} 
-			else if (u.getEmail().equals(email)) {
+			else if (usuario.getEmail().equals(email)) {
 				throw new Exception(Excecoes.EMAIL_DUPLICADO);
 			}
 		}
@@ -142,19 +157,20 @@ public class Sistema {
 	 * M√©todo que retorna o atributo perfil do usu√°rio
 	 * 
 	 * @param login
-	 *            Login do usuario
+	 *            O login do usuario.
 	 * @param atributo
 	 *            Atributo solicitado no m√©todo
 	 * @return Login cadastrado no perfil do usu√°rio
 	 * @throws Exception
 	 *             Caso o login seja inv√°lido
 	 */
-	public String getAtributoPerfil(String login, String atributo)
-			throws Exception {
+	public String getAtributoPerfil(String login, String atributo)throws Exception {
 		if (login == null || login.equals(""))
 			throw new Exception(Excecoes.LOGIN_INVALIDO);
+		
 		if (atributo == null || atributo.equals(""))
 			throw new Exception(Excecoes.ATRIBUTO_INVALIDO);
+		
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equals(login))
 				return usuario.getAtributo(login, atributo);
@@ -213,9 +229,11 @@ public class Sistema {
 		if (atributo == null || atributo.equals("")) {
 			throw new Exception(Excecoes.ATRIBUTO_INVALIDO);
 		}
+		
 		Carona carona = buscaCarona(IDCarona);
 		if (carona != null)
 			return carona.getAtributoCarona(atributo);
+		
 		throw new Exception(Excecoes.ITEM_INEXISTENTE);
 	}
 
@@ -285,28 +303,28 @@ public class Sistema {
 	 * @throws Exception
 	 *             Caso a origem ou o destino sejam inv√°lidos
 	 */
-	public String localizarCarona(String idSessao, String origem, String destino)
-			throws Exception {
+	public String localizarCarona(String idSessao, String origem, String destino)throws Exception {
 		if (origem == null 	|| !origem.matches("^[ a-zA-Z¡¬√¿«… Õ”‘’⁄‹·‚„‡ÁÈÍÌÛÙı˙¸0-9]*$")) {
 			throw new Exception(Excecoes.ORIGEM_INVALIDA);
 		}
 		if (destino == null || !destino	.matches("^[ a-zA-Z¡¬√¿«… Õ”‘’⁄‹·‚„‡ÁÈÍÌÛÙı˙¸0-9]*$")) {
 			throw new Exception(Excecoes.DESTINO_INVALIDO);
 		}
+		
 		String todasCaronas = "{";
 		for (Usuario usuario : usuarios) {
 			if (usuario.getID().equals(idSessao)) {
 				for (Carona carona : usuario.getCaronas()) {
 					if (origem.equals("") && destino.equals("")) {
 						todasCaronas += carona.getID() + ",";
-					} else if (carona.getOrigem().equals(origem)
-							&& destino.equals("")) {
+					}
+					if (carona.getOrigem().equals(origem) && destino.equals("")) {
 						todasCaronas += carona.getID() + ",";
-					} else if (origem.equals("")
-							&& carona.getDestino().equals(destino)) {
+					}
+					else if (origem.equals("") 	&& carona.getDestino().equals(destino)) {
 						todasCaronas += carona.getID() + ",";
-					} else if (carona.getOrigem().equals(origem)
-							&& carona.getDestino().equals(destino)) {
+					}
+					else if (carona.getOrigem().equals(origem) 	&& carona.getDestino().equals(destino)) {
 						todasCaronas += carona.getID() + ",";
 					}
 				}
@@ -671,13 +689,12 @@ public class Sistema {
 	 * @throws Exception
 	 *             Caso a carona seja invalida
 	 */
-	public String reviewVagaEmCarona(String idSessao, String idCarona, 	String loginCaroneiro, String review) throws Exception {
+	public void reviewVagaEmCarona(String idSessao, String idCarona, 	String loginCaroneiro, String review) throws Exception {
 		for (Usuario usuario : usuarios) {
 			if (usuario.getID().equals(idSessao)) {
 				usuario.reviewVagaEmCarona(idCarona, loginCaroneiro, review);
 			}
 		}
-		return "";
 	}
 
 	/**
@@ -725,4 +742,12 @@ public class Sistema {
 		}
 		return null;
 	}
+	
+	 public void reviewCarona(String idSessao, String idCarona, String review){
+		 for(Usuario usuario : usuarios){
+			 if(usuario.getID().equals(idSessao)){
+				 usuario.reviewCarona(idCarona, review);
+			 }
+		 }
+	 }
 }

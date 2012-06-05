@@ -98,8 +98,8 @@ public class SistemaController {
 		sistema.rejeitarSolicitacao(idSessao, idSolicitacao);
 	}
 
-	public String reviewVagaEmCarona(String idSessao, String idCarona, 	String loginCaroneiro, String review) throws Exception {
-		return sistema.reviewVagaEmCarona(idSessao, idCarona, loginCaroneiro, review);
+	public void reviewVagaEmCarona(String idSessao, String idCarona, 	String loginCaroneiro, String review) throws Exception {
+		sistema.reviewVagaEmCarona(idSessao, idCarona, loginCaroneiro, review);
 	}
 
 	public String getSolicitacoesPendentes(String idSessao, String idCarona) throws Exception {
@@ -116,6 +116,10 @@ public class SistemaController {
 	
 	public String getPontosEncontro(String idSessao, String idCarona){
 		return sistema.getPontosEncontro(idSessao, idCarona);
+	}
+	
+	public void reviewCarona(String idSessao, String idCarona, String review){
+		sistema.reviewCarona(idSessao, idCarona, review);
 	}
 
 	public void reiniciarSistema() throws Exception {

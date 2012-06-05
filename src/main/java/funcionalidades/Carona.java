@@ -41,8 +41,7 @@ public class Carona {
 	 *             Quando algum dos atributos do método construtor possuir uma
 	 *             entrada inválida
 	 */
-	public Carona(String origem, String destino, String data, String hora,
-			String vagas) throws Exception {
+	public Carona(String origem, String destino, String data, String hora, 	String vagas) throws Exception {
 		this.setOrigem(origem);
 		this.setDestino(destino);
 		this.setData(data);
@@ -90,13 +89,15 @@ public class Carona {
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		format.setLenient(false);
 		try {
-			Date minhaData = format.parse(data);
-
-			if (minhaData.before(new Date()))
-				dataValida = false;
+			Date novaData = format.parse(data);
+			
+			if(novaData.before(new Date())){
+				dataValida = false; //TODO falta ver se as datas ser�o alteradas!
+			}
 		} catch (Exception ex) {
 			dataValida = false;
 		}
+		
 		return dataValida;
 
 	}
@@ -238,19 +239,26 @@ public class Carona {
 	public String getAtributoCarona(String atributo) throws Exception {
 		if (atributo.equals("origem")) {
 			return getOrigem();
-		} else if (atributo.equals("destino")) {
+		} 
+		else if (atributo.equals("destino")) {
 			return getDestino();
-		} else if (atributo.equals("data")) {
+		} 
+		else if (atributo.equals("data")) {
 			return getData();
-		} else if (atributo.equals("hora")) {
+		} 
+		else if (atributo.equals("hora")) {
 			return getHora();
-		} else if (atributo.equals("vagas")) {
+		} 
+		else if (atributo.equals("vagas")) {
 			return getVagas();
-		} else if (atributo.equals("Ponto de Encontro")) {
+		} 
+		else if (atributo.equals("Ponto de Encontro")) {
 			return getPontoDeEncontro();
-		} else if (atributo.equals("Caroneiros")) {
+		} 
+		else if (atributo.equals("Caroneiros")) {
 			return getSrtingCaroneiros();
-		} else {
+		} 
+		else {
 			throw new Exception(Excecoes.ATRIBUTO_INEXISTENTE);
 		}
 

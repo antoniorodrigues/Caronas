@@ -27,6 +27,7 @@ public class TestaSistema {
 		files.add("scripts/US06.txt");
 		files.add("scripts/US07.txt");
 		files.add("scripts/US08.txt");
+		files.add("scripts/US09.txt");
 
 		// Instantiate the System façade
 		SistemaController sf = new SistemaController();

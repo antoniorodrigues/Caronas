@@ -31,8 +31,7 @@ public class Usuario {
 	 * @param email
 	 *            Email do Usuario
 	 */
-	public Usuario(String login, String senha, String nome, String endereco,
-			String email) throws Exception {
+	public Usuario(String login, String senha, String nome, String endereco, String email) throws Exception {
 		perfil = new PerfilDoUsuario(login, senha, nome, endereco, email);
 		caronas = new ArrayList<Carona>();
 	}
@@ -55,8 +54,7 @@ public class Usuario {
 	 *             Quando algum dos atributos do método possuir uma entrada
 	 *             inválida
 	 */
-	public String cadastrarCarona(String origem, String destino, String data,
-			String hora, String vagas) throws Exception {
+	public String cadastrarCarona(String origem, String destino, String data, String hora, String vagas) throws Exception {
 		Carona novaCarona = new Carona(origem, destino, data, hora, vagas);
 		String caronaID = String.valueOf(Math.abs(new Random().nextInt()));
 		novaCarona.setID(caronaID);
@@ -226,5 +224,13 @@ public class Usuario {
 	 */
 	public void setPresencasEmCaronas() {
 		perfil.setPresencaCaronas();
+	}
+	
+	public void reviewCarona(String idCarona, String review){
+		for(Carona carona : caronas){
+			if(carona.getID().equals(idCarona)){
+				
+			}
+		}
 	}
 }

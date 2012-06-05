@@ -37,8 +37,7 @@ public class PerfilDoUsuario {
 	 *            Email do Usuario.
 	 * @throws Exception
 	 */
-	public PerfilDoUsuario(String login, String senha, String nome,
-			String endereco, String email) throws Exception {
+	public PerfilDoUsuario(String login, String senha, String nome, String endereco, String email) throws Exception {
 		this.setLogin(login);
 		this.setSenha(senha);
 		this.setNome(nome);
