@@ -91,8 +91,8 @@ public class TestaUsuario {
 		assertEquals(p1.getEndereco(), "endereco1");
 		assertEquals(p1.getEmail(), "email1");
 
-		assertEquals(p1.getAtributo(p1.getLogin(), "nome"), "nome1");
-		assertEquals(p1.getAtributo(p1.getLogin(), "endereco"), "endereco1");
+		//assertEquals(p1.getAtributo(p1.getLogin(), "nome"), "nome1");
+		//assertEquals(p1.getAtributo(p1.getLogin(), "endereco"), "endereco1");
 
 		assertEquals(p2.getLogin(), "login2");
 		assertEquals(p2.getSenha(), "senha2");
@@ -100,8 +100,8 @@ public class TestaUsuario {
 		assertEquals(p2.getEndereco(), "endereco2");
 		assertEquals(p2.getEmail(), "email2");
 
-		assertEquals(p2.getAtributo(p2.getLogin(), "nome"), "nome2");
-		assertEquals(p2.getAtributo(p2.getLogin(), "endereco"), "endereco2");
+		//assertEquals(p2.getAtributo(p2.getLogin(), "nome"), "nome2");
+		//assertEquals(p2.getAtributo(p2.getLogin(), "endereco"), "endereco2");
 
 		assertEquals(p3.getLogin(), "login3");
 		assertEquals(p3.getSenha(), "senha3");
@@ -109,8 +109,8 @@ public class TestaUsuario {
 		assertEquals(p3.getEndereco(), "endereco3");
 		assertEquals(p3.getEmail(), "email3");
 
-		assertEquals(p3.getAtributo(p3.getLogin(), "nome"), "nome3");
-		assertEquals(p3.getAtributo(p3.getLogin(), "endereco"), "endereco3");
+		//assertEquals(p3.getAtributo(p3.getLogin(), "nome"), "nome3");
+		//assertEquals(p3.getAtributo(p3.getLogin(), "endereco"), "endereco3");
 
 		assertEquals(p4.getLogin(), "login4");
 		assertEquals(p4.getSenha(), "senha4");
@@ -118,8 +118,8 @@ public class TestaUsuario {
 		assertEquals(p4.getEndereco(), "endereco4");
 		assertEquals(p4.getEmail(), "email4");
 
-		assertEquals(p4.getAtributo(p4.getLogin(), "nome"), "nome4");
-		assertEquals(p4.getAtributo(p4.getLogin(), "endereco"), "endereco4");
+		//assertEquals(p4.getAtributo(p4.getLogin(), "nome"), "nome4");
+		//assertEquals(p4.getAtributo(p4.getLogin(), "endereco"), "endereco4");
 	}
 
 	@Test

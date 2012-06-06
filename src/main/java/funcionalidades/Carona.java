@@ -20,6 +20,7 @@ public class Carona {
 	private String hora;
 	private String vagas;
 	private String ID;
+	private Usuario dono;
 	private List<Usuario> todosCaroneiros;
 	private List<String> caroneiros; // passageiros dessa carona
 	private String pontoDeEncontro;
@@ -92,7 +93,7 @@ public class Carona {
 			Date novaData = format.parse(data);
 			
 			if(novaData.before(new Date())){
-				dataValida = false; //TODO falta ver se as datas ser�o alteradas!
+				dataValida = false; //TODO falta ver se as datas ser�o alteradas!
 			}
 		} catch (Exception ex) {
 			dataValida = false;
@@ -257,7 +258,7 @@ public class Carona {
 		} 
 		else if (atributo.equals("Caroneiros")) {
 			return getSrtingCaroneiros();
-		} 
+		}
 		else {
 			throw new Exception(Excecoes.ATRIBUTO_INEXISTENTE);
 		}
@@ -282,6 +283,22 @@ public class Carona {
 	public void setID(String ID) {
 		this.ID = ID;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Usuario getDono(){
+		return dono;
+	}
+	
+	/**
+	 * 
+	 * @param dono
+	 */
+	public void setDono(Usuario dono){
+		this.dono = dono;
+	}
 
 	/**
 	 * Método que adiciona uma pessoa como integrante (passageira) da carona
@@ -295,8 +312,7 @@ public class Carona {
 	 *             Quando o formato passado ao método como parâmetro é inválido
 	 * @throws Exception
 	 */
-	public void adicionaCaroneiro(String caroneiro, String pontoDeEncontro)
-			throws NumberFormatException, Exception {
+	public void adicionaCaroneiro(String caroneiro, String pontoDeEncontro)throws NumberFormatException, Exception {
 		setVagas(String.valueOf(Integer.parseInt(this.getVagas()) - 1));
 		setPontoDeEncontro(pontoDeEncontro);
 		caroneiros.add(caroneiro);

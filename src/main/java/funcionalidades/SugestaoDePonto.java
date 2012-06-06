@@ -96,12 +96,12 @@ public class SugestaoDePonto {
 	}
 	
 	public String getTodosPontosSugeridos(){
-		String pontos = "";
+		String pontos = "[";
 		
 		for(String ponto : pontosSugeridos){
-			pontos = ponto + ";" + pontos;
+			pontos += ponto + ";";
 		}
 		
-		return pontos.substring(0, pontos.length()-1);
+		return pontos.substring(0, pontos.length()-1) + "]";
 	}
 }

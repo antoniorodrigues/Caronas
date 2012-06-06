@@ -176,6 +176,6 @@ public class GerenciadorDeSolicitacoes {
 				return solicitacao.getIdSolcitacao();
 			}
 		}
-		return "";
+		return "{}";
 	}
 }

@@ -3,6 +3,8 @@ package controller;
 import funcionalidades.PerfilDoUsuario;
 import funcionalidades.Sistema;
 
+
+
 public class SistemaController {
 	Sistema sistema;
 
@@ -118,7 +120,7 @@ public class SistemaController {
 		return sistema.getPontosEncontro(idSessao, idCarona);
 	}
 	
-	public void reviewCarona(String idSessao, String idCarona, String review){
+	public void reviewCarona(String idSessao, String idCarona, String review) throws Exception{
 		sistema.reviewCarona(idSessao, idCarona, review);
 	}
 

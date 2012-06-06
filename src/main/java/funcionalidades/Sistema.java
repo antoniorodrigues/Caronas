@@ -150,21 +150,6 @@ public class Sistema {
 	 *             Caso o login seja inválido
 	 */
 	public String getAtributoUsuario(String login, String atributo)	throws Exception {
-		return getAtributoPerfil(login, atributo);
-	}
-
-	/**
-	 * Método que retorna o atributo perfil do usuário
-	 * 
-	 * @param login
-	 *            O login do usuario.
-	 * @param atributo
-	 *            Atributo solicitado no método
-	 * @return Login cadastrado no perfil do usuário
-	 * @throws Exception
-	 *             Caso o login seja inválido
-	 */
-	public String getAtributoPerfil(String login, String atributo)throws Exception {
 		if (login == null || login.equals(""))
 			throw new Exception(Excecoes.LOGIN_INVALIDO);
 		
@@ -173,11 +158,11 @@ public class Sistema {
 		
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equals(login))
-				return usuario.getAtributo(login, atributo);
+				return usuario.getAtributo(atributo);
 		}
 		throw new Exception(Excecoes.USUARIO_INEXISTENTE);
 	}
-
+	
 	/**
 	 * Método que visualiza o perfil cadastrado do usuáro
 	 * 
@@ -360,7 +345,8 @@ public class Sistema {
 
 		for (Usuario usuario : usuarios) {
 			if (usuario.getID().equals(idSessao)) {
-				return usuario.cadastrarCarona(origem, destino, data, hora, vagas);
+				String iDCarona = usuario.cadastrarCarona(origem, destino, data, hora, vagas);
+				return iDCarona;
 			}
 		}
 		throw new Exception(Excecoes.USUARIO_INEXISTENTE);
@@ -373,9 +359,9 @@ public class Sistema {
 	 *            Identificador (id) da carona
 	 * @return O usuário pertencente a uma carona específica
 	 */
-	private Usuario buscaUsuario(String IDCarona) {
+	private Usuario buscaUsuario(String idSessao) {
 		for (Usuario usuario : usuarios) {
-			if (usuario.getID().equals(IDCarona))
+			if (usuario.getID().equals(idSessao))
 				return usuario;
 		}
 		return null;
@@ -507,7 +493,6 @@ public class Sistema {
 			if(usuario.getID().equals(idSessao)){
 				if(!gerenciadorDeSolicitacoes.getSolicitacoesConfirmadas().matches(idSolicitacao)){
 					gerenciadorDeSolicitacoes.validaSolicitacao(idSolicitacao);
-					usuario.setHistoricoEmVagas(gerenciadorDeSolicitacoes.getSolicitacaoConfirmada(idSolicitacao).getCarona());
 				}
 				else{
 					throw new Exception(Excecoes.SOLICITACAO_INEXISTENTE);
@@ -629,7 +614,7 @@ public class Sistema {
 			if(usuario.getID().equals(idSessao)){
 				for(Carona carona : usuario.getCaronas()){
 					if(carona.getID().equals(idCarona)){
-						return gerenciadorDeSolicitacoes.getSolicitacaoPendente(idCarona);
+						return "{" + gerenciadorDeSolicitacoes.getSolicitacaoPendente(idCarona) + "}";
 					}
 				}
 			}
@@ -660,7 +645,7 @@ public class Sistema {
 				}
 			}
 		}
-		return null;
+		return "{}";
 	}
 
 	/**
@@ -743,10 +728,29 @@ public class Sistema {
 		return null;
 	}
 	
-	 public void reviewCarona(String idSessao, String idCarona, String review){
-		 for(Usuario usuario : usuarios){
-			 if(usuario.getID().equals(idSessao)){
-				 usuario.reviewCarona(idCarona, review);
+	 public void reviewCarona(String idSessao, String idCarona, String review) throws Exception{
+		 for(Usuario caroneiro : usuarios){
+			 if(caroneiro.getID().equals(idSessao)){
+				 for(Usuario usuario : usuarios){
+					 for(Carona carona : usuario.getCaronas()){
+						 if(carona.getID().equals(idCarona)){
+							 if(carona.getCaroneiros().contains(caroneiro.getNome())){
+								 if(review.equals("segura e tranquila")){
+									 carona.getDono().setCaronasSeguras();
+								 }
+								 else if(review.equals("não funcionou")){
+									 carona.getDono().setCaronasNaoFuncionaram();
+								 }
+								 else{
+									 throw new Exception(Excecoes.OPCAO_INVALIDA);
+								 }
+							 }
+							 else{
+								 throw new Exception("Usuário não possui vaga na carona.");
+							 }
+						 }
+					 }
+				 }
 			 }
 		 }
 	 }

@@ -118,7 +118,7 @@ public class GerenciaDadosEmXML {
 			for (String atributo: ATRIBUTOS_DE_PERFIL){
 				PerfilDoUsuario perfil = usuario.getPerfil(usuario.getLogin()); 
 				Element atribute = new Element(atributo.replace(" ", ""));
-				atribute.setText(""+perfil.getAtributo(perfil.getLogin(), atributo));
+				atribute.setText(""+perfil.getAtributo(atributo));
 				novoCadastro.addContent(atribute);
 			}
 			novoCadastro.addContent(salvaCaronasXML(usuario.getCaronas(), usuario.getLogin()));

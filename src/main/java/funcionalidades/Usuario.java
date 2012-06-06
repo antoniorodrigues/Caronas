@@ -56,6 +56,7 @@ public class Usuario {
 	 */
 	public String cadastrarCarona(String origem, String destino, String data, String hora, String vagas) throws Exception {
 		Carona novaCarona = new Carona(origem, destino, data, hora, vagas);
+		novaCarona.setDono(this);
 		String caronaID = String.valueOf(Math.abs(new Random().nextInt()));
 		novaCarona.setID(caronaID);
 		caronas.add(novaCarona);
@@ -136,8 +137,8 @@ public class Usuario {
 	 *            Atributo solicitado no método
 	 * @return Login cadastrado no perfil do usuário
 	 */
-	public String getAtributo(String login, String atributo) throws Exception {
-		return perfil.getAtributo(login, atributo);
+	public String getAtributo(String atributo) throws Exception {
+		return perfil.getAtributo(atributo);
 	}
 
 	/**
@@ -203,7 +204,8 @@ public class Usuario {
 					if (caroneiro.getLogin().equals(loginCaroneiro)) {
 						if (review.equals("faltou")) {
 							caroneiro.setFaltasEmCaronas();
-						} else if (review.equals("não faltou")) {
+						}
+						else if (review.equals("não faltou")) {
 							caroneiro.setPresencasEmCaronas();
 						}
 					}
@@ -226,11 +228,12 @@ public class Usuario {
 		perfil.setPresencaCaronas();
 	}
 	
-	public void reviewCarona(String idCarona, String review){
-		for(Carona carona : caronas){
-			if(carona.getID().equals(idCarona)){
-				
-			}
-		}
+	public void setCaronasSeguras() {
+		perfil.setCaronasSeguras();
 	}
+	
+	public void setCaronasNaoFuncionaram() {
+		perfil.setCaronasNaoFuncionaram();
+	}
+	
 }

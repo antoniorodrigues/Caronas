@@ -263,7 +263,8 @@ public class PerfilDoUsuario {
 	 * @return Todos os IDS das caronas realizadas pelo usuario
 	 */
 	public String getHistoricoCaronas() {
-		String todasCaronas;
+		String todasCaronas = "";
+		
 		if (historicoCaronas.isEmpty()) {
 			todasCaronas = "[]";
 		} else {
@@ -282,12 +283,13 @@ public class PerfilDoUsuario {
 	 * @return Vagas em caronas oferecidas pelo usuario
 	 */
 	public String getHistoricoVagas() {
-		String todasVagas;
-		if (historicoVagas.isEmpty()) {
+		String todasVagas = "";
+		
+		if (this.historicoVagas.isEmpty()) {
 			todasVagas = "[]";
 		} else {
 			todasVagas = "[";
-			for (Carona c : historicoVagas) {
+			for (Carona c : this.historicoVagas) {
 				todasVagas += c.getID() + ",";
 			}
 			todasVagas = (todasVagas + "]").replace(",]", "]");
@@ -306,7 +308,7 @@ public class PerfilDoUsuario {
 	 * @throws Exception
 	 *             Caso o atributo não exista
 	 */
-	public String getAtributo(String login, String atributo) throws Exception {
+	public String getAtributo(String atributo) throws Exception {
 		if (atributo.equals("nome")) {
 			return this.getNome();
 		} 
@@ -353,7 +355,7 @@ public class PerfilDoUsuario {
 	}
 
 	/**
-	 * Metodo que adiciona uma v vaga na carona
+	 * Metodo que adiciona uma vaga na carona
 	 * 
 	 * @param carona
 	 *            Carona em qe será adicionada uma vaga
