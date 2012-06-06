@@ -28,6 +28,7 @@ public class GerenciadorDeSolicitacoes {
 	public String sugerirPontoEncontro(Usuario usuarioLogado, Carona carona, String sugestoes) throws Exception{
 		SugestaoDePonto novaSugestao = buscaSugestaoPorCarona(carona.getID());
 		List<String> novosPontos = Arrays.asList(sugestoes.split(";"));
+		
 		if (novaSugestao == null){
 			novaSugestao = new SugestaoDePonto();
 			novaSugestao.setSugestaoID(String.valueOf(Math.abs(new Random().nextInt())));

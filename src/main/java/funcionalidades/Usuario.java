@@ -189,11 +189,11 @@ public class Usuario {
 	 * 			
 	 */
 	public void reviewVagaEmCarona(String idCarona, String loginCaroneiro, String review) throws Exception {
-		if (review.equals("n„o dou mais carona")) {
+		if (review.equals("n√£o dou mais carona")) {
 			throw new Exception(Excecoes.OPCAO_INVALIDA);
 		}
 
-		if (review.equals("n„o funcionou")) {
+		if (review.equals("n√£o funcionou")) {
 			throw new Exception(Excecoes.USUARIO_NAO_VAGA_CARONA);
 		}
 
@@ -203,7 +203,7 @@ public class Usuario {
 					if (caroneiro.getLogin().equals(loginCaroneiro)) {
 						if (review.equals("faltou")) {
 							caroneiro.setFaltasEmCaronas();
-						} else if (review.equals("n„o faltou")) {
+						} else if (review.equals("n√£o faltou")) {
 							caroneiro.setPresencasEmCaronas();
 						}
 					}

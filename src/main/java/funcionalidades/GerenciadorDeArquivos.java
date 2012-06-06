@@ -16,7 +16,7 @@ public class GerenciadorDeArquivos {
 	private void escreveEmArquivo(String fileName, String dados){
 		PrintWriter outputStream = null;
 		try{
-			outputStream = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName,false),"ISO-8859-1")));
+			outputStream = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName,false),"UTF-8")));
 			outputStream.write(dados);
 			
 		}catch(FileNotFoundException e2){

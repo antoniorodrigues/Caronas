@@ -30,15 +30,15 @@ public class Sistema {
 	}
 
 	/**
-	 * Abre uma sessão para um usuário logado.
+	 * Abre uma sessï¿½o para um usuï¿½rio logado.
 	 * 
 	 * @param login
-	 * 			O login do usuário.
+	 * 			O login do usuï¿½rio.
 	 * @param senha
-	 * 			A senha do usuário.
-	 * @return Um identificador (id) do usuário logado com sucesso.
+	 * 			A senha do usuï¿½rio.
+	 * @return Um identificador (id) do usuï¿½rio logado com sucesso.
 	 * @throws Exception
-	 * 			Caso o login seja seja nulo, vazio ou já exista e caso a senha seja nula, vazia ou já exista.
+	 * 			Caso o login seja seja nulo, vazio ou jï¿½ exista e caso a senha seja nula, vazia ou jï¿½ exista.
 	 */
 	public String abrirSessao(String login, String senha) throws Exception {
 		Usuario usuario = checaLoginValido(login, senha);
@@ -57,13 +57,13 @@ public class Sistema {
 	}
 	
 	/**
-	 * Verifica se uma sessao é valida ou não.
+	 * Verifica se uma sessao ï¿½ valida ou nï¿½o.
 	 * 
 	 * @param idSessao
-	 * 			Um identificador (id) da sessão a ser checada.
-	 * @return True se o identificador (id) da sessão checada é válida, False caso contrário.
+	 * 			Um identificador (id) da sessï¿½o a ser checada.
+	 * @return True se o identificador (id) da sessï¿½o checada ï¿½ vï¿½lida, False caso contrï¿½rio.
 	 * @throws Exception
-	 * 			Caso o identificador da sessão a ser verificada seja nulo ou vazio.
+	 * 			Caso o identificador da sessï¿½o a ser verificada seja nulo ou vazio.
 	 */
 	private boolean checaSessaoValida(String idSessao) throws Exception{
 		if(idSessao == null || idSessao.equals("")){
@@ -79,15 +79,15 @@ public class Sistema {
 	}
 
 	/**
-	 * Verifica se o login de um usuário é válido.
+	 * Verifica se o login de um usuï¿½rio ï¿½ vï¿½lido.
 	 * 
 	 * @param login
-	 * 			O login do usuário.
+	 * 			O login do usuï¿½rio.
 	 * @param senha
-	 * 			A senha do usuário.
-	 * @return O usuário confirmado pelo seu login e senha, ou nulo caso contrário.
+	 * 			A senha do usuï¿½rio.
+	 * @return O usuï¿½rio confirmado pelo seu login e senha, ou nulo caso contrï¿½rio.
 	 * @throws Exception
-	 * 			Caso o login seja nulo, vazio ou já exista, ou caso a senha seja nula, vazia ou já exista.
+	 * 			Caso o login seja nulo, vazio ou jï¿½ exista, ou caso a senha seja nula, vazia ou jï¿½ exista.
 	 */
 	public Usuario checaLoginValido(String login, String senha) throws Exception {
 		if (login == null || login.equals("")) {
@@ -111,20 +111,20 @@ public class Sistema {
 	}
 
 	/**
-	 * Cria um usuário no sistema.
+	 * Cria um usuï¿½rio no sistema.
 	 * 
 	 * @param login
-	 *            O login do usuário.
+	 *            O login do usuï¿½rio.
 	 * @param senha
-	 *            A senha do usuário.
+	 *            A senha do usuï¿½rio.
 	 * @param nome
-	 *            O nome do usuário.
+	 *            O nome do usuï¿½rio.
 	 * @param endereco
-	 *            O endereço do usuário.
+	 *            O endereï¿½o do usuï¿½rio.
 	 * @param email
-	 *            O email do usuário.
+	 *            O email do usuï¿½rio.
 	 * @throws Exception
-	 *             Caso qualquer dos atributos seja passado de forma não válida.
+	 *             Caso qualquer dos atributos seja passado de forma nï¿½o vï¿½lida.
 	 */
 	public void criarUsuario(String login, String senha, String nome, String endereco, String email) throws Exception {
 		for (Usuario usuario : usuarios) {
@@ -304,10 +304,10 @@ public class Sistema {
 	 *             Caso a origem ou o destino sejam invÃ¡lidos
 	 */
 	public String localizarCarona(String idSessao, String origem, String destino)throws Exception {
-		if (origem == null 	|| !origem.matches("^[ a-zA-ZÁÂÃÀÇÉÊÍÓÔÕÚÜáâãàçéêíóôõúü0-9]*$")) {
+		if (origem == null 	|| !origem.matches("^[ a-zA-ZÃÃ‚ÃƒÃ€Ã‡Ã‰ÃŠÃÃ“Ã”Ã•ÃšÃœÃ¡Ã¢Ã£Ã Ã§Ã©ÃªÃ­Ã³Ã´ÃµÃºÃ¼0-9]*$")) {
 			throw new Exception(Excecoes.ORIGEM_INVALIDA);
 		}
-		if (destino == null || !destino	.matches("^[ a-zA-ZÁÂÃÀÇÉÊÍÓÔÕÚÜáâãàçéêíóôõúü0-9]*$")) {
+		if (destino == null || !destino	.matches("^[ a-zA-ZÃÃ‚ÃƒÃ€Ã‡Ã‰ÃŠÃÃ“Ã”Ã•ÃšÃœÃ¡Ã¢Ã£Ã Ã§Ã©ÃªÃ­Ã³Ã´ÃµÃºÃ¼0-9]*$")) {
 			throw new Exception(Excecoes.DESTINO_INVALIDO);
 		}
 		

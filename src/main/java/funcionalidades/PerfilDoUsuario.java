@@ -328,13 +328,13 @@ public class PerfilDoUsuario {
 		else if (atributo.equals("caronas seguras e tranquilas")) {
 			return this.getCaronasSeguras();
 		}
-		else if (atributo.equals("caronas que n„o funcionaram")) {
+		else if (atributo.equals("caronas que n√£o funcionaram")) {
 			return this.getCaronasNaoFuncionaram();
 		}
 		else if (atributo.equals("faltas em vagas de caronas")) {
 			return this.getFaltaCaronas();
 		}
-		else if (atributo.equals("presenÁas em vagas de caronas")) {
+		else if (atributo.equals("presen√ßas em vagas de caronas")) {
 			return this.getPresencaCaronas();
 		} 
 		else {
