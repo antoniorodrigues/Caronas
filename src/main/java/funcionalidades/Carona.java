@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 import excecoes.Excecoes;
+
 
 /**
  * 
@@ -16,6 +16,7 @@ import excecoes.Excecoes;
 public class Carona {
 	private String origem;
 	private String destino;
+	private String cidade;
 	private String data;
 	private String hora;
 	private String vagas;
@@ -50,6 +51,33 @@ public class Carona {
 		this.setVagas(vagas);
 		this.caroneiros = new ArrayList<String>();
 		this.todosCaroneiros = new ArrayList<Usuario>();
+	}
+	
+	/**
+	 * 
+	 * @param origem
+	 * @param destino
+	 * @param cidade
+	 * @param data
+	 * @param hora
+	 * @param vagas
+	 * @throws Exception
+	 */
+	public Carona(String origem, String destino, String cidade, String data, String hora, String vagas) throws Exception {
+		this.setOrigem(origem);
+		this.setDestino(destino);
+		this.setCidade(cidade);
+		this.setData(data);
+		this.setHora(hora);
+		this.setVagas(vagas);
+		
+		if(caroneiros == null){
+			this.caroneiros = new ArrayList<String>();
+		}
+		
+		if(todosCaroneiros == null){
+			this.todosCaroneiros = new ArrayList<Usuario>();
+		}
 	}
 
 	/**
@@ -238,31 +266,41 @@ public class Carona {
 	 *             Caso não exista o atributo solicitado.
 	 */
 	public String getAtributoCarona(String atributo) throws Exception {
-		if (atributo.equals("origem")) {
+		if(atributo.equals("origem")) {
 			return getOrigem();
-		} 
-		else if (atributo.equals("destino")) {
+		}
+		else if(atributo.equals("destino")) {
 			return getDestino();
-		} 
+		}
 		else if (atributo.equals("data")) {
 			return getData();
-		} 
+		}
 		else if (atributo.equals("hora")) {
 			return getHora();
-		} 
+		}
 		else if (atributo.equals("vagas")) {
 			return getVagas();
-		} 
+		}
 		else if (atributo.equals("Ponto de Encontro")) {
 			return getPontoDeEncontro();
-		} 
+		}
 		else if (atributo.equals("Caroneiros")) {
 			return getSrtingCaroneiros();
+		}
+		else if(atributo.equals("ehMunicipal")){
+			return isMunicipal();
 		}
 		else {
 			throw new Exception(Excecoes.ATRIBUTO_INEXISTENTE);
 		}
 
+	}
+	
+	public String isMunicipal(){
+		if(this.getCidade() == null){
+			return "false";
+		}
+		return "true";
 	}
 
 	/**
@@ -298,6 +336,18 @@ public class Carona {
 	 */
 	public void setDono(Usuario dono){
 		this.dono = dono;
+	}
+	
+	public String getCidade(){
+		return cidade;
+	}
+	
+	/**
+	 * 
+	 * @param cidade
+	 */
+	public void setCidade(String cidade){
+		this.cidade = cidade;
 	}
 
 	/**

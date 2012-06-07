@@ -6,6 +6,8 @@ import java.util.Random;
 
 import excecoes.Excecoes;
 
+
+
 /**
  * 
  * @author Antonio, Diego, Eduardo, Laercio, Rodolfo
@@ -56,6 +58,16 @@ public class Usuario {
 	 */
 	public String cadastrarCarona(String origem, String destino, String data, String hora, String vagas) throws Exception {
 		Carona novaCarona = new Carona(origem, destino, data, hora, vagas);
+		novaCarona.setDono(this);
+		String caronaID = String.valueOf(Math.abs(new Random().nextInt()));
+		novaCarona.setID(caronaID);
+		caronas.add(novaCarona);
+		perfil.adicionaCarona(caronaID);
+		return novaCarona.getID();
+	}
+	
+	public String cadastrarCaronaMunicipal(String origem, String destino, String cidade, String data, String hora, String vagas) throws Exception{
+		Carona novaCarona = new Carona(origem, destino, cidade, data, hora, vagas);
 		novaCarona.setDono(this);
 		String caronaID = String.valueOf(Math.abs(new Random().nextInt()));
 		novaCarona.setID(caronaID);

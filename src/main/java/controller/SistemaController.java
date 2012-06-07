@@ -5,6 +5,7 @@ import funcionalidades.Sistema;
 
 
 
+
 public class SistemaController {
 	Sistema sistema;
 
@@ -122,6 +123,18 @@ public class SistemaController {
 	
 	public void reviewCarona(String idSessao, String idCarona, String review) throws Exception{
 		sistema.reviewCarona(idSessao, idCarona, review);
+	}
+	
+	public String cadastrarCaronaMunicipal(String idSessao, String origem, String destino, String cidade, String data, String hora, String vagas) throws Exception{
+		return sistema.cadastrarCaronaMunicipal(idSessao, origem, destino, cidade, data, hora, vagas);
+	}
+	
+	public String localizarCaronaMunicipal(String idSessao, String cidade, String origem, String destino) throws Exception{
+		return sistema.localizarCaronaMunicipal(idSessao, cidade, origem, destino);
+	}
+	
+	public String localizarCaronaMunicipal(String idSessao, String cidade) throws Exception{
+		return sistema.localizarCaronaMunicipal(idSessao, cidade);
 	}
 
 	public void reiniciarSistema() throws Exception {

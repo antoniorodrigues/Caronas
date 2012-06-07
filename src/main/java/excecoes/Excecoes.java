@@ -6,6 +6,7 @@ public class Excecoes {
 	public final static String ATRIBUTO_INVALIDO = "Atributo inválido";
 	public final static String CARONA_INEXISTENTE = "Carona Inexistente";
 	public final static String CARONA_INVALIDA = "Carona Inválida";
+	public final static String CIDADE_INEXISTENTE = "Cidade inexistente";
 	public final static String DATA_INVALIDA = "Data inválida";
 	public final static String DESTINO_INVALIDO = "Destino inválido";
 	public final static String EMAIL_DUPLICADO = "Já existe um usuário com este email";

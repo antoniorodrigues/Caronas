@@ -1,13 +1,13 @@
 package funcionalidades;
 
+import excecoes.Excecoes;
+import gerenciadores.GerenciaDadosEmXML;
+import gerenciadores.GerenciadorDeSolicitacoes;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import excecoes.Excecoes;
-
-import gerenciadores.GerenciaDadosEmXML;
-import gerenciadores.GerenciadorDeSolicitacoes;
 
 /**
  * 
@@ -299,18 +299,20 @@ public class Sistema {
 		String todasCaronas = "{";
 		for (Usuario usuario : usuarios) {
 			if (usuario.getID().equals(idSessao)) {
-				for (Carona carona : usuario.getCaronas()) {
-					if (origem.equals("") && destino.equals("")) {
-						todasCaronas += carona.getID() + ",";
-					}
-					if (carona.getOrigem().equals(origem) && destino.equals("")) {
-						todasCaronas += carona.getID() + ",";
-					}
-					else if (origem.equals("") 	&& carona.getDestino().equals(destino)) {
-						todasCaronas += carona.getID() + ",";
-					}
-					else if (carona.getOrigem().equals(origem) 	&& carona.getDestino().equals(destino)) {
-						todasCaronas += carona.getID() + ",";
+				for(Usuario outro_usuario : usuarios){
+					for (Carona carona : outro_usuario.getCaronas()) {
+						if (origem.equals("") && destino.equals("")) {
+							todasCaronas += carona.getID() + ",";
+						}
+						if (carona.getOrigem().equals(origem) && destino.equals("")) {
+							todasCaronas += carona.getID() + ",";
+						}
+						else if (origem.equals("") 	&& carona.getDestino().equals(destino)) {
+							todasCaronas += carona.getID() + ",";
+						}
+						else if (carona.getOrigem().equals(origem) 	&& carona.getDestino().equals(destino)) {
+							todasCaronas += carona.getID() + ",";
+						}
 					}
 				}
 			}
@@ -345,8 +347,7 @@ public class Sistema {
 
 		for (Usuario usuario : usuarios) {
 			if (usuario.getID().equals(idSessao)) {
-				String iDCarona = usuario.cadastrarCarona(origem, destino, data, hora, vagas);
-				return iDCarona;
+				return usuario.cadastrarCarona(origem, destino, data, hora, vagas);
 			}
 		}
 		throw new Exception(Excecoes.USUARIO_INEXISTENTE);
@@ -753,5 +754,80 @@ public class Sistema {
 				 }
 			 }
 		 }
+	 }
+	 
+	 public String cadastrarCaronaMunicipal(String idSessao, String origem, String destino, String cidade, String data, String hora, String vagas) throws Exception{
+		 if (idSessao == null || idSessao.equals("")){
+			 throw new Exception(Excecoes.SESSAO_INVALIDA);
+		 }
+		 
+		 if (buscaUsuario(idSessao) == null){
+			 throw new Exception(Excecoes.SESSAO_INEXISTENTE);
+		 }
+		 
+		 if(cidade == null || cidade.equals("")){
+			 throw new Exception(Excecoes.CIDADE_INEXISTENTE);
+		 }
+			
+		 for(Usuario usuario : usuarios){
+			 if(usuario.getID().equals(idSessao)){
+				 return usuario.cadastrarCaronaMunicipal(origem, destino, cidade, data, hora, vagas);
+			 }
+		 }
+		 
+		 throw new Exception(Excecoes.USUARIO_INEXISTENTE);
+	 }
+	 
+	 public String localizarCaronaMunicipal(String idSessao, String cidade, String origem, String destino) throws Exception{
+		 if(cidade == null || cidade.equals("")){
+			 throw new Exception(Excecoes.CIDADE_INEXISTENTE);
+		 }
+		 
+		 String todasCaronas = "{";
+		 for(Usuario usuario : usuarios){
+			 if(usuario.getID().equals(idSessao)){
+				 for(Usuario outro_usuario : usuarios){
+					 for(Carona carona : outro_usuario.getCaronas()){
+						 if(carona.getCidade() != null && carona.getCidade().equals(cidade)){
+							 if (origem.equals("") && destino.equals("")) {
+									todasCaronas += carona.getID() + ",";
+								}
+							 if (carona.getOrigem().equals(origem) && destino.equals("")) {
+								 todasCaronas += carona.getID() + ",";
+							}
+							else if (origem.equals("") 	&& carona.getDestino().equals(destino)) {
+								todasCaronas += carona.getID() + ",";
+							}
+							else if (carona.getOrigem().equals(origem) 	&& carona.getDestino().equals(destino)) {
+								todasCaronas += carona.getID() + ",";
+							}
+						 }
+					 }
+				 }
+			 }
+		 }
+		 
+		 return (todasCaronas + "}").replace(",}", "}");
+	 }
+	 
+	 public String localizarCaronaMunicipal(String idSessao, String cidade) throws Exception{
+		 if(cidade == null || cidade.equals("")){
+			 throw new Exception(Excecoes.CIDADE_INEXISTENTE);
+		 }
+		 
+		 String todasCaronas = "{";
+		 for(Usuario usuario : usuarios){
+			 if(usuario.getID().equals(idSessao)){
+				 for(Usuario outro_usuario : usuarios){
+					 for(Carona carona : outro_usuario.getCaronas()){
+						 if (carona.getCidade() != null && carona.getCidade().equals(cidade)) {
+								todasCaronas += carona.getID() + ",";
+						 }
+					 }
+				 }
+			 }
+		 }
+		 
+		 return (todasCaronas + "}").replace(",}", "}");
 	 }
 }
