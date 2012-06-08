@@ -830,4 +830,41 @@ public class Sistema {
 		 
 		 return (todasCaronas + "}").replace(",}", "}");
 	 }
+	 
+	 public String cadastrarInteresse (String idSessao, String origem, String destino, String data, String horaInicio, String horaFim) throws Exception{
+		 if(origem == null 	|| !origem.matches("^[ a-zA-ZÁÂÃÀÇÉÊÍÓÔÕÚÜáâãàçéêíóôõúü0-9]*$")) {
+			 throw new Exception(Excecoes.ORIGEM_INVALIDA);
+		 }
+		 
+		 if(destino == null || !destino	.matches("^[ a-zA-ZÁÂÃÀÇÉÊÍÓÔÕÚÜáâãàçéêíóôõúü0-9]*$")) {
+			 throw new Exception(Excecoes.DESTINO_INVALIDO);
+		 }
+		 
+		 if(data == null){
+			 throw new Exception(Excecoes.DATA_INVALIDA);
+		 }
+		 
+		 for(Usuario usuario : usuarios){
+			 if(usuario.getID().equals(idSessao)){
+				 
+			 }
+		 }
+		 return "ID";
+		 //TODO: terminar este método (usuário é responsável por cadastrar interesse, mas o interesse fica registrado no sistema, então o método fica em sistema)
+	 }
+	 
+	 public String verificarMensagensPerfil(String idSessao){
+		 return "";
+		//TODO: terminar este método (usuário é responsável por verificar as mensagens no seu perfil, então o método fica dentro do perfil do usuário)
+	 }
+	 
+	 public String enviarEmail(String idSessao, String destino, String message) throws Exception{
+		 for(Usuario usuario : usuarios){
+			 if(usuario.getID().equals(idSessao)){
+				 return usuario.enviarEmail(usuario.getEmail(), destino, message);
+			 }
+		 }
+		 
+		 throw new Exception(Excecoes.USUARIO_INEXISTENTE);
+	 }
 }

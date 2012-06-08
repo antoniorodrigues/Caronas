@@ -136,6 +136,18 @@ public class SistemaController {
 	public String localizarCaronaMunicipal(String idSessao, String cidade) throws Exception{
 		return sistema.localizarCaronaMunicipal(idSessao, cidade);
 	}
+	
+	public String cadastrarInteresse (String idSessao, String origem, String destino, String data, String horaInicio, String horaFim) throws Exception{
+		 return sistema.cadastrarInteresse(idSessao, origem, destino, data, horaInicio, horaFim);
+	 }
+	 
+	 public String verificarMensagensPerfil(String idSessao){
+		 return sistema.verificarMensagensPerfil(idSessao);
+	 }
+	 
+	 public String enviarEmail(String idSessao, String destino, String message) throws Exception{
+		 return sistema.enviarEmail(idSessao, destino, message);
+	 }
 
 	public void reiniciarSistema() throws Exception {
 		sistema.reiniciar();

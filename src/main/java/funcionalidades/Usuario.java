@@ -2,7 +2,9 @@ package funcionalidades;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 
 import excecoes.Excecoes;
 
@@ -18,6 +20,7 @@ public class Usuario {
 	private String ID = "";
 	private PerfilDoUsuario perfil;
 	private List<Carona> caronas;
+	private Map<String, String> mensagens;
 
 	/**
 	 * Construtor da calsse Usuario.
@@ -36,6 +39,7 @@ public class Usuario {
 	public Usuario(String login, String senha, String nome, String endereco, String email) throws Exception {
 		perfil = new PerfilDoUsuario(login, senha, nome, endereco, email);
 		caronas = new ArrayList<Carona>();
+		mensagens = new TreeMap<String, String>();
 	}
 
 	/**
@@ -240,12 +244,33 @@ public class Usuario {
 		perfil.setPresencaCaronas();
 	}
 	
+	/**
+	 * 
+	 */
 	public void setCaronasSeguras() {
 		perfil.setCaronasSeguras();
 	}
 	
+	/**
+	 * 
+	 */
 	public void setCaronasNaoFuncionaram() {
 		perfil.setCaronasNaoFuncionaram();
+	}
+	
+	public String enviarEmail(String origem, String destino, String mensagem){
+		for(Carona carona : caronas){
+			for(Usuario usuario : carona.getTodosCaroneiros()){
+				if(usuario.getEmail().equals(destino)){
+					usuario.recebeMensagemDe(origem, mensagem);
+				}
+			}
+		}
+		return "true";
+	}
+	
+	public void recebeMensagemDe(String origem, String mensagem){
+		this.mensagens.put(origem, mensagem);
 	}
 	
 }
