@@ -14,6 +14,7 @@ public class Excecoes {
 	public final static String ENDERECO_INVALIDO = "Endereco Inválido";
 	public final static String HORA_INVALIDA = "Hora inválida";
 	public final static String IDENTIFICADOR_CARONA_INVALIDO = "Identificador do carona é inválido";
+	public final static String IDENTIFICADOR_INTERESSE_INVALIDO = "Identificador de interesse é inválido";
 	public final static String ITEM_INEXISTENTE = "Item inexistente";
 	public final static String LOGIN_DUPLICADO = "Já existe um usuário com este login";
 	public final static String LOGIN_INVALIDO = "Login inválido";

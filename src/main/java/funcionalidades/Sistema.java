@@ -1,12 +1,16 @@
 package funcionalidades;
 
+
+
 import excecoes.Excecoes;
 import gerenciadores.GerenciaDadosEmXML;
 import gerenciadores.GerenciadorDeSolicitacoes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 
 
 /**
@@ -19,6 +23,7 @@ public class Sistema {
 	private List<Usuario> usuarios;
 	private GerenciadorDeSolicitacoes gerenciadorDeSolicitacoes;
 	private GerenciaDadosEmXML gerenciadorDeDadosEmXML;
+	private Map<String, String> interessesEmCaronas;
 
 	/**
 	 * Construtor da classe Sistema.
@@ -27,18 +32,19 @@ public class Sistema {
 		usuarios = new ArrayList<Usuario>();
 		gerenciadorDeSolicitacoes = new GerenciadorDeSolicitacoes();
 		gerenciadorDeDadosEmXML = new GerenciaDadosEmXML();
+		interessesEmCaronas = new TreeMap<String, String>();
 	}
 
 	/**
-	 * Abre uma sess�o para um usu�rio logado.
+	 * Abre uma sessão para um usuário logado.
 	 * 
 	 * @param login
-	 * 			O login do usu�rio.
+	 * 			O login do usuário.
 	 * @param senha
-	 * 			A senha do usu�rio.
-	 * @return Um identificador (id) do usu�rio logado com sucesso.
+	 * 			A senha do usuário.
+	 * @return Um identificador (id) do usuário logado com sucesso.
 	 * @throws Exception
-	 * 			Caso o login seja seja nulo, vazio ou j� exista e caso a senha seja nula, vazia ou j� exista.
+	 * 			Caso o login seja seja nulo, vazio ou já exista e caso a senha seja nula, vazia ou já exista.
 	 */
 	public String abrirSessao(String login, String senha) throws Exception {
 		Usuario usuario = checaLoginValido(login, senha);
@@ -57,13 +63,13 @@ public class Sistema {
 	}
 	
 	/**
-	 * Verifica se uma sessao � valida ou n�o.
+	 * Verifica se uma sessao é valida ou não.
 	 * 
 	 * @param idSessao
-	 * 			Um identificador (id) da sess�o a ser checada.
-	 * @return True se o identificador (id) da sess�o checada � v�lida, False caso contr�rio.
+	 * 			Um identificador (id) da sessão a ser checada.
+	 * @return True se o identificador (id) da sessão checada é válida, False caso contrário.
 	 * @throws Exception
-	 * 			Caso o identificador da sess�o a ser verificada seja nulo ou vazio.
+	 * 			Caso o identificador da sessão a ser verificada seja nulo ou vazio.
 	 */
 	private boolean checaSessaoValida(String idSessao) throws Exception{
 		if(idSessao == null || idSessao.equals("")){
@@ -79,15 +85,15 @@ public class Sistema {
 	}
 
 	/**
-	 * Verifica se o login de um usu�rio � v�lido.
+	 * Verifica se o login de um usuário é válido.
 	 * 
 	 * @param login
-	 * 			O login do usu�rio.
+	 * 			O login do usuário.
 	 * @param senha
-	 * 			A senha do usu�rio.
-	 * @return O usu�rio confirmado pelo seu login e senha, ou nulo caso contr�rio.
+	 * 			A senha do usuário.
+	 * @return O usuário confirmado pelo seu login e senha, ou nulo caso contrário.
 	 * @throws Exception
-	 * 			Caso o login seja nulo, vazio ou j� exista, ou caso a senha seja nula, vazia ou j� exista.
+	 * 			Caso o login seja nulo, vazio ou já exista, ou caso a senha seja nula, vazia ou já exista.
 	 */
 	public Usuario checaLoginValido(String login, String senha) throws Exception {
 		if (login == null || login.equals("")) {
@@ -107,24 +113,25 @@ public class Sistema {
 				}
 			}
 		}
+		
 		return null;
 	}
 
 	/**
-	 * Cria um usu�rio no sistema.
+	 * Cria um usuário no sistema.
 	 * 
 	 * @param login
-	 *            O login do usu�rio.
+	 *            O login do usuário.
 	 * @param senha
-	 *            A senha do usu�rio.
+	 *            A senha do usuário.
 	 * @param nome
-	 *            O nome do usu�rio.
+	 *            O nome do usuário.
 	 * @param endereco
-	 *            O endere�o do usu�rio.
+	 *            O endereço do usuário.
 	 * @param email
-	 *            O email do usu�rio.
+	 *            O email do usuário.
 	 * @throws Exception
-	 *             Caso qualquer dos atributos seja passado de forma n�o v�lida.
+	 *             Caso qualquer dos atributos seja passado de forma não-válida.
 	 */
 	public void criarUsuario(String login, String senha, String nome, String endereco, String email) throws Exception {
 		for (Usuario usuario : usuarios) {
@@ -304,7 +311,7 @@ public class Sistema {
 						if (origem.equals("") && destino.equals("")) {
 							todasCaronas += carona.getID() + ",";
 						}
-						if (carona.getOrigem().equals(origem) && destino.equals("")) {
+						else if (carona.getOrigem().equals(origem) && destino.equals("")) {
 							todasCaronas += carona.getID() + ",";
 						}
 						else if (origem.equals("") 	&& carona.getDestino().equals(destino)) {
@@ -319,6 +326,58 @@ public class Sistema {
 		}
 		return (todasCaronas + "}").replace(",}", "}");
 	}
+	
+	/**
+	 * 
+	 * @param idSessao
+	 * @param cidade
+	 * @param origem
+	 * @param destino
+	 * @return
+	 * @throws Exception
+	 */
+	public String localizarCaronaMunicipal(String idSessao, String cidade, String origem, String destino) throws Exception{
+		 if(cidade == null || cidade.equals("")){
+			 throw new Exception(Excecoes.CIDADE_INEXISTENTE);
+		 }
+		 
+		 String todasCaronas = "{";
+		 for(Usuario usuario : usuarios){
+			 if(usuario.getID().equals(idSessao)){
+				 for(Usuario outro_usuario : usuarios){
+					 for(Carona carona : outro_usuario.getCaronas()){
+						 if(carona.getCidade() != null && carona.getCidade().equals(cidade)){
+							 if (origem.equals("") && destino.equals("")) {
+								 todasCaronas += carona.getID() + ",";
+							 }
+							 if (carona.getOrigem().equals(origem) && destino.equals("")) {
+								 todasCaronas += carona.getID() + ",";
+							 }
+							 else if (origem.equals("") 	&& carona.getDestino().equals(destino)) {
+								 todasCaronas += carona.getID() + ",";
+							 }
+							 else if (carona.getOrigem().equals(origem) 	&& carona.getDestino().equals(destino)) {
+								 todasCaronas += carona.getID() + ",";
+							 }
+						 }
+					 }
+				 }
+			 }
+		 }
+		 
+		 return (todasCaronas + "}").replace(",}", "}");
+	 }
+	 
+	/**
+	 * 
+	 * @param idSessao
+	 * @param cidade
+	 * @return
+	 * @throws Exception
+	 */
+	 public String localizarCaronaMunicipal(String idSessao, String cidade) throws Exception{
+		 return localizarCaronaMunicipal(idSessao, cidade, "", "");
+	 }
 
 	/**
 	 * Método que cadastra uma carona
@@ -342,6 +401,7 @@ public class Sistema {
 	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, String vagas) throws Exception {
 		if (idSessao == null || idSessao.equals(""))
 			throw new Exception(Excecoes.SESSAO_INVALIDA);
+		
 		if (buscaUsuario(idSessao) == null)
 			throw new Exception(Excecoes.SESSAO_INEXISTENTE);
 
@@ -352,6 +412,40 @@ public class Sistema {
 		}
 		throw new Exception(Excecoes.USUARIO_INEXISTENTE);
 	}
+	
+	/**
+	 * 
+	 * @param idSessao
+	 * @param origem
+	 * @param destino
+	 * @param cidade
+	 * @param data
+	 * @param hora
+	 * @param vagas
+	 * @return
+	 * @throws Exception
+	 */
+	public String cadastrarCaronaMunicipal(String idSessao, String origem, String destino, String cidade, String data, String hora, String vagas) throws Exception{
+		 if (idSessao == null || idSessao.equals("")){
+			 throw new Exception(Excecoes.SESSAO_INVALIDA);
+		 }
+		 
+		 if (buscaUsuario(idSessao) == null){
+			 throw new Exception(Excecoes.SESSAO_INEXISTENTE);
+		 }
+		 
+		 if(cidade == null || cidade.equals("")){
+			 throw new Exception(Excecoes.CIDADE_INEXISTENTE);
+		 }
+			
+		 for(Usuario usuario : usuarios){
+			 if(usuario.getID().equals(idSessao)){
+				 return usuario.cadastrarCaronaMunicipal(origem, destino, cidade, data, hora, vagas);
+			 }
+		 }
+		 
+		 throw new Exception(Excecoes.USUARIO_INEXISTENTE);
+	 }
 
 	/**
 	 * Método que busca um usuário numa carona
@@ -478,31 +572,6 @@ public class Sistema {
 	}
 
 	/**
-	 * Metodo que aceita uma solicitacao em um ponto de encontro
-	 * 
-	 * @param idSessao
-	 *            Identificador no usuário que sugere o ponto de encontro
-	 * @param idSolicitacao
-	 *            Identificador da solicitacao
-	 * @throws NumberFormatException
-	 *             Caso o id da solicitacao seja invalido
-	 * @throws Exception
-	 *             Caso a solicitacao nao exista
-	 */
-	public void aceitarSolicitacaoPontoEncontro(String idSessao, String idSolicitacao) throws NumberFormatException, Exception {
-		for(Usuario usuario : usuarios){
-			if(usuario.getID().equals(idSessao)){
-				if(!gerenciadorDeSolicitacoes.getSolicitacoesConfirmadas().matches(idSolicitacao)){
-					gerenciadorDeSolicitacoes.validaSolicitacao(idSolicitacao);
-				}
-				else{
-					throw new Exception(Excecoes.SOLICITACAO_INEXISTENTE);
-				}
-			}
-		}
-	}
-
-	/**
 	 * Metodo que desiste de uma requisicao ja feita
 	 * 
 	 * @param idSessao
@@ -532,7 +601,6 @@ public class Sistema {
 			if(usuario.getID().equals(idSessao)){
 				if(!gerenciadorDeSolicitacoes.getSolicitacoesConfirmadas().matches(idSolicitacao)){
 					gerenciadorDeSolicitacoes.validaSolicitacao(idSolicitacao);
-					usuario.setHistoricoEmVagas(gerenciadorDeSolicitacoes.getSolicitacaoConfirmada(idSolicitacao).getCarona());
 				}
 				else{
 					throw new Exception(Excecoes.SOLICITACAO_INEXISTENTE);
@@ -747,88 +815,13 @@ public class Sistema {
 								 }
 							 }
 							 else{
-								 throw new Exception("Usuário não possui vaga na carona.");
+								 throw new Exception(Excecoes.USUARIO_NAO_VAGA_CARONA);
 							 }
 						 }
 					 }
 				 }
 			 }
 		 }
-	 }
-	 
-	 public String cadastrarCaronaMunicipal(String idSessao, String origem, String destino, String cidade, String data, String hora, String vagas) throws Exception{
-		 if (idSessao == null || idSessao.equals("")){
-			 throw new Exception(Excecoes.SESSAO_INVALIDA);
-		 }
-		 
-		 if (buscaUsuario(idSessao) == null){
-			 throw new Exception(Excecoes.SESSAO_INEXISTENTE);
-		 }
-		 
-		 if(cidade == null || cidade.equals("")){
-			 throw new Exception(Excecoes.CIDADE_INEXISTENTE);
-		 }
-			
-		 for(Usuario usuario : usuarios){
-			 if(usuario.getID().equals(idSessao)){
-				 return usuario.cadastrarCaronaMunicipal(origem, destino, cidade, data, hora, vagas);
-			 }
-		 }
-		 
-		 throw new Exception(Excecoes.USUARIO_INEXISTENTE);
-	 }
-	 
-	 public String localizarCaronaMunicipal(String idSessao, String cidade, String origem, String destino) throws Exception{
-		 if(cidade == null || cidade.equals("")){
-			 throw new Exception(Excecoes.CIDADE_INEXISTENTE);
-		 }
-		 
-		 String todasCaronas = "{";
-		 for(Usuario usuario : usuarios){
-			 if(usuario.getID().equals(idSessao)){
-				 for(Usuario outro_usuario : usuarios){
-					 for(Carona carona : outro_usuario.getCaronas()){
-						 if(carona.getCidade() != null && carona.getCidade().equals(cidade)){
-							 if (origem.equals("") && destino.equals("")) {
-									todasCaronas += carona.getID() + ",";
-								}
-							 if (carona.getOrigem().equals(origem) && destino.equals("")) {
-								 todasCaronas += carona.getID() + ",";
-							}
-							else if (origem.equals("") 	&& carona.getDestino().equals(destino)) {
-								todasCaronas += carona.getID() + ",";
-							}
-							else if (carona.getOrigem().equals(origem) 	&& carona.getDestino().equals(destino)) {
-								todasCaronas += carona.getID() + ",";
-							}
-						 }
-					 }
-				 }
-			 }
-		 }
-		 
-		 return (todasCaronas + "}").replace(",}", "}");
-	 }
-	 
-	 public String localizarCaronaMunicipal(String idSessao, String cidade) throws Exception{
-		 if(cidade == null || cidade.equals("")){
-			 throw new Exception(Excecoes.CIDADE_INEXISTENTE);
-		 }
-		 
-		 String todasCaronas = "{";
-		 for(Usuario usuario : usuarios){
-			 if(usuario.getID().equals(idSessao)){
-				 for(Usuario outro_usuario : usuarios){
-					 for(Carona carona : outro_usuario.getCaronas()){
-						 if (carona.getCidade() != null && carona.getCidade().equals(cidade)) {
-								todasCaronas += carona.getID() + ",";
-						 }
-					 }
-				 }
-			 }
-		 }
-		 
-		 return (todasCaronas + "}").replace(",}", "}");
 	 }
 	 
 	 public String cadastrarInteresse (String idSessao, String origem, String destino, String data, String horaInicio, String horaFim) throws Exception{
@@ -846,16 +839,54 @@ public class Sistema {
 		 
 		 for(Usuario usuario : usuarios){
 			 if(usuario.getID().equals(idSessao)){
-				 
+				 String idInteresse = String.valueOf(Math.abs(new Random().nextInt()));
+				 while(!checaIdInteresseValido(idInteresse)){
+					 idInteresse = String.valueOf(Math.abs(new Random().nextInt()));
+				 }
+				 String caronaInteresse = origem + ";" + destino + ";" + data + ";" + horaInicio + ";" + horaFim; 
+				 interessesEmCaronas.put(idInteresse, caronaInteresse);
+				 usuario.setIDInteresse(idInteresse);
+				 return idInteresse;
 			 }
 		 }
-		 return "ID";
-		 //TODO: terminar este método (usuário é responsável por cadastrar interesse, mas o interesse fica registrado no sistema, então o método fica em sistema)
+		 
+		 throw new Exception(Excecoes.USUARIO_INEXISTENTE);
+		 //TODO: Ainda incompleto. É preciso implementar o padrão observer, mas fiquei na dúvida como será feito. 
 	 }
 	 
-	 public String verificarMensagensPerfil(String idSessao){
-		 return "";
-		//TODO: terminar este método (usuário é responsável por verificar as mensagens no seu perfil, então o método fica dentro do perfil do usuário)
+	 /**
+	  * 
+	  * @param idInteresse
+	  * @return
+	  * @throws Exception
+	  */
+	 public boolean checaIdInteresseValido(String idInteresse) throws Exception{
+		 if(idInteresse == null || idInteresse.equals("")){
+			 throw new Exception(Excecoes.IDENTIFICADOR_INTERESSE_INVALIDO);
+		 }
+		 
+		 if(interessesEmCaronas.containsKey(idInteresse)){
+			 return false;
+		 }
+		 
+		 return true;
+	 }
+	 
+	 /**
+	  * 
+	  * @param idSessao
+	  * @return
+	  * @throws Exception
+	  */
+	 public String verificarMensagensPerfil(String idSessao) throws Exception{
+		 for(Usuario usuario : usuarios){
+			 if(usuario.getID().equals(idSessao)){
+				 return usuario.verificarMensagensPerfil();
+			 }
+		 }
+		 
+		 throw new Exception(Excecoes.USUARIO_INEXISTENTE);
+		//TODO: falta apenas checar se está OK após a implementação do método checarInteresse(...);
 	 }
 	 
 	 public String enviarEmail(String idSessao, String destino, String message) throws Exception{

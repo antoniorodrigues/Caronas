@@ -27,21 +27,20 @@ public class Carona {
 	private String pontoDeEncontro;
 
 	/**
-	 * Construtor da classe Carona
+	 * Constrói um objeto do tipo Carona utilizando como atributos a origem, o destino, a data, a hora e a quantidade de vagas da carona.
 	 * 
 	 * @param origem
-	 *            Local de origem (ponto de partida) da carona
+	 * 			Local de origem (ponto de partida) da carona.
 	 * @param destino
-	 *            Local de destino (ponto de chegada) da carona
+	 *          Local de destino (ponto de chegada) da carona.
 	 * @param data
-	 *            Data que será realizada a carona
+	 *          Data para a qual a carona é marcada.
 	 * @param hora
-	 *            Hora de partida da carnoa
+	 *          Hora de partida da carona.
 	 * @param vagas
-	 *            Número de vagas existentes na carona
+	 *          Número de vagas existentes na carona.
 	 * @throws Exception
-	 *             Quando algum dos atributos do método construtor possuir uma
-	 *             entrada inválida
+	 *          Caso a origem e/ou o destino sejam nulos ou vazios, a data seja inferior a data atual, a hora não esteja no padrão HH:mm ou a quantidade de vagas seja nula ou não-numérica.
 	 */
 	public Carona(String origem, String destino, String data, String hora, 	String vagas) throws Exception {
 		this.setOrigem(origem);
@@ -54,48 +53,44 @@ public class Carona {
 	}
 	
 	/**
+	 * Constrói um objeto do tipo Carona utilizando como atributos a origem, o destino, a cidade, a data, a hora e a quantidade de vagas da carona. 
 	 * 
 	 * @param origem
+	 * 			Local de origem (ponto de partida) da carona.
 	 * @param destino
+	 * 			Local de destino (ponto de chegada) da carona.
 	 * @param cidade
+	 * 			A cidade onde a carona está sendo fornecida.
 	 * @param data
+	 * 			Data para a qual a carona é marcada.
 	 * @param hora
+	 * 			Hora de partida da carona.
 	 * @param vagas
+	 * 			Número de vagas existentes na carona.
 	 * @throws Exception
+	 * 			Caso a origem e/ou o destino e/ou a cidade sejam nulos ou vazios, a data seja inferior a data atual, a hora não esteja no padrão HH:mm ou a quantidade de vagas seja nula ou não-numérica.
 	 */
 	public Carona(String origem, String destino, String cidade, String data, String hora, String vagas) throws Exception {
-		this.setOrigem(origem);
-		this.setDestino(destino);
+		this(origem, destino, data, hora, vagas);
 		this.setCidade(cidade);
-		this.setData(data);
-		this.setHora(hora);
-		this.setVagas(vagas);
-		
-		if(caroneiros == null){
-			this.caroneiros = new ArrayList<String>();
-		}
-		
-		if(todosCaroneiros == null){
-			this.todosCaroneiros = new ArrayList<Usuario>();
-		}
 	}
 
 	/**
-	 * Método que retorna a data da carona
+	 * Retorna a data para a qual a carona foi marcada.
 	 * 
-	 * @return Data da carona
+	 * @return A data da carona.
 	 */
 	public String getData() {
 		return data;
 	}
 
 	/**
-	 * Método que modifica a data da carona
+	 * Atribui uma data a carona.
 	 * 
 	 * @param data
-	 *            Data da carona
+	 *            A data a ser atribuída a carona.
 	 * @throws Exception
-	 *             Caso a data da carona seja inválida
+	 *             Caso a data da carona seja anterior a data atual.
 	 */
 	public void setData(String data) throws Exception {
 		if (!verificaDataValida(data))
@@ -105,12 +100,11 @@ public class Carona {
 	}
 
 	/**
-	 * Método que verifica se a data da carona é ou não uma data válida no
-	 * sistema.
+	 * Verifica se a data da carona é ou não anterior a data atual.
 	 * 
 	 * @param data
-	 *            Data da carona
-	 * @return True, se a data for válida False, se a data não for válida
+	 *            A data da carona.
+	 * @return True, se a data for igual ou posterior a data atual, False caso contrário.
 	 */
 	private boolean verificaDataValida(String data) {
 		boolean dataValida = (data != null && !data.equals(""));
@@ -121,7 +115,7 @@ public class Carona {
 			Date novaData = format.parse(data);
 			
 			if(novaData.before(new Date())){
-				dataValida = false; //TODO falta ver se as datas ser�o alteradas!
+				dataValida = false;
 			}
 		} catch (Exception ex) {
 			dataValida = false;
@@ -132,12 +126,11 @@ public class Carona {
 	}
 
 	/**
-	 * Método que verifica se a hora da carona é ou não uma hora válida no
-	 * sistema.
+	 * Verifica se a hora da carona está no padrão HH:mm.
 	 * 
 	 * @param hora
-	 *            Hora da carona
-	 * @return True, se a hora for válida False, se a hora não for válida
+	 *            A hora da carona.
+	 * @return True, se a hora estiver no padrão HH:mm, False caso contrário.
 	 */
 	private boolean verificaHoraValida(String hora) {
 		boolean horaValida = (hora != null && !hora.equals(""));
@@ -152,91 +145,94 @@ public class Carona {
 	}
 
 	/**
-	 * Método que retorna a hora da carona
+	 * Retorna a hora da carona.
 	 * 
-	 * @return Hora da carona
+	 * @return A hora da carona.
 	 */
 	public String getHora() {
 		return hora;
 	}
 
 	/**
-	 * Método que modifica a hora da carona
+	 * Atribui a hora da carona.
 	 * 
 	 * @param hora
-	 *            Hora da carona
+	 *          A hora da carona.
 	 * @throws Exception
-	 *             Caso a hora da carona seja inválida
+	 * 			Caso a hora da carona não esteja no padrão HH:mm.
 	 */
 	public void setHora(String hora) throws Exception {
 		if (!verificaHoraValida(hora))
 			throw new Exception(Excecoes.HORA_INVALIDA);
+		
 		this.hora = hora;
 	}
 
 	/**
-	 * Método que retorna o número de vagas da carona
+	 * Retorna o número de vagas da carona.
 	 * 
-	 * @return Número de vagas da carona
+	 * @return O número de vagas da carona.
 	 */
 	public String getVagas() {
 		return vagas;
 	}
 
 	/**
-	 * Método que modifica o número de vagas da carona
+	 * Atribui o número de vagas da carona.
 	 * 
 	 * @param vagas
-	 *            Número de vagas da carona
+	 * 			O número de vagas da carona.
 	 * @throws Exception
-	 *             Caso o número de vagas da carona seja inválido
+	 * 			Caso o número de vagas da carona seja nulo ou não-numérico.
 	 */
 	public void setVagas(String vagas) throws Exception {
 		if (vagas == null || !vagas.matches("^[0-9]*$")) {
 			throw new Exception(Excecoes.VAGA_INVALIDA);
 		}
+		
 		this.vagas = vagas;
 	}
 
 	/**
-	 * Método que retorna o local de origem da carona
+	 * Retorna o local de origem da carona.
 	 * 
-	 * @return Local de origem da carona
+	 * @return O local de origem da carona.
 	 */
 	public String getOrigem() {
 		return origem;
 	}
 
 	/**
-	 * Método que modifica o local de origem da carona
+	 * Atribui o local de origem da carona.
 	 * 
 	 * @param origem
-	 *            Local de origem da carona
+	 *          O local de origem da carona.
 	 * @throws Exception
-	 *             Caso o local de origem da carona seja inválido
+	 * 			Caso o local de origem da carona seja nulo ou vazio.
 	 */
 	public void setOrigem(String origem) throws Exception {
 		if (origem == null || origem.equals(""))
 			throw new Exception(Excecoes.ORIGEM_INVALIDA);
+		
 		this.origem = origem;
 	}
 
 	/**
-	 * Método que retorna o local de destino da carona
+	 * Retorna o local de destino da carona.
 	 * 
-	 * @return Local de destino da carona
+	 * @return O local de destino da carona.
 	 */
 	public String getDestino() {
 		return destino;
 	}
 
 	/**
-	 * Método que modifica o local de destino da carona
+	 * Atribui o local de destino da carona.
 	 * 
 	 * @param destino
-	 *            Local de destino da carona
+	 * 			O local de destino da carona.
 	 * @throws Exception
-	 *             Caso o local de destino da carona seja inválido
+	 *  		Caso o local de destino da carona seja nulo ou vazio.
 	 */
 	public void setDestino(String destino) throws Exception {
 		if (destino == null || destino.equals(""))
@@ -246,24 +242,22 @@ public class Carona {
 	}
 
 	/**
-	 * Método que retorna o trajeto da carona
+	 * Retorna o trajeto da carona.
 	 * 
-	 * @return Trajeto da carona
+	 * @return O trajeto da carona.
 	 */
 	public String getTrajeto() {
 		return getOrigem() + " - " + getDestino();
 	}
 
 	/**
-	 * Método que retorna um atributo dentre todos os atributos da carona
-	 * (origem, destino, data, hora, número de vagas, ponto de encontro,
-	 * caroneiros)
+	 * Retorna um dentre todos os atributos da carona.
 	 * 
 	 * @param atributo
-	 *            Atributo solicitado no método
-	 * @return Atributo solicitado no método
+	 * 			Um dos seguintes atributos: origem, destino, data, hora, número de vagas, Ponto de Encontro, Caroneiros, ehMunicipal.
+	 * @return O atributo pesquisado.
 	 * @throws Exception
-	 *             Caso não exista o atributo solicitado.
+	 * 			Caso não exista o atributo solicitado.
 	 */
 	public String getAtributoCarona(String atributo) throws Exception {
 		if(atributo.equals("origem")) {
@@ -285,7 +279,7 @@ public class Carona {
 			return getPontoDeEncontro();
 		}
 		else if (atributo.equals("Caroneiros")) {
-			return getSrtingCaroneiros();
+			return getCaroneiros().toString();
 		}
 		else if(atributo.equals("ehMunicipal")){
 			return isMunicipal();
@@ -296,70 +290,86 @@ public class Carona {
 
 	}
 	
+	/**
+	 * Verifica se a carona é ou não municipal.
+	 * 
+	 * @return True caso a carona seja municipal, False caso contrário.
+	 */
 	public String isMunicipal(){
 		if(this.getCidade() == null){
 			return "false";
 		}
+		
 		return "true";
 	}
 
 	/**
-	 * Método que retorna um identificador da carona
+	 * Retorna o identificador da carona.
 	 * 
-	 * @return Identificador da carona
+	 * @return O identificador da carona.
 	 */
 	public String getID() {
 		return ID;
 	}
 
 	/**
-	 * Método que modifica o identificador da carona
+	 * Atribui um identificador a carona.
 	 * 
 	 * @param ID
-	 *            Identificador da carona
+	 * 			O identificador da carona.
 	 */
 	public void setID(String ID) {
 		this.ID = ID;
 	}
 	
 	/**
+	 * Retorna o dono da carona.
 	 * 
-	 * @return
+	 * @return O dono da carona.
 	 */
 	public Usuario getDono(){
 		return dono;
 	}
 	
 	/**
+	 * Atribui um dono a carona.
 	 * 
 	 * @param dono
+	 * 			O dono da carona.
 	 */
 	public void setDono(Usuario dono){
 		this.dono = dono;
 	}
 	
+	/**
+	 * Retorna a cidade onde a carona está sendo oferecida.
+	 * 
+	 * @return A cidade onde a carona está sendo oferecida.
+	 */
 	public String getCidade(){
 		return cidade;
 	}
 	
 	/**
+	 * Atribui uma cidade a carona.
 	 * 
 	 * @param cidade
+	 * 			A cidade da carona.
 	 */
 	public void setCidade(String cidade){
 		this.cidade = cidade;
 	}
 
+	//TODO: Faltou terminar o javadoc deste método
 	/**
-	 * Método que adiciona uma pessoa como integrante (passageira) da carona
+	 * Adiciona uma pessoa como integrante (passageira) da carona.
 	 * 
 	 * @param caroneiro
-	 *            Pessoa integrante futura de uma carona
+	 * 			Pessoa integrante futura de uma carona.
 	 * @param pontoDeEncontro
-	 *            Ponto de encontro entre o dono da carona e o caroneiro
-	 *            (interessado na carona)
+	 *          Ponto de encontro entre o dono da carona e o caroneiro (interessado na carona).
 	 * @throws NumberFormatException
-	 *             Quando o formato passado ao método como parâmetro é inválido
+	 * 			Quando o formato passado ao método como parâmetro é inválido
 	 * @throws Exception
 	 */
 	public void adicionaCaroneiro(String caroneiro, String pontoDeEncontro)throws NumberFormatException, Exception {
@@ -369,71 +379,70 @@ public class Carona {
 	}
 
 	/**
-	 * Método que adiciona um caroneiro na carona
+	 * Adiciona um caroneiro a carona.
 	 * 
 	 * @param caroneiro
-	 *            Pessoa a ser adicionada na carona
+	 * 			Pessoa a ser adicionada a carona.
 	 */
 	public void adicionaCaroneiro(Usuario caroneiro) {
 		todosCaroneiros.add(caroneiro);
 	}
 
 	/**
-	 * Método que retorna todos os caroneiros de uma carona
+	 * Retorna todos os caroneiros de uma carona.
 	 * 
-	 * @return Lista de caroneiros de uma carona
+	 * @return Lista de caroneiros de uma carona.
 	 */
 	public List<Usuario> getTodosCaroneiros() {
 		return todosCaroneiros;
 	}
 
 	/**
-	 * Método que retorna o ponto de encontro da origem da carona
+	 * Retorna o ponto de encontro de origem da carona.
 	 * 
-	 * @return Ponto de encontro da origem da carona
+	 * @return Ponto de encontro de origem da carona.
 	 */
 	public String getPontoDeEncontro() {
 		return pontoDeEncontro;
 	}
 
 	/**
-	 * Método que modifica o ponto de encontro da origem da da carona
+	 * Atribui um ponto de encontro de origem a carona.
 	 * 
-	 * @param ponto
-	 *            de encontro Ponto de encontro da origem da carona
+	 * @param pontoDeEncontro
+	 * 			O ponto de encontro de origem da carona.
 	 */
 	public void setPontoDeEncontro(String pontoDeEncontro) {
 		this.pontoDeEncontro = pontoDeEncontro;
 	}
 
 	/**
-	 * Método que retorna uma lista dos integrantes da carona
+	 * Retorna uma lista apenas com o nome dos integrantes da carona.
 	 * 
-	 * @return Lista dos integrantes da carona
+	 * @return Lista apenas com o nome dos integrantes da carona.
 	 */
 	public List<String> getCaroneiros() {
 		return caroneiros;
 	}
 
-	/**
-	 * Método que retorna uma String contendo uma lista de caroneiros
-	 * (integrantes) da carona
-	 * 
-	 * @return Uma String contendo uma lista de caroneiros (integrantes) da
-	 *         carona
-	 */
-	public String getSrtingCaroneiros() {
-		String caroneiros = "";
+//	/**
+//	 * Retorna uma String contendo uma lista de caroneiros(integrantes) da carona
+//	 * 
+//	 * @return Uma String contendo uma lista de caroneiros (integrantes) da
+//	 *         carona
+//	 */
+//	public String getSrtingCaroneiros() {
+//		String caroneiros = "";
+//
+//		for (String usuario : getCaroneiros()) {
+//			caroneiros += usuario;
+//		}
+//		
+//		return caroneiros;
+//	}
 
-		for (String usuario : getCaroneiros()) {
-			caroneiros += usuario;
-		}
-		return caroneiros;
-	}
-
 	/**
-	 * Representação textual de uma carona, contendo origem, destino, data e
-	 * hora.
+	 * Representação textual de uma carona, contendo origem, destino, data e hora.
 	 */
 	@Override
 	public String toString() {

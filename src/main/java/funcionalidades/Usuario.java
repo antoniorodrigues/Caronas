@@ -8,8 +8,6 @@ import java.util.TreeMap;
 
 import excecoes.Excecoes;
 
-
-
 /**
  * 
  * @author Antonio, Diego, Eduardo, Laercio, Rodolfo
@@ -18,9 +16,11 @@ import excecoes.Excecoes;
 public class Usuario {
 
 	private String ID = "";
+	private String idInteresse;
 	private PerfilDoUsuario perfil;
 	private List<Carona> caronas;
-	private Map<String, String> mensagens;
+	private Map<String, String> emails;
+	private List<String> mensagens;
 
 	/**
 	 * Construtor da calsse Usuario.
@@ -39,7 +39,8 @@ public class Usuario {
 	public Usuario(String login, String senha, String nome, String endereco, String email) throws Exception {
 		perfil = new PerfilDoUsuario(login, senha, nome, endereco, email);
 		caronas = new ArrayList<Carona>();
-		mensagens = new TreeMap<String, String>();
+		emails = new TreeMap<String, String>();
+		mensagens = new ArrayList<String>();
 	}
 
 	/**
@@ -61,15 +62,20 @@ public class Usuario {
 	 *             inválida
 	 */
 	public String cadastrarCarona(String origem, String destino, String data, String hora, String vagas) throws Exception {
-		Carona novaCarona = new Carona(origem, destino, data, hora, vagas);
-		novaCarona.setDono(this);
-		String caronaID = String.valueOf(Math.abs(new Random().nextInt()));
-		novaCarona.setID(caronaID);
-		caronas.add(novaCarona);
-		perfil.adicionaCarona(caronaID);
-		return novaCarona.getID();
+		return cadastrarCaronaMunicipal(origem, destino, null, data, hora, vagas);
 	}
 	
+	/**
+	 * 
+	 * @param origem
+	 * @param destino
+	 * @param cidade
+	 * @param data
+	 * @param hora
+	 * @param vagas
+	 * @return
+	 * @throws Exception
+	 */
 	public String cadastrarCaronaMunicipal(String origem, String destino, String cidade, String data, String hora, String vagas) throws Exception{
 		Carona novaCarona = new Carona(origem, destino, cidade, data, hora, vagas);
 		novaCarona.setDono(this);
@@ -142,6 +148,22 @@ public class Usuario {
 	 */
 	public String getEmail() {
 		return perfil.getEmail();
+	}
+	
+	/**
+	 * 
+	 * @param idInteresse
+	 */
+	public void setIDInteresse(String idInteresse){
+		this.idInteresse = idInteresse;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getIdInteresse(){
+		return idInteresse;
 	}
 
 	/**
@@ -258,6 +280,13 @@ public class Usuario {
 		perfil.setCaronasNaoFuncionaram();
 	}
 	
+	/**
+	 * 
+	 * @param origem
+	 * @param destino
+	 * @param mensagem
+	 * @return
+	 */
 	public String enviarEmail(String origem, String destino, String mensagem){
 		for(Carona carona : caronas){
 			for(Usuario usuario : carona.getTodosCaroneiros()){
@@ -269,8 +298,27 @@ public class Usuario {
 		return "true";
 	}
 	
+	/**
+	 * 
+	 * @param origem
+	 * @param mensagem
+	 */
 	public void recebeMensagemDe(String origem, String mensagem){
-		this.mensagens.put(origem, mensagem);
+		this.emails.put(origem, mensagem);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String verificarMensagensPerfil(){
+		String todasMensagens = "[";
+		
+		for(String mensagem : mensagens){
+			todasMensagens += mensagem;
+		}
+		
+		return todasMensagens + "]";
 	}
 	
 }

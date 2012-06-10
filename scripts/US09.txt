@@ -1,6 +1,6 @@
 #User Story 09 - Review de carona
 
-#Review de caronas: os caroneiros podem, após uma carona, colocar um comentário no sistema referente áquela carona, e dar ou não um voto de "segura e tranquila" para a carona, 
+#Review de caronas: os caroneiros podem, após uma carona, colocar um comentário no sistema referente àquela carona, e dar ou não um voto de "segura e tranquila" para a carona, 
 #ou marcá-la como "não funcionou", que significa que o motorista fez algo errado ao seu ver.
 #A quantidade de caronas seguras e tranquilas e que não funcionaram devem aparecer no perfil do motorista.
 
@@ -16,10 +16,8 @@ criarUsuario login="vader" senha="d4rth" nome="Anakin Skywalker" endereco="Death
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 
 #Cadastrar caronas.
-carona4ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="26/06/2012" hora="12:00" vagas=3
-carona5ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="28/06/2012" hora="16:00" vagas=2
-#carona4ID data original = 02/06/2012
-#carona5ID data original = 04/06/2012
+carona4ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="02/06/2013" hora="12:00" vagas=3
+carona5ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="04/06/2013" hora="16:00" vagas=2
 
 #Iniciar sessão com outro usuário.
 sessaoBill=abrirSessao login="bill" senha="bilz@o"
@@ -32,7 +30,7 @@ expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} 
 expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da solicitacao"
 
 #Aceitar requisição
-aceitarSolicitacaoPontoEncontro idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
 #Requisitar vaga na carona.
@@ -43,7 +41,7 @@ expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} 
 expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da solicitacao"
 
 #Aceitar requisição
-aceitarSolicitacaoPontoEncontro idSessao=${sessaoMark} idSolicitacao=${solicitacao2ID}
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao2ID}
 expect 1 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 
 #Review de carona.

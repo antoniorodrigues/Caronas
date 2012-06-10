@@ -89,10 +89,6 @@ public class SistemaController {
 		return sistema.getAtributoSolicitacao(idSolicitacao, atributo);
 	}
 
-	public void aceitarSolicitacaoPontoEncontro(String idSessaoString, String idSolicitacao) throws Exception {
-		sistema.aceitarSolicitacaoPontoEncontro(idSessaoString, idSolicitacao);
-	}
-
 	public void aceitarSolicitacao(String idSessao, String idSolicitacao) throws NumberFormatException, Exception {
 		sistema.aceitarSolicitacao(idSessao, idSolicitacao);
 	}
@@ -141,7 +137,7 @@ public class SistemaController {
 		 return sistema.cadastrarInteresse(idSessao, origem, destino, data, horaInicio, horaFim);
 	 }
 	 
-	 public String verificarMensagensPerfil(String idSessao){
+	 public String verificarMensagensPerfil(String idSessao) throws Exception{
 		 return sistema.verificarMensagensPerfil(idSessao);
 	 }
 	 
