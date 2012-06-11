@@ -1,9 +1,7 @@
-package funcionalidades;
+package componentesdosistema;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import excecoes.Excecoes;
 
 
 
@@ -37,7 +35,7 @@ public class PerfilDoUsuario {
 	 *            Email do Usuario.
 	 * @throws Exception
 	 */
-	public PerfilDoUsuario(String login, String senha, String nome, String endereco, String email) throws Exception {
+	public PerfilDoUsuario(String login, String senha, String nome, String endereco, String email) throws DadosUsuarioException {
 		this.setLogin(login);
 		this.setSenha(senha);
 		this.setNome(nome);
@@ -99,9 +97,9 @@ public class PerfilDoUsuario {
 	 * @throws Exception
 	 *             Caso o nome seja em branco ou uma String nula
 	 */
-	public void setNome(String nome) throws Exception {
+	public void setNome(String nome) throws DadosUsuarioException {
 		if (nome == null || nome.equals("")) {
-			throw new Exception(Excecoes.NOME_INVALIDO);
+			throw new DadosUsuarioException("Nome inválido");
 		}
 
 		this.nome = nome;
@@ -158,9 +156,9 @@ public class PerfilDoUsuario {
 	 * @throws Exception
 	 *             Caso o email seja em branco ou uma String nula
 	 */
-	public void setEmail(String email) throws Exception {
+	public void setEmail(String email) throws DadosUsuarioException {
 		if (email == null || email.equals("")) {
-			throw new Exception(Excecoes.EMAIL_INVALIDO);
+			throw new DadosUsuarioException("Email inválido");
 		}
 		this.email = email;
 	}
@@ -182,9 +180,9 @@ public class PerfilDoUsuario {
 	 * @throws Exception
 	 *             Caso a senha seja em branco ou uma String nula
 	 */
-	public void setSenha(String senha) throws Exception {
+	public void setSenha(String senha) throws DadosUsuarioException {
 		if(senha == null || senha.equals("")){ 
-			throw new Exception(Excecoes.SENHA_INVALIDA);
+			throw new DadosUsuarioException("Senha inválida");
 		}
 		
 		this.senha = senha;
@@ -207,9 +205,9 @@ public class PerfilDoUsuario {
 	 * @throws Exception
 	 *             Caso o login seja em branco ou uma String nula
 	 */
-	public void setLogin(String login) throws Exception {
+	public void setLogin(String login) throws DadosUsuarioException {
 		if (login == null || login.equals("")) {
-			throw new Exception(Excecoes.LOGIN_INVALIDO);
+			throw new DadosUsuarioException("Login inválido");
 		}
 
 		this.login = login;
@@ -241,9 +239,9 @@ public class PerfilDoUsuario {
 	 * @throws Exception
 	 *             Caso o endereco seja em branco ou uma String nula
 	 */
-	public void setEndereco(String endereco) throws Exception {
+	public void setEndereco(String endereco) throws DadosUsuarioException {
 		if (endereco == null || endereco.equals("")) {
-			throw new Exception(Excecoes.ENDERECO_INVALIDO);
+			throw new DadosUsuarioException("Endereço inválido");
 		}
 		this.endereco = endereco;
 	}
@@ -308,7 +306,7 @@ public class PerfilDoUsuario {
 	 * @throws Exception
 	 *             Caso o atributo não exista
 	 */
-	public String getAtributo(String atributo) throws Exception {
+	public String getAtributo(String atributo) throws AtributoIlegalException {
 		if (atributo.equals("nome")) {
 			return this.getNome();
 		} 
@@ -340,7 +338,7 @@ public class PerfilDoUsuario {
 			return this.getPresencaCaronas();
 		} 
 		else {
-			throw new Exception(Excecoes.ATRIBUTO_INEXISTENTE);
+			throw new AtributoIlegalException("Atributo inexistente");
 		}
 	}
 

@@ -1,4 +1,4 @@
-package funcionalidades;
+package componentesdosistema;
 
 /**
  * 

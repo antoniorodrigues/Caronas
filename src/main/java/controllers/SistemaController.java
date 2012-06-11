@@ -1,7 +1,6 @@
-package controller;
+package controllers;
 
-import funcionalidades.PerfilDoUsuario;
-import funcionalidades.Sistema;
+import componentesdosistema.PerfilDoUsuario;
 
 
 

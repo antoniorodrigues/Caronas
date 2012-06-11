@@ -1,9 +1,6 @@
-package funcionalidades;
+package controllers;
 
-
-
-import excecoes.Excecoes;
-import gerenciadores.GerenciaDadosEmXML;
+import gerenciadores.GerenciadorDeArquivos;
 import gerenciadores.GerenciadorDeSolicitacoes;
 
 import java.util.ArrayList;
@@ -11,6 +8,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
+
+import componentesdosistema.AtributoIlegalException;
+import componentesdosistema.Carona;
+import componentesdosistema.DadosCaronaException;
+import componentesdosistema.DadosUsuarioException;
+import componentesdosistema.PerfilDoUsuario;
+import componentesdosistema.SessaoIlegalException;
+import componentesdosistema.SolicitacaoDeCarona;
+import componentesdosistema.SolicitacaoIlegalException;
+import componentesdosistema.SugestaoDePonto;
+import componentesdosistema.Usuario;
 
 
 /**
@@ -22,7 +30,6 @@ public class Sistema {
 
 	private List<Usuario> usuarios;
 	private GerenciadorDeSolicitacoes gerenciadorDeSolicitacoes;
-	private GerenciaDadosEmXML gerenciadorDeDadosEmXML;
 	private Map<String, String> interessesEmCaronas;
 
 	/**
@@ -31,7 +38,6 @@ public class Sistema {
 	public Sistema() {
 		usuarios = new ArrayList<Usuario>();
 		gerenciadorDeSolicitacoes = new GerenciadorDeSolicitacoes();
-		gerenciadorDeDadosEmXML = new GerenciaDadosEmXML();
 		interessesEmCaronas = new TreeMap<String, String>();
 	}
 
@@ -46,7 +52,7 @@ public class Sistema {
 	 * @throws Exception
 	 * 			Caso o login seja seja nulo, vazio ou já exista e caso a senha seja nula, vazia ou já exista.
 	 */
-	public String abrirSessao(String login, String senha) throws Exception {
+	public String abrirSessao(String login, String senha) throws DadosUsuarioException, SessaoIlegalException {
 		Usuario usuario = checaLoginValido(login, senha);
 		
 		if(usuario != null){
@@ -58,7 +64,7 @@ public class Sistema {
 			return idSessao;
 		}
 		else{
-			throw new Exception(Excecoes.USUARIO_INEXISTENTE);
+			throw new DadosUsuarioException("Usuário inexistente");
 		}
 	}
 	
@@ -71,9 +77,9 @@ public class Sistema {
 	 * @throws Exception
 	 * 			Caso o identificador da sessão a ser verificada seja nulo ou vazio.
 	 */
-	private boolean checaSessaoValida(String idSessao) throws Exception{
+	private boolean checaSessaoValida(String idSessao) throws SessaoIlegalException{
 		if(idSessao == null || idSessao.equals("")){
-			throw new Exception(Excecoes.SESSAO_INVALIDA);
+			throw new SessaoIlegalException("Sessão inválida");
 		}
 		
 		for(Usuario usuario : usuarios){
@@ -95,12 +101,12 @@ public class Sistema {
 	 * @throws Exception
 	 * 			Caso o login seja nulo, vazio ou já exista, ou caso a senha seja nula, vazia ou já exista.
 	 */
-	public Usuario checaLoginValido(String login, String senha) throws Exception {
+	public Usuario checaLoginValido(String login, String senha) throws DadosUsuarioException {
 		if (login == null || login.equals("")) {
-			throw new Exception(Excecoes.LOGIN_INVALIDO);
+			throw new DadosUsuarioException("Login inválido");
 		}
 		if (senha == null || senha.equals("")) {
-			throw new Exception(Excecoes.SENHA_INVALIDA);
+			throw new DadosUsuarioException("Senha inválida");
 		}
 		
 		for (Usuario usuario : usuarios) {
@@ -109,7 +115,7 @@ public class Sistema {
 					return usuario;
 				}
 				else{
-					throw new Exception(Excecoes.LOGIN_INVALIDO);
+					throw new DadosUsuarioException("Login inválido");
 				}
 			}
 		}
@@ -133,13 +139,13 @@ public class Sistema {
 	 * @throws Exception
 	 *             Caso qualquer dos atributos seja passado de forma não-válida.
 	 */
-	public void criarUsuario(String login, String senha, String nome, String endereco, String email) throws Exception {
+	public void criarUsuario(String login, String senha, String nome, String endereco, String email) throws DadosUsuarioException {
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equals(login)) {
-				throw new Exception(Excecoes.LOGIN_DUPLICADO);
+				throw new DadosUsuarioException("Já existe um usuário com este login");
 			} 
 			else if (usuario.getEmail().equals(email)) {
-				throw new Exception(Excecoes.EMAIL_DUPLICADO);
+				throw new DadosUsuarioException("Já existe um usuário com este email");
 			}
 		}
 		usuarios.add(new Usuario(login, senha, nome, endereco, email));
@@ -156,18 +162,18 @@ public class Sistema {
 	 * @throws Exception
 	 *             Caso o login seja inválido
 	 */
-	public String getAtributoUsuario(String login, String atributo)	throws Exception {
+	public String getAtributoUsuario(String login, String atributo)	throws AtributoIlegalException, DadosUsuarioException {
 		if (login == null || login.equals(""))
-			throw new Exception(Excecoes.LOGIN_INVALIDO);
+			throw new DadosUsuarioException("Login inválido");
 		
 		if (atributo == null || atributo.equals(""))
-			throw new Exception(Excecoes.ATRIBUTO_INVALIDO);
+			throw new AtributoIlegalException("Atributo inválido");
 		
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equals(login))
 				return usuario.getAtributo(atributo);
 		}
-		throw new Exception(Excecoes.USUARIO_INEXISTENTE);
+		throw new DadosUsuarioException("Usuário inexistente");
 	}
 	
 	/**
@@ -194,12 +200,12 @@ public class Sistema {
 	 * @throws Exception
 	 *             Caso o trajeto seja inválido ou inexistente
 	 */
-	public String getTrajeto(String IDCarona) throws Exception {
+	public String getTrajeto(String IDCarona) throws DadosCaronaException {
 		Carona carona = buscaCarona(IDCarona);
 		if (IDCarona == null)
-			throw new Exception(Excecoes.TRAJETO_INVALIDO);
+			throw new DadosCaronaException("Trajeto Inválida");
 		if (carona == null)
-			throw new Exception(Excecoes.TRAJETO_INEXISTENTE);
+			throw new DadosCaronaException("Trajeto Inexistente");
 		return carona.getTrajeto();
 	}
 
@@ -214,19 +220,19 @@ public class Sistema {
 	 * @throws Exception
 	 *             Caso o atributo seja inválido ou identificador seja inválido
 	 */
-	public String getAtributoCarona(String IDCarona, String atributo) throws Exception {
+	public String getAtributoCarona(String IDCarona, String atributo) throws AtributoIlegalException, DadosCaronaException {
 		if (IDCarona == null || IDCarona.equals("")) {
-			throw new Exception(Excecoes.IDENTIFICADOR_CARONA_INVALIDO);
+			throw new DadosCaronaException("Identificador do carona é inválido");
 		}
 		if (atributo == null || atributo.equals("")) {
-			throw new Exception(Excecoes.ATRIBUTO_INVALIDO);
+			throw new AtributoIlegalException("Atributo inválido");
 		}
 		
 		Carona carona = buscaCarona(IDCarona);
 		if (carona != null)
 			return carona.getAtributoCarona(atributo);
 		
-		throw new Exception(Excecoes.ITEM_INEXISTENTE);
+		throw new DadosCaronaException("Item inexistente");
 	}
 
 	/**
@@ -272,12 +278,14 @@ public class Sistema {
 	 * @throws Exception
 	 *             Caso o identificador da carona ou a carona seja nulo
 	 */
-	public String getCarona(String IDCarona) throws Exception {
+	public String getCarona(String IDCarona) throws DadosCaronaException {
 		Carona carona = buscaCarona(IDCarona);
-		if (IDCarona == null)
-			throw new Exception(Excecoes.CARONA_INVALIDA);
-		if (carona == null)
-			throw new Exception(Excecoes.CARONA_INEXISTENTE);
+		if (IDCarona == null){
+			throw new DadosCaronaException("Carona Inválida");
+		}
+		if (carona == null){
+			throw new DadosCaronaException("Carona Inexistente");
+		}
 		return carona.toString();
 	}
 
@@ -295,12 +303,12 @@ public class Sistema {
 	 * @throws Exception
 	 *             Caso a origem ou o destino sejam inválidos
 	 */
-	public String localizarCarona(String idSessao, String origem, String destino)throws Exception {
+	public String localizarCarona(String idSessao, String origem, String destino)throws DadosCaronaException {
 		if (origem == null 	|| !origem.matches("^[ a-zA-ZÁÂÃÀÇÉÊÍÓÔÕÚÜáâãàçéêíóôõúü0-9]*$")) {
-			throw new Exception(Excecoes.ORIGEM_INVALIDA);
+			throw new DadosCaronaException("Origem inválida");
 		}
 		if (destino == null || !destino	.matches("^[ a-zA-ZÁÂÃÀÇÉÊÍÓÔÕÚÜáâãàçéêíóôõúü0-9]*$")) {
-			throw new Exception(Excecoes.DESTINO_INVALIDO);
+			throw new DadosCaronaException("Destino inválido");
 		}
 		
 		String todasCaronas = "{";
@@ -336,9 +344,9 @@ public class Sistema {
 	 * @return
 	 * @throws Exception
 	 */
-	public String localizarCaronaMunicipal(String idSessao, String cidade, String origem, String destino) throws Exception{
+	public String localizarCaronaMunicipal(String idSessao, String cidade, String origem, String destino) throws DadosCaronaException{
 		 if(cidade == null || cidade.equals("")){
-			 throw new Exception(Excecoes.CIDADE_INEXISTENTE);
+			 throw new DadosCaronaException("Cidade inexistente");
 		 }
 		 
 		 String todasCaronas = "{";
@@ -398,19 +406,19 @@ public class Sistema {
 	 * @throws Exception
 	 *             Caso haja problemas com o identificador (id) do usuário
 	 */
-	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, String vagas) throws Exception {
+	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, String vagas) throws DadosUsuarioException, SessaoIlegalException, DadosCaronaException {
 		if (idSessao == null || idSessao.equals(""))
-			throw new Exception(Excecoes.SESSAO_INVALIDA);
+			throw new SessaoIlegalException("Sessão inválida");
 		
 		if (buscaUsuario(idSessao) == null)
-			throw new Exception(Excecoes.SESSAO_INEXISTENTE);
+			throw new SessaoIlegalException("Sessão inexistente");
 
 		for (Usuario usuario : usuarios) {
 			if (usuario.getID().equals(idSessao)) {
 				return usuario.cadastrarCarona(origem, destino, data, hora, vagas);
 			}
 		}
-		throw new Exception(Excecoes.USUARIO_INEXISTENTE);
+		throw new DadosUsuarioException("Usuário inexistente");
 	}
 	
 	/**
@@ -425,17 +433,17 @@ public class Sistema {
 	 * @return
 	 * @throws Exception
 	 */
-	public String cadastrarCaronaMunicipal(String idSessao, String origem, String destino, String cidade, String data, String hora, String vagas) throws Exception{
+	public String cadastrarCaronaMunicipal(String idSessao, String origem, String destino, String cidade, String data, String hora, String vagas) throws DadosUsuarioException, SessaoIlegalException, DadosCaronaException{
 		 if (idSessao == null || idSessao.equals("")){
-			 throw new Exception(Excecoes.SESSAO_INVALIDA);
+			 throw new SessaoIlegalException("Sessão inválida");
 		 }
 		 
 		 if (buscaUsuario(idSessao) == null){
-			 throw new Exception(Excecoes.SESSAO_INEXISTENTE);
+			 throw new SessaoIlegalException("Sessão inexistente");
 		 }
 		 
 		 if(cidade == null || cidade.equals("")){
-			 throw new Exception(Excecoes.CIDADE_INEXISTENTE);
+			 throw new DadosCaronaException("Cidade inexistente");
 		 }
 			
 		 for(Usuario usuario : usuarios){
@@ -444,7 +452,7 @@ public class Sistema {
 			 }
 		 }
 		 
-		 throw new Exception(Excecoes.USUARIO_INEXISTENTE);
+		 throw new DadosUsuarioException("Usuário inexistente");
 	 }
 
 	/**
@@ -507,9 +515,9 @@ public class Sistema {
 	 * @throws Exception
 	 *             Caso o login seja vazio ou uma String nula
 	 */
-	public void encerrarSessao(String login) throws Exception {
+	public void encerrarSessao(String login) throws DadosUsuarioException {
 		if (login == null || login.equals("")) {
-			throw new Exception(Excecoes.LOGIN_INVALIDO);
+			throw new DadosUsuarioException("Login inválido");
 		}
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equals(login)) {
@@ -596,14 +604,14 @@ public class Sistema {
 	 *             Caso o id de solicitacao seja invalido
 	 * @throws Exception
 	 */
-	public void aceitarSolicitacao(String idSessao, String idSolicitacao) throws NumberFormatException, Exception {
+	public void aceitarSolicitacao(String idSessao, String idSolicitacao) throws NumberFormatException, SolicitacaoIlegalException, DadosCaronaException {
 		for(Usuario usuario : usuarios){
 			if(usuario.getID().equals(idSessao)){
 				if(!gerenciadorDeSolicitacoes.getSolicitacoesConfirmadas().matches(idSolicitacao)){
 					gerenciadorDeSolicitacoes.validaSolicitacao(idSolicitacao);
 				}
 				else{
-					throw new Exception(Excecoes.SOLICITACAO_INEXISTENTE);
+					throw new SolicitacaoIlegalException("Solicitação inexistente");
 				}
 			}
 		}
@@ -630,7 +638,7 @@ public class Sistema {
 	 *             Caso o sistema nao consiga ser reiniciado
 	 */
 	public void reiniciar() throws Exception {
-		usuarios = gerenciadorDeDadosEmXML.recuperaUsuarios();
+		usuarios = GerenciadorDeArquivos.recuperaUsuarios();
 	}
 
 	/**
@@ -724,7 +732,7 @@ public class Sistema {
 	 *             Caso haja erro na operacao
 	 */
 	public void encerrar() throws Exception {
-		gerenciadorDeDadosEmXML.salvaUsuariosXML(usuarios);
+		GerenciadorDeArquivos.salvaUsuariosXML(usuarios);
 	}
 
 	/**
@@ -797,7 +805,7 @@ public class Sistema {
 		return null;
 	}
 	
-	 public void reviewCarona(String idSessao, String idCarona, String review) throws Exception{
+	 public void reviewCarona(String idSessao, String idCarona, String review) throws DadosCaronaException{
 		 for(Usuario caroneiro : usuarios){
 			 if(caroneiro.getID().equals(idSessao)){
 				 for(Usuario usuario : usuarios){
@@ -811,11 +819,11 @@ public class Sistema {
 									 carona.getDono().setCaronasNaoFuncionaram();
 								 }
 								 else{
-									 throw new Exception(Excecoes.OPCAO_INVALIDA);
+									 throw new DadosCaronaException("Opção inválida.");
 								 }
 							 }
 							 else{
-								 throw new Exception(Excecoes.USUARIO_NAO_VAGA_CARONA);
+								 throw new DadosCaronaException("Usuário não possui vaga na carona.");
 							 }
 						 }
 					 }
@@ -824,17 +832,17 @@ public class Sistema {
 		 }
 	 }
 	 
-	 public String cadastrarInteresse (String idSessao, String origem, String destino, String data, String horaInicio, String horaFim) throws Exception{
+	 public String cadastrarInteresse (String idSessao, String origem, String destino, String data, String horaInicio, String horaFim) throws DadosCaronaException, DadosUsuarioException{
 		 if(origem == null 	|| !origem.matches("^[ a-zA-ZÁÂÃÀÇÉÊÍÓÔÕÚÜáâãàçéêíóôõúü0-9]*$")) {
-			 throw new Exception(Excecoes.ORIGEM_INVALIDA);
+			 throw new DadosCaronaException("Origem inválida");
 		 }
 		 
 		 if(destino == null || !destino	.matches("^[ a-zA-ZÁÂÃÀÇÉÊÍÓÔÕÚÜáâãàçéêíóôõúü0-9]*$")) {
-			 throw new Exception(Excecoes.DESTINO_INVALIDO);
+			 throw new DadosCaronaException("Destino inválido");
 		 }
 		 
 		 if(data == null){
-			 throw new Exception(Excecoes.DATA_INVALIDA);
+			 throw new DadosCaronaException("Data inválida");
 		 }
 		 
 		 for(Usuario usuario : usuarios){
@@ -850,7 +858,7 @@ public class Sistema {
 			 }
 		 }
 		 
-		 throw new Exception(Excecoes.USUARIO_INEXISTENTE);
+		 throw new DadosUsuarioException("Usuário inexistente");
 		 //TODO: Ainda incompleto. É preciso implementar o padrão observer, mas fiquei na dúvida como será feito. 
 	 }
 	 
@@ -860,9 +868,9 @@ public class Sistema {
 	  * @return
 	  * @throws Exception
 	  */
-	 public boolean checaIdInteresseValido(String idInteresse) throws Exception{
+	 public boolean checaIdInteresseValido(String idInteresse) throws DadosCaronaException{
 		 if(idInteresse == null || idInteresse.equals("")){
-			 throw new Exception(Excecoes.IDENTIFICADOR_INTERESSE_INVALIDO);
+			 throw new DadosCaronaException("Identificador de interesse é inválido");
 		 }
 		 
 		 if(interessesEmCaronas.containsKey(idInteresse)){
@@ -878,24 +886,24 @@ public class Sistema {
 	  * @return
 	  * @throws Exception
 	  */
-	 public String verificarMensagensPerfil(String idSessao) throws Exception{
+	 public String verificarMensagensPerfil(String idSessao) throws DadosUsuarioException{
 		 for(Usuario usuario : usuarios){
 			 if(usuario.getID().equals(idSessao)){
 				 return usuario.verificarMensagensPerfil();
 			 }
 		 }
 		 
-		 throw new Exception(Excecoes.USUARIO_INEXISTENTE);
+		 throw new DadosUsuarioException("Usuário inexistente");
 		//TODO: falta apenas checar se está OK após a implementação do método checarInteresse(...);
 	 }
 	 
-	 public String enviarEmail(String idSessao, String destino, String message) throws Exception{
+	 public String enviarEmail(String idSessao, String destino, String message) throws DadosUsuarioException{
 		 for(Usuario usuario : usuarios){
 			 if(usuario.getID().equals(idSessao)){
 				 return usuario.enviarEmail(usuario.getEmail(), destino, message);
 			 }
 		 }
 		 
-		 throw new Exception(Excecoes.USUARIO_INEXISTENTE);
+		 throw new DadosUsuarioException("Usuário inexistente");
 	 }
 }

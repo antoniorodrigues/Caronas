@@ -5,11 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import componentesdosistema.DadosUsuarioException;
+import componentesdosistema.PerfilDoUsuario;
+import componentesdosistema.Usuario;
 
-
-import excecoes.Excecoes;
-import funcionalidades.PerfilDoUsuario;
-import funcionalidades.Usuario;
 
 public class TestaUsuario {
 
@@ -40,47 +39,47 @@ public class TestaUsuario {
 	}
 	
 	@Test
-	public void TestaLoginInvalido() throws Exception{
+	public void TestaLoginInvalido() throws DadosUsuarioException{
 		try {
 			new Usuario(null,"1","usuario1","Campina Grande1","u1g@gmail.com");
 		} catch (Exception e) {
-			assertEquals(Excecoes.LOGIN_INVALIDO, e.getMessage());
+			assertEquals("Login inválido", e.getMessage());
 		}
 		
 		try {
 			new Usuario("", "123", "Fulano", "sem casa", "zeNinguem@bol.com");
 		} catch (Exception e) {
-			assertEquals(Excecoes.LOGIN_INVALIDO, e.getMessage());
+			assertEquals("Login inválido", e.getMessage());
 		}
 	}
 
 	@Test
-	public void TestaNomeInvalido() throws Exception{
+	public void TestaNomeInvalido() throws DadosUsuarioException{
 		try {
 			new Usuario("u1","1",null,"Campina Grande1","u1g@gmail.com");
 		} catch (Exception e) {
-			assertEquals(Excecoes.NOME_INVALIDO, e.getMessage());
+			assertEquals("Nome inválido", e.getMessage());
 		}
 		
 		try {
 			new Usuario("u1","1","","Campina Grande1","u1g@gmail.com");
 		} catch (Exception e) {
-			assertEquals(Excecoes.NOME_INVALIDO, e.getMessage());
+			assertEquals("Nome inválido", e.getMessage());
 		}
 	}
 
 	@Test
-	public void TestaEmailInvalido() throws Exception{
+	public void TestaEmailInvalido() throws DadosUsuarioException{
 		try {
 			new Usuario("u1","1","usuario1","Campina Grande1",null);
 		} catch (Exception e) {
-			assertEquals(Excecoes.EMAIL_INVALIDO, e.getMessage());
+			assertEquals("Email inválido", e.getMessage());
 		}
 		
 		try {
 			new Usuario("u1","1","usuario1","Campina Grande1","");
 		} catch (Exception e) {
-			assertEquals(Excecoes.EMAIL_INVALIDO, e.getMessage());
+			assertEquals("Email inválido", e.getMessage());
 		}
 	}
 	

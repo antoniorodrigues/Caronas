@@ -17,23 +17,24 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
 import org.w3c.dom.ls.LSInput;
 
-import funcionalidades.Carona;
-import funcionalidades.PerfilDoUsuario;
-import funcionalidades.Usuario;
+import componentesdosistema.Carona;
+import componentesdosistema.PerfilDoUsuario;
+import componentesdosistema.Usuario;
 
 
 
-public class GerenciaDadosEmXML {
-	private final String[] ATRIBUTOS_DE_PERFIL = {"nome", "endereco", "email", 
+
+public class GerenciadorDeArquivos {
+	private final static String[] ATRIBUTOS_DE_PERFIL = {"nome", "endereco", "email", 
 			"faltas em vagas de caronas", "historico de caronas",
 			"historico de vagas em caronas", "caronas seguras e tranquilas",
 			"caronas que não funcionaram", "presenças em vagas de caronas"};
 
-	private final String[] ATRIBUTOS_DA_CARONA = {"origem", "destino", "data", "hora", 
+	private final static String[] ATRIBUTOS_DA_CARONA = {"origem", "destino", "data", "hora", 
 			"vagas", "Ponto de Encontro", "Caroneiros"};
 
 
-	public List<Usuario> recuperaUsuarios() throws Exception{
+	public static List<Usuario> recuperaUsuarios() throws Exception{
 
 		Document doc = null;
 		SAXBuilder builder = new SAXBuilder();
@@ -76,7 +77,7 @@ public class GerenciaDadosEmXML {
 		return usuarios;
 	}
 	
-	public List<Carona> recuperaCaronas(List<Element> caronas) throws Exception{
+	public static List<Carona> recuperaCaronas(List<Element> caronas) throws Exception{
 		List<Carona> caronasRecuperadas = new ArrayList<Carona>();
 		Iterator<Element> iteraCaronas = caronas.iterator();
 		while (iteraCaronas.hasNext()){
@@ -101,7 +102,7 @@ public class GerenciaDadosEmXML {
 		
 	}
 
-	public void salvaUsuariosXML(List<Usuario> usuarios) throws Exception{
+	public static void salvaUsuariosXML(List<Usuario> usuarios) throws Exception{
 		int salvamentoID = 0;
 		Element usuariosCadastrados = new Element("UsuariosCadastrados");
 				
@@ -132,7 +133,7 @@ public class GerenciaDadosEmXML {
 
 	}
 
-	public Element salvaCaronasXML(List<Carona> caronas, String loginDoUsuario) throws Exception{
+	public static Element salvaCaronasXML(List<Carona> caronas, String loginDoUsuario) throws Exception{
 		int salvamentoID = 0;
 		Element caronasCadastradas = new Element("CaronasDoUsuario_"+loginDoUsuario);
 
@@ -152,10 +153,10 @@ public class GerenciaDadosEmXML {
 		return caronasCadastradas;
 	}
 
-	public void escreveNoArquivoXML(Document documento){
+	public static void escreveNoArquivoXML(Document documento){
 		try {
 
-			//Classe responsável para imprimir / gerar o XML
+			//Classe responsÃ¡vel para imprimir / gerar o XML
 			XMLOutputter xout = new XMLOutputter();
 
 			//Criando o arquivo de saida
@@ -168,4 +169,3 @@ public class GerenciaDadosEmXML {
 		}    
 	}
 }
-

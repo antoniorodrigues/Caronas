@@ -1,11 +1,9 @@
-package funcionalidades;
+package componentesdosistema;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import excecoes.Excecoes;
 
 
 /**
@@ -42,7 +40,7 @@ public class Carona {
 	 * @throws Exception
 	 *          Caso a origem e/ou o destino sejam nulos ou vazios, a data seja inferior a data atual, a hora não esteja no padrão HH:mm ou a quantidade de vagas seja nula ou não-numérica.
 	 */
-	public Carona(String origem, String destino, String data, String hora, 	String vagas) throws Exception {
+	public Carona(String origem, String destino, String data, String hora, 	String vagas) throws DadosCaronaException {
 		this.setOrigem(origem);
 		this.setDestino(destino);
 		this.setData(data);
@@ -70,7 +68,7 @@ public class Carona {
 	 * @throws Exception
 	 * 			Caso a origem e/ou o destino e/ou a cidade sejam nulos ou vazios, a data seja inferior a data atual, a hora não esteja no padrão HH:mm ou a quantidade de vagas seja nula ou não-numérica.
 	 */
-	public Carona(String origem, String destino, String cidade, String data, String hora, String vagas) throws Exception {
+	public Carona(String origem, String destino, String cidade, String data, String hora, String vagas) throws DadosCaronaException {
 		this(origem, destino, data, hora, vagas);
 		this.setCidade(cidade);
 	}
@@ -92,9 +90,9 @@ public class Carona {
 	 * @throws Exception
 	 *             Caso a data da carona seja anterior a data atual.
 	 */
-	public void setData(String data) throws Exception {
+	public void setData(String data) throws DadosCaronaException {
 		if (!verificaDataValida(data))
-			throw new Exception(Excecoes.DATA_INVALIDA);
+			throw new DadosCaronaException("Data inválida");
 
 		this.data = data;
 	}
@@ -161,9 +159,9 @@ public class Carona {
 	 * @throws Exception
 	 * 			Caso a hora da carona não esteja no padrão HH:mm.
 	 */
-	public void setHora(String hora) throws Exception {
+	public void setHora(String hora) throws DadosCaronaException {
 		if (!verificaHoraValida(hora))
-			throw new Exception(Excecoes.HORA_INVALIDA);
+			throw new DadosCaronaException("Hora inválida");
 		
 		this.hora = hora;
 	}
@@ -185,9 +183,9 @@ public class Carona {
 	 * @throws Exception
 	 * 			Caso o número de vagas da carona seja nulo ou não-numérico.
 	 */
-	public void setVagas(String vagas) throws Exception {
+	public void setVagas(String vagas) throws DadosCaronaException {
 		if (vagas == null || !vagas.matches("^[0-9]*$")) {
-			throw new Exception(Excecoes.VAGA_INVALIDA);
+			throw new DadosCaronaException("Vaga inválida");
 		}
 		
 		this.vagas = vagas;
@@ -210,9 +208,9 @@ public class Carona {
 	 * @throws Exception
 	 * 			Caso o local de origem da carona seja nulo ou vazio.
 	 */
-	public void setOrigem(String origem) throws Exception {
+	public void setOrigem(String origem) throws DadosCaronaException {
 		if (origem == null || origem.equals(""))
-			throw new Exception(Excecoes.ORIGEM_INVALIDA);
+			throw new DadosCaronaException("Origem inválida");
 		
 		this.origem = origem;
 	}
@@ -234,9 +232,9 @@ public class Carona {
 	 * @throws Exception
 	 *  		Caso o local de destino da carona seja nulo ou vazio.
 	 */
-	public void setDestino(String destino) throws Exception {
+	public void setDestino(String destino) throws DadosCaronaException {
 		if (destino == null || destino.equals(""))
-			throw new Exception(Excecoes.DESTINO_INVALIDO);
+			throw new DadosCaronaException("Destino inválido");
 
 		this.destino = destino;
 	}
@@ -259,7 +257,7 @@ public class Carona {
 	 * @throws Exception
 	 * 			Caso não exista o atributo solicitado.
 	 */
-	public String getAtributoCarona(String atributo) throws Exception {
+	public String getAtributoCarona(String atributo) throws AtributoIlegalException {
 		if(atributo.equals("origem")) {
 			return getOrigem();
 		}
@@ -285,7 +283,7 @@ public class Carona {
 			return isMunicipal();
 		}
 		else {
-			throw new Exception(Excecoes.ATRIBUTO_INEXISTENTE);
+			throw new AtributoIlegalException("Atributo inexistente");
 		}
 
 	}
@@ -372,7 +370,7 @@ public class Carona {
 	 * 			Quando o formato passado ao método como parâmetro é inválido
 	 * @throws Exception
 	 */
-	public void adicionaCaroneiro(String caroneiro, String pontoDeEncontro)throws NumberFormatException, Exception {
+	public void adicionaCaroneiro(String caroneiro, String pontoDeEncontro)throws NumberFormatException, DadosCaronaException {
 		setVagas(String.valueOf(Integer.parseInt(this.getVagas()) - 1));
 		setPontoDeEncontro(pontoDeEncontro);
 		caroneiros.add(caroneiro);

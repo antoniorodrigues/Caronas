@@ -5,12 +5,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import componentesdosistema.Carona;
+import componentesdosistema.DadosCaronaException;
+import componentesdosistema.SolicitacaoDeCarona;
+import componentesdosistema.SolicitacaoIlegalException;
+import componentesdosistema.SugestaoDePonto;
+import componentesdosistema.Usuario;
 
-import excecoes.Excecoes;
-import funcionalidades.Carona;
-import funcionalidades.SolicitacaoDeCarona;
-import funcionalidades.SugestaoDePonto;
-import funcionalidades.Usuario;
 
 public class GerenciadorDeSolicitacoes {
 	List<SugestaoDePonto> sugestoesDePontosDeEncontro;
@@ -26,7 +27,7 @@ public class GerenciadorDeSolicitacoes {
 		solicitacoesPendentes = new ArrayList<SolicitacaoDeCarona>();
 	}
 
-	public String sugerirPontoEncontro(Usuario usuarioLogado, Carona carona, String sugestoes) throws Exception{
+	public String sugerirPontoEncontro(Usuario usuarioLogado, Carona carona, String sugestoes) throws DadosCaronaException{
 		SugestaoDePonto novaSugestao = buscaSugestaoPorCarona(carona.getID());
 		List<String> novosPontos = Arrays.asList(sugestoes.split(";"));
 		
@@ -42,7 +43,7 @@ public class GerenciadorDeSolicitacoes {
 		}else{
 			for (String ponto: novosPontos){
 				if (!novaSugestao.getPontosSugeridos().contains(ponto)){
-					throw new Exception(Excecoes.PONTO_INVALIDO);
+					throw new DadosCaronaException("Ponto Inválido");
 				}
 
 			}
@@ -51,9 +52,9 @@ public class GerenciadorDeSolicitacoes {
 	}
 
 
-	public void responderSugestao(Carona carona, SugestaoDePonto sugestaoDePonto, String novosPontos) throws Exception {
+	public void responderSugestao(Carona carona, SugestaoDePonto sugestaoDePonto, String novosPontos) throws DadosCaronaException {
 		if (novosPontos.equals(""))
-			throw new Exception(Excecoes.PONTO_INVALIDO);
+			throw new DadosCaronaException("Ponto Inválido");
 
 		List<String> pontosDoDono = Arrays.asList(novosPontos.split(";"));
 		sugestaoDePonto.getPontosSugeridos().retainAll(pontosDoDono);
@@ -77,9 +78,9 @@ public class GerenciadorDeSolicitacoes {
 		return null;
 	}
 
-	public String solicitarVaga(Carona carona, String donoDaCarona, Usuario donoDaSolicitacao, String pontoDeEncontro) throws Exception {
+	public String solicitarVaga(Carona carona, String donoDaCarona, Usuario donoDaSolicitacao, String pontoDeEncontro) throws DadosCaronaException {
 		if (carona.getCaroneiros().contains(donoDaSolicitacao.getNome())){
-			throw new Exception(Excecoes.PONTO_INVALIDO);
+			throw new DadosCaronaException("Ponto Inválido");
 		}
 		
 		SolicitacaoDeCarona novaSolicitacao = new SolicitacaoDeCarona(carona, donoDaCarona, donoDaSolicitacao, pontoDeEncontro);
@@ -97,17 +98,17 @@ public class GerenciadorDeSolicitacoes {
 		return novaSolicitacao.getIdSolcitacao();
 	}
 
-	public SolicitacaoDeCarona buscaSolicitacao(String idSolicitacao) throws Exception{
+	public SolicitacaoDeCarona buscaSolicitacao(String idSolicitacao) throws SolicitacaoIlegalException{
 		for (SolicitacaoDeCarona solicitacao: todasSolicitacoes){
 			if (solicitacao.getIdSolcitacao().equals(idSolicitacao)){
 				return solicitacao;
 			}
 		}
 		
-		throw new Exception(Excecoes.SOLICITACAO_INEXISTENTE);
+		throw new SolicitacaoIlegalException("Solicitação inexistente");
 	}
 
-	public void validaSolicitacao(String idSolicitacao) throws NumberFormatException, Exception {
+	public void validaSolicitacao(String idSolicitacao) throws NumberFormatException, SolicitacaoIlegalException, DadosCaronaException {
 		SolicitacaoDeCarona solicitacao = buscaSolicitacao(idSolicitacao);
 		Carona carona = solicitacao.getCarona();
 		carona.adicionaCaroneiro(solicitacao.getDonoDaSolicitacao().getNome(), solicitacao.getPontoDeEncontro());
@@ -117,10 +118,10 @@ public class GerenciadorDeSolicitacoes {
 		solicitacoesPendentes.remove(solicitacao);
 	}
 
-	public void rejeitarSolicitacao(String idSessao, String idSolicitacao) throws Exception {
+	public void rejeitarSolicitacao(String idSessao, String idSolicitacao) throws DadosCaronaException, SolicitacaoIlegalException {
 		SolicitacaoDeCarona solicitacao = buscaSolicitacao(idSolicitacao);
 		if (solicitacao == null){
-			throw new Exception(Excecoes.PONTO_INVALIDO);
+			throw new DadosCaronaException("Ponto Inválido");
 		}
 		todasSolicitacoes.remove(solicitacao);
 
@@ -142,14 +143,14 @@ public class GerenciadorDeSolicitacoes {
 		return idsConfirmadas;
 	}
 	
-	public SolicitacaoDeCarona getSolicitacaoConfirmada(String idSolicitacao) throws Exception{
+	public SolicitacaoDeCarona getSolicitacaoConfirmada(String idSolicitacao) throws SolicitacaoIlegalException{
 		for(SolicitacaoDeCarona solicitacao : solicitacoesConfirmadas){
 			if(solicitacao.getIdSolcitacao().equals(idSolicitacao)){
 				return solicitacao;
 			}
 			
 		}
-		throw new Exception(Excecoes.SOLICITACAO_NAO_CONFIRMADA);
+		throw new SolicitacaoIlegalException("Solicitação não confirmada");
 	}
 	
 	public String getSolicitacoesPendentes(){

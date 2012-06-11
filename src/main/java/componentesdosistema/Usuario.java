@@ -1,4 +1,4 @@
-package funcionalidades;
+package componentesdosistema;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -6,14 +6,12 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
-import excecoes.Excecoes;
-
 /**
  * 
  * @author Antonio, Diego, Eduardo, Laercio, Rodolfo
  * 
  */
-public class Usuario {
+public class Usuario implements CaroneirosListener {
 
 	private String ID = "";
 	private String idInteresse;
@@ -36,7 +34,7 @@ public class Usuario {
 	 * @param email
 	 *            Email do Usuario
 	 */
-	public Usuario(String login, String senha, String nome, String endereco, String email) throws Exception {
+	public Usuario(String login, String senha, String nome, String endereco, String email) throws DadosUsuarioException {
 		perfil = new PerfilDoUsuario(login, senha, nome, endereco, email);
 		caronas = new ArrayList<Carona>();
 		emails = new TreeMap<String, String>();
@@ -61,7 +59,7 @@ public class Usuario {
 	 *             Quando algum dos atributos do método possuir uma entrada
 	 *             inválida
 	 */
-	public String cadastrarCarona(String origem, String destino, String data, String hora, String vagas) throws Exception {
+	public String cadastrarCarona(String origem, String destino, String data, String hora, String vagas) throws DadosCaronaException {
 		return cadastrarCaronaMunicipal(origem, destino, null, data, hora, vagas);
 	}
 	
@@ -76,7 +74,7 @@ public class Usuario {
 	 * @return
 	 * @throws Exception
 	 */
-	public String cadastrarCaronaMunicipal(String origem, String destino, String cidade, String data, String hora, String vagas) throws Exception{
+	public String cadastrarCaronaMunicipal(String origem, String destino, String cidade, String data, String hora, String vagas) throws DadosCaronaException{
 		Carona novaCarona = new Carona(origem, destino, cidade, data, hora, vagas);
 		novaCarona.setDono(this);
 		String caronaID = String.valueOf(Math.abs(new Random().nextInt()));
@@ -175,7 +173,7 @@ public class Usuario {
 	 *            Atributo solicitado no método
 	 * @return Login cadastrado no perfil do usuário
 	 */
-	public String getAtributo(String atributo) throws Exception {
+	public String getAtributo(String atributo) throws AtributoIlegalException {
 		return perfil.getAtributo(atributo);
 	}
 
@@ -188,9 +186,9 @@ public class Usuario {
 	 * @throws Exception
 	 *             Caso o login seja inválido
 	 */
-	public PerfilDoUsuario getPerfil(String login) throws Exception {
+	public PerfilDoUsuario getPerfil(String login) throws DadosUsuarioException {
 		if (!this.getLogin().equals(login))
-			throw new Exception(Excecoes.LOGIN_INVALIDO);
+			throw new DadosUsuarioException("Login inválido");
 		return perfil;
 	}
 
@@ -227,13 +225,13 @@ public class Usuario {
 	 * 				Caso o review não seja nem "faltou", nem "não faltou".
 	 * 			
 	 */
-	public void reviewVagaEmCarona(String idCarona, String loginCaroneiro, String review) throws Exception {
+	public void reviewVagaEmCarona(String idCarona, String loginCaroneiro, String review) throws DadosCaronaException {
 		if (review.equals("não dou mais carona")) {
-			throw new Exception(Excecoes.OPCAO_INVALIDA);
+			throw new DadosCaronaException("Opção inválida.");
 		}
 
 		if (review.equals("não funcionou")) {
-			throw new Exception(Excecoes.USUARIO_NAO_VAGA_CARONA);
+			throw new DadosCaronaException("Usuário não possui vaga na carona.");
 		}
 
 		for (Carona carona : caronas) {
@@ -319,6 +317,11 @@ public class Usuario {
 		}
 		
 		return todasMensagens + "]";
+	}
+
+	public void notificaCaronaPublicada() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
