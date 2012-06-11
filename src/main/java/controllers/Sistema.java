@@ -412,9 +412,10 @@ public class Sistema {
 		
 		if (buscaUsuario(idSessao) == null)
 			throw new SessaoIlegalException("Sessão inexistente");
-
+		
 		for (Usuario usuario : usuarios) {
 			if (usuario.getID().equals(idSessao)) {
+				checaInteresseNaCarona(origem, destino, data, hora, vagas);
 				return usuario.cadastrarCarona(origem, destino, data, hora, vagas);
 			}
 		}
@@ -448,12 +449,36 @@ public class Sistema {
 			
 		 for(Usuario usuario : usuarios){
 			 if(usuario.getID().equals(idSessao)){
+				 checaInteresseNaCarona(origem, destino, data, hora, vagas);
 				 return usuario.cadastrarCaronaMunicipal(origem, destino, cidade, data, hora, vagas);
 			 }
 		 }
 		 
 		 throw new DadosUsuarioException("Usuário inexistente");
 	 }
+	
+	public void checaInteresseNaCarona(String origem, String destino, String data, String hora, String vagas) throws DadosCaronaException{
+		for(String idInteressado: interessesEmCaronas.keySet()){
+			if(interessesEmCaronas.get(idInteressado).split(";")[0].equals(origem)){
+				if(interessesEmCaronas.get(idInteressado).split(";")[1].equals(destino)){
+					if(interessesEmCaronas.get(idInteressado).split(";")[2].equals(data) || interessesEmCaronas.get(idInteressado).split(";")[2].equals("")){
+						if(interessesEmCaronas.get(idInteressado).split(";")[3].equals(hora) || interessesEmCaronas.get(idInteressado).split(";")[4].equals(hora)){
+							notificaInteressados(idInteressado, new Carona(origem, destino, data, hora, vagas));
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public void notificaInteressados(String idInteressado, Carona carona){
+		for(Usuario usuario : usuarios){
+			if(usuario.getIdInteresse().equals(idInteressado)){
+				System.out.println(carona.getDono());
+				usuario.notificaCaronaPublicada(carona);
+			}
+		}
+	}
 
 	/**
 	 * Método que busca um usuário numa carona
@@ -851,15 +876,14 @@ public class Sistema {
 				 while(!checaIdInteresseValido(idInteresse)){
 					 idInteresse = String.valueOf(Math.abs(new Random().nextInt()));
 				 }
-				 String caronaInteresse = origem + ";" + destino + ";" + data + ";" + horaInicio + ";" + horaFim; 
+				 String caronaInteresse = origem + ";" + destino + ";" + data + ";" + horaInicio + ";" + horaFim;
 				 interessesEmCaronas.put(idInteresse, caronaInteresse);
 				 usuario.setIDInteresse(idInteresse);
 				 return idInteresse;
 			 }
 		 }
 		 
-		 throw new DadosUsuarioException("Usuário inexistente");
-		 //TODO: Ainda incompleto. É preciso implementar o padrão observer, mas fiquei na dúvida como será feito. 
+		 throw new DadosUsuarioException("Usuário inexistente"); 
 	 }
 	 
 	 /**
@@ -894,7 +918,6 @@ public class Sistema {
 		 }
 		 
 		 throw new DadosUsuarioException("Usuário inexistente");
-		//TODO: falta apenas checar se está OK após a implementação do método checarInteresse(...);
 	 }
 	 
 	 public String enviarEmail(String idSessao, String destino, String message) throws DadosUsuarioException{

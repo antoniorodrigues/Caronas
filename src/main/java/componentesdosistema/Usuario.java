@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
+import controllers.Sistema;
+
 /**
  * 
  * @author Antonio, Diego, Eduardo, Laercio, Rodolfo
@@ -319,9 +321,9 @@ public class Usuario implements CaroneirosListener {
 		return todasMensagens + "]";
 	}
 
-	public void notificaCaronaPublicada() {
-		// TODO Auto-generated method stub
-		
+	public void notificaCaronaPublicada(Carona carona) {
+		String mensagem = "Carona cadastrada no dia " +  carona.getData() + ", às " + carona.getHora() + "de acordo com os seus interesses registrados. Entrar em contato com " + carona.getDono().getEmail();
+		this.mensagens.add(mensagem);
 	}
 	
 }

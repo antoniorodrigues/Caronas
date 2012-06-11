@@ -423,22 +423,6 @@ public class Carona {
 		return caroneiros;
 	}
 
-//	/**
-//	 * Retorna uma String contendo uma lista de caroneiros(integrantes) da carona
-//	 * 
-//	 * @return Uma String contendo uma lista de caroneiros (integrantes) da
-//	 *         carona
-//	 */
-//	public String getSrtingCaroneiros() {
-//		String caroneiros = "";
-//
-//		for (String usuario : getCaroneiros()) {
-//			caroneiros += usuario;
-//		}
-//		
-//		return caroneiros;
-//	}
-
 	/**
 	 * Representação textual de uma carona, contendo origem, destino, data e hora.
 	 */
