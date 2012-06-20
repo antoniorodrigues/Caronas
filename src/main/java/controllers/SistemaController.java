@@ -1,6 +1,10 @@
 package controllers;
 
+import java.util.List;
+
 import componentesdosistema.PerfilDoUsuario;
+import componentesdosistema.Carona;
+import componentesdosistema.Usuario;
 
 
 
@@ -23,7 +27,9 @@ public class SistemaController {
 	public String getAtributoUsuario(String login, String atributo) throws Exception {
 		return sistema.getAtributoUsuario(login, atributo);
 	}
-
+	public List<Usuario> getUsuarios(){
+		return sistema.getUsuarios();
+	}
 	public String getAtributoPerfil(String login, String atributo)	throws Exception {
 		return sistema.getAtributoUsuario(login, atributo);
 	}
@@ -35,7 +41,11 @@ public class SistemaController {
 	public String localizarCarona(String idSessao, String origem, String destino) throws Exception {
 		return sistema.localizarCarona(idSessao, origem, destino);
 	}
-
+	
+	public List<Carona> localizarCarona(String origem, String destino)throws Exception {
+		return sistema.localizarCarona(origem, destino);
+	}
+	
 	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, String vagas) throws Exception {
 		return sistema.cadastrarCarona(idSessao, origem, destino, data, hora, vagas);
 	}

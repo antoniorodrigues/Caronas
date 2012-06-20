@@ -303,7 +303,8 @@ public class Sistema {
 	 * @throws Exception
 	 *             Caso a origem ou o destino sejam inválidos
 	 */
-	public String localizarCarona(String idSessao, String origem, String destino)throws DadosCaronaException {
+	public String localizarCarona(String idSessao, String origem, String destino)
+			throws Exception {
 		if (origem == null 	|| !origem.matches("^[ a-zA-ZÁÂÃÀÇÉÊÍÓÔÕÚÜáâãàçéêíóôõúü0-9]*$")) {
 			throw new DadosCaronaException("Origem inválida");
 		}
@@ -312,27 +313,32 @@ public class Sistema {
 		}
 		
 		String todasCaronas = "{";
-		for (Usuario usuario : usuarios) {
-			if (usuario.getID().equals(idSessao)) {
-				for(Usuario outro_usuario : usuarios){
-					for (Carona carona : outro_usuario.getCaronas()) {
-						if (origem.equals("") && destino.equals("")) {
-							todasCaronas += carona.getID() + ",";
-						}
-						else if (carona.getOrigem().equals(origem) && destino.equals("")) {
-							todasCaronas += carona.getID() + ",";
-						}
-						else if (origem.equals("") 	&& carona.getDestino().equals(destino)) {
-							todasCaronas += carona.getID() + ",";
-						}
-						else if (carona.getOrigem().equals(origem) 	&& carona.getDestino().equals(destino)) {
-							todasCaronas += carona.getID() + ",";
-						}
-					}
-				}
-			}
+		for(Carona carona: localizarCarona(origem, destino)){
+			todasCaronas += carona.getID() + ",";
+	
 		}
 		return (todasCaronas + "}").replace(",}", "}");
+	}
+
+	public List<Carona> localizarCarona(String origem, String destino)throws Exception {
+		List<Carona> caronasEncontradas = new ArrayList<Carona>();
+		for (Usuario usuario : usuarios) {
+			for (Carona carona : usuario.getCaronas()) {
+			if (origem.equals("") && destino.equals("")) {
+				caronasEncontradas.add(carona);
+			} else if (carona.getOrigem().equals(origem)
+					&& destino.equals("")) {
+				caronasEncontradas.add(carona);
+			} else if (origem.equals("")
+					&& carona.getDestino().equals(destino)) {
+				caronasEncontradas.add(carona);
+			} else if (carona.getOrigem().equals(origem)
+					&& carona.getDestino().equals(destino)) {
+				caronasEncontradas.add(carona);
+			}
+			}
+		}
+		return caronasEncontradas;
 	}
 	
 	/**
@@ -929,4 +935,7 @@ public class Sistema {
 		 
 		 throw new DadosUsuarioException("Usuário inexistente");
 	 }
+	 public List<Usuario> getUsuarios() {
+			return usuarios;
+		}
 }
