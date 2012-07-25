@@ -1,7 +1,13 @@
 package componentesdosistema;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
 
 
@@ -10,19 +16,46 @@ import java.util.List;
  * @author Antonio, Diego, Eduardo, Laercio, Rodolfo
  * 
  */
-public class PerfilDoUsuario {
 
-	private String login, senha, nome, endereco, email;
+@SuppressWarnings("serial")
+@PersistenceCapable 
+public class PerfilDoUsuario implements Serializable{
+	@PrimaryKey
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	private String key;
+	
+	@Persistent
+	private String login;
+	@Persistent
+	private String senha;
+	@Persistent
+	private String nome;
+	@Persistent
+	private String endereco;
+	@Persistent
+	private String email;
+
+	@Persistent
 	private List<String> historicoCaronas;
+
+	@Persistent
 	private List<Carona> historicoVagas;
-	private int faltasEmCaronas, presencaEmCaronas, caronasNaoFuncionaram,
-			caronasSeguras;
+	
+
+	@Persistent
+	private int faltasEmCaronas;
+	@Persistent
+	private int presencaEmCaronas;
+	@Persistent
+	private int caronasNaoFuncionaram;
+	@Persistent
+	private int	caronasSeguras;
 
 	/**
 	 * Construtor da classe Perfil do Usuario
 	 * 
 	 * @param login
-	 *            Login do usuário
+	 *            Login do usu�rio
 	 * @param login
 	 *            Login do Usuario.
 	 * @param senha
@@ -50,16 +83,16 @@ public class PerfilDoUsuario {
 	}
 
 	/**
-	 * Metodo que retorna as caronas não realizadas
+	 * Metodo que retorna as caronas n�o realizadas
 	 * 
-	 * @return Caronas não realizadas
+	 * @return Caronas n�o realizadas
 	 */
 	public String getCaronasNaoFuncionaram() {
 		return caronasNaoFuncionaram + "";
 	}
 
 	/**
-	 * Metodo que incrementa o numero de caronas não realizadas
+	 * Metodo que incrementa o numero de caronas n�o realizadas
 	 */
 	public void setCaronasNaoFuncionaram() {
 		this.caronasNaoFuncionaram += 1;
@@ -99,7 +132,7 @@ public class PerfilDoUsuario {
 	 */
 	public void setNome(String nome) throws DadosUsuarioException {
 		if (nome == null || nome.equals("")) {
-			throw new DadosUsuarioException("Nome inválido");
+			throw new DadosUsuarioException("Nome inv�lido");
 		}
 
 		this.nome = nome;
@@ -115,7 +148,7 @@ public class PerfilDoUsuario {
 	}
 
 	/**
-	 * Metodo que modifica o número de presenças na carona, incrementando em um
+	 * Metodo que modifica o n�mero de presen�as na carona, incrementando em um
 	 */
 	public void setPresencaCaronas() {
 		this.presencaEmCaronas += 1;
@@ -158,7 +191,7 @@ public class PerfilDoUsuario {
 	 */
 	public void setEmail(String email) throws DadosUsuarioException {
 		if (email == null || email.equals("")) {
-			throw new DadosUsuarioException("Email inválido");
+			throw new DadosUsuarioException("Email inv�lido");
 		}
 		this.email = email;
 	}
@@ -182,7 +215,7 @@ public class PerfilDoUsuario {
 	 */
 	public void setSenha(String senha) throws DadosUsuarioException {
 		if(senha == null || senha.equals("")){ 
-			throw new DadosUsuarioException("Senha inválida");
+			throw new DadosUsuarioException("Senha inv�lida");
 		}
 		
 		this.senha = senha;
@@ -207,7 +240,7 @@ public class PerfilDoUsuario {
 	 */
 	public void setLogin(String login) throws DadosUsuarioException {
 		if (login == null || login.equals("")) {
-			throw new DadosUsuarioException("Login inválido");
+			throw new DadosUsuarioException("Login inv�lido");
 		}
 
 		this.login = login;
@@ -241,7 +274,7 @@ public class PerfilDoUsuario {
 	 */
 	public void setEndereco(String endereco) throws DadosUsuarioException {
 		if (endereco == null || endereco.equals("")) {
-			throw new DadosUsuarioException("Endereço inválido");
+			throw new DadosUsuarioException("Endere�o inv�lido");
 		}
 		this.endereco = endereco;
 	}
@@ -304,7 +337,7 @@ public class PerfilDoUsuario {
 	 *            Atributo a ser retornado
 	 * @return Atributo de escolha do usuario do sistema
 	 * @throws Exception
-	 *             Caso o atributo não exista
+	 *             Caso o atributo n�o exista
 	 */
 	public String getAtributo(String atributo) throws AtributoIlegalException {
 		if (atributo.equals("nome")) {
@@ -328,13 +361,13 @@ public class PerfilDoUsuario {
 		else if (atributo.equals("caronas seguras e tranquilas")) {
 			return this.getCaronasSeguras();
 		}
-		else if (atributo.equals("caronas que não funcionaram")) {
+		else if (atributo.equals("caronas que n�o funcionaram")) {
 			return this.getCaronasNaoFuncionaram();
 		}
 		else if (atributo.equals("faltas em vagas de caronas")) {
 			return this.getFaltaCaronas();
 		}
-		else if (atributo.equals("presenças em vagas de caronas")) {
+		else if (atributo.equals("presen�as em vagas de caronas")) {
 			return this.getPresencaCaronas();
 		} 
 		else {
@@ -356,9 +389,23 @@ public class PerfilDoUsuario {
 	 * Metodo que adiciona uma vaga na carona
 	 * 
 	 * @param carona
-	 *            Carona em qe será adicionada uma vaga
+	 *            Carona em qe ser� adicionada uma vaga
 	 */
 	public void adicionaVaga(Carona carona) {
 		historicoVagas.add(carona);
+	}
+
+	/**
+	 * @return the key
+	 */
+	public String getKey() {
+		return key;
+	}
+
+	/**
+	 * @param key the key to set
+	 */
+	public void setKey(String key) {
+		this.key = key;
 	}
 }

@@ -1,9 +1,17 @@
 package componentesdosistema;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
+import com.google.gwt.i18n.client.DateTimeFormat;
 
 
 /**
@@ -11,17 +19,35 @@ import java.util.List;
  * @author Antonio, Diego, Eduardo, Laercio, Rodolfo
  * 
  */
-public class Carona {
+@PersistenceCapable  
+public class Carona implements Serializable{
+	@PrimaryKey
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	private String key;
+
+	@PrimaryKey
 	private String origem;
+	@PrimaryKey
 	private String destino;
+	@PrimaryKey
 	private String cidade;
+	@PrimaryKey
 	private String data;
+	@PrimaryKey
+	private String estado;
+	@PrimaryKey
 	private String hora;
+	@PrimaryKey
 	private String vagas;
+	@PrimaryKey
 	private String ID;
+	@PrimaryKey
 	private Usuario dono;
+	@PrimaryKey
 	private List<Usuario> todosCaroneiros;
+	@PrimaryKey
 	private List<String> caroneiros; // passageiros dessa carona
+	@PrimaryKey
 	private String pontoDeEncontro;
 
 	/**
@@ -48,6 +74,14 @@ public class Carona {
 		this.setVagas(vagas);
 		this.caroneiros = new ArrayList<String>();
 		this.todosCaroneiros = new ArrayList<Usuario>();
+	}
+	public Carona(){};
+	
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
 	}
 	
 	/**
@@ -110,25 +144,24 @@ public class Carona {
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		format.setLenient(false);
 		try {
-			Date novaData = format.parse(data);
-			
-			if(novaData.before(new Date())){
+			Date minhaData = format.parse(data);
+
+			if (minhaData.before(new Date()))
 				dataValida = false;
-			}
 		} catch (Exception ex) {
 			dataValida = false;
 		}
-		
 		return dataValida;
 
 	}
 
 	/**
-	 * Verifica se a hora da carona está no padrão HH:mm.
+	 * Método que verifica se a hora da carona é ou não uma hora válida no
+	 * sistema.
 	 * 
 	 * @param hora
-	 *            A hora da carona.
-	 * @return True, se a hora estiver no padrão HH:mm, False caso contrário.
+	 *            Hora da carona
+	 * @return True, se a hora for válida False, se a hora não for válida
 	 */
 	private boolean verificaHoraValida(String hora) {
 		boolean horaValida = (hora != null && !hora.equals(""));
@@ -141,6 +174,7 @@ public class Carona {
 		}
 		return horaValida;
 	}
+
 
 	/**
 	 * Retorna a hora da carona.

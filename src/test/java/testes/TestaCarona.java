@@ -5,7 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import controllers.Sistema;
+import sistema.Sistema;
+
 
 
 public class TestaCarona {

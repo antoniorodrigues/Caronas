@@ -15,7 +15,6 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
-import org.w3c.dom.ls.LSInput;
 
 import componentesdosistema.Carona;
 import componentesdosistema.PerfilDoUsuario;
@@ -52,6 +51,7 @@ public class GerenciadorDeArquivos {
 
 		for (Element usuario: listaUsuarios ){
 
+			@SuppressWarnings("unused")
 			String idSessao = usuario.getAttributeValue("id");
 			String login = usuario.getAttributeValue("login");
 			String senha = usuario.getAttributeValue("senha");

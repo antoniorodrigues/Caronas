@@ -1,25 +1,41 @@
 package componentesdosistema;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
-import controllers.Sistema;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
 /**
  * 
  * @author Antonio, Diego, Eduardo, Laercio, Rodolfo
  * 
  */
-public class Usuario implements CaroneirosListener {
 
+@SuppressWarnings("serial")
+@PersistenceCapable   
+public class Usuario implements Serializable{
+	@PrimaryKey
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	private String key;
+	
+	@Persistent
 	private String ID = "";
+	@Persistent
 	private String idInteresse;
+	@Persistent
 	private PerfilDoUsuario perfil;
+	@Persistent
 	private List<Carona> caronas;
+	@Persistent
 	private Map<String, String> emails;
+	@Persistent
 	private List<String> mensagens;
 
 	/**
@@ -42,9 +58,18 @@ public class Usuario implements CaroneirosListener {
 		emails = new TreeMap<String, String>();
 		mensagens = new ArrayList<String>();
 	}
+	public Usuario(){
+		
+	}
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
+	}
 
 	/**
-	 * Método que cadastra uma nova carona criada pelo Usuario
+	 * M�todo que cadastra uma nova carona criada pelo Usuario
 	 * 
 	 * @param origem
 	 *            Lugar de saida da Carona
@@ -58,8 +83,8 @@ public class Usuario implements CaroneirosListener {
 	 *            Quantidade de vagas da Carona
 	 * @return Um identificador (id) da carona
 	 * @throws Exception
-	 *             Quando algum dos atributos do método possuir uma entrada
-	 *             inválida
+	 *             Quando algum dos atributos do m�todo possuir uma entrada
+	 *             inv�lida
 	 */
 	public String cadastrarCarona(String origem, String destino, String data, String hora, String vagas) throws DadosCaronaException {
 		return cadastrarCaronaMunicipal(origem, destino, null, data, hora, vagas);
@@ -87,64 +112,64 @@ public class Usuario implements CaroneirosListener {
 	}
 
 	/**
-	 * Método que retorna o identificador (id) do usuário
+	 * M�todo que retorna o identificador (id) do usu�rio
 	 * 
-	 * @return Identificador (id) do usuário
+	 * @return Identificador (id) do usu�rio
 	 */
 	public String getID() {
 		return this.ID;
 	}
 
 	/**
-	 * Método que muda o identificador (id) do Usuario
+	 * M�todo que muda o identificador (id) do Usuario
 	 * 
 	 * @param iD
-	 *            Novo valor para o identificador (iD) do usuário
+	 *            Novo valor para o identificador (iD) do usu�rio
 	 */
 	public void setID(String iD) {
 		this.ID = iD;
 	}
 
 	/**
-	 * Método que retorna o login do usuário
+	 * M�todo que retorna o login do usu�rio
 	 * 
-	 * @return Login do usuário
+	 * @return Login do usu�rio
 	 */
 	public String getLogin() {
 		return perfil.getLogin();
 	}
 
 	/**
-	 * Método que retorna a senha do usuário
+	 * M�todo que retorna a senha do usu�rio
 	 * 
-	 * @return Senha do usuário
+	 * @return Senha do usu�rio
 	 */
 	public String getSenha() {
 		return perfil.getSenha();
 	}
 
 	/**
-	 * Método que retorna o nome do usuário
+	 * M�todo que retorna o nome do usu�rio
 	 * 
-	 * @return Nome do usuário
+	 * @return Nome do usu�rio
 	 */
 	public String getNome() {
 		return perfil.getNome();
 	}
 
 	/**
-	 * Método que retorna uma lista de caronas pertecentes ao usuário
+	 * M�todo que retorna uma lista de caronas pertecentes ao usu�rio
 	 * 
-	 * @return Lista de caronas pertecentes ao usuário
+	 * @return Lista de caronas pertecentes ao usu�rio
 	 */
 	public List<Carona> getCaronas() {
 		return caronas;
 	}
 
 	/**
-	 * Método que retorna o email do usuário
+	 * M�todo que retorna o email do usu�rio
 	 * 
-	 * @return Email do usuário
+	 * @return Email do usu�rio
 	 */
 	public String getEmail() {
 		return perfil.getEmail();
@@ -167,35 +192,35 @@ public class Usuario implements CaroneirosListener {
 	}
 
 	/**
-	 * Método que retorna o atributo login do usuário
+	 * M�todo que retorna o atributo login do usu�rio
 	 * 
 	 * @param login
 	 *            Login do usuario
 	 * @param atributo
-	 *            Atributo solicitado no método
-	 * @return Login cadastrado no perfil do usuário
+	 *            Atributo solicitado no m�todo
+	 * @return Login cadastrado no perfil do usu�rio
 	 */
 	public String getAtributo(String atributo) throws AtributoIlegalException {
 		return perfil.getAtributo(atributo);
 	}
 
 	/**
-	 * Método que retorna o perfil do usiario, através de seu login
+	 * M�todo que retorna o perfil do usiario, atrav�s de seu login
 	 * 
 	 * @param login
-	 *            Login do usuário
-	 * @return Perfil do usuário
+	 *            Login do usu�rio
+	 * @return Perfil do usu�rio
 	 * @throws Exception
-	 *             Caso o login seja inválido
+	 *             Caso o login seja inv�lido
 	 */
 	public PerfilDoUsuario getPerfil(String login) throws DadosUsuarioException {
 		if (!this.getLogin().equals(login))
-			throw new DadosUsuarioException("Login inválido");
+			throw new DadosUsuarioException("Login inv�lido");
 		return perfil;
 	}
 
 	/**
-	 * Método que adiciona uma nova carona
+	 * M�todo que adiciona uma nova carona
 	 * 
 	 * @param novaCarona
 	 *            Nova carona a ser adicionada
@@ -205,10 +230,10 @@ public class Usuario implements CaroneirosListener {
 	}
 
 	/**
-	 * Método que muda o histórico de vagas
+	 * M�todo que muda o hist�rico de vagas
 	 * 
 	 * @param carona
-	 *            Carona que irá adicionar uma vaga
+	 *            Carona que ir� adicionar uma vaga
 	 */
 	public void setHistoricoEmVagas(Carona carona) {
 		perfil.adicionaVaga(carona);
@@ -220,20 +245,20 @@ public class Usuario implements CaroneirosListener {
 	 * @param idCarona
 	 * 				O identificador de uma determinada carona
 	 * @param loginCaroneiro
-	 * 				O login de quem está pedindo para fazer parte desta carona
+	 * 				O login de quem est� pedindo para fazer parte desta carona
 	 * @param review
-	 * 				O review do dono da carona, que pode ser faltou, não faltou etc.
+	 * 				O review do dono da carona, que pode ser faltou, n�o faltou etc.
 	 * @throws Exception
-	 * 				Caso o review não seja nem "faltou", nem "não faltou".
+	 * 				Caso o review n�o seja nem "faltou", nem "n�o faltou".
 	 * 			
 	 */
 	public void reviewVagaEmCarona(String idCarona, String loginCaroneiro, String review) throws DadosCaronaException {
-		if (review.equals("não dou mais carona")) {
-			throw new DadosCaronaException("Opção inválida.");
+		if (review.equals("n�o dou mais carona")) {
+			throw new DadosCaronaException("Op��o inv�lida.");
 		}
 
-		if (review.equals("não funcionou")) {
-			throw new DadosCaronaException("Usuário não possui vaga na carona.");
+		if (review.equals("n�o funcionou")) {
+			throw new DadosCaronaException("Usu�rio n�o possui vaga na carona.");
 		}
 
 		for (Carona carona : caronas) {
@@ -243,7 +268,7 @@ public class Usuario implements CaroneirosListener {
 						if (review.equals("faltou")) {
 							caroneiro.setFaltasEmCaronas();
 						}
-						else if (review.equals("não faltou")) {
+						else if (review.equals("n�o faltou")) {
 							caroneiro.setPresencasEmCaronas();
 						}
 					}
@@ -253,14 +278,14 @@ public class Usuario implements CaroneirosListener {
 	}
 
 	/**
-	 * Método que muda o número de faltas em caronas
+	 * M�todo que muda o n�mero de faltas em caronas
 	 */
 	public void setFaltasEmCaronas() {
 		perfil.setFaltaCaronas();
 	}
 
 	/**
-	 * Método que muda o número de presenças em caronas
+	 * M�todo que muda o n�mero de presen�as em caronas
 	 */
 	public void setPresencasEmCaronas() {
 		perfil.setPresencaCaronas();
@@ -322,7 +347,7 @@ public class Usuario implements CaroneirosListener {
 	}
 
 	public void notificaCaronaPublicada(Carona carona) {
-		String mensagem = "Carona cadastrada no dia " +  carona.getData() + ", às " + carona.getHora() + "de acordo com os seus interesses registrados. Entrar em contato com " + carona.getDono().getEmail();
+		String mensagem = "Carona cadastrada no dia " +  carona.getData() + ", �s " + carona.getHora() + "de acordo com os seus interesses registrados. Entrar em contato com " + carona.getDono().getEmail();
 		this.mensagens.add(mensagem);
 	}
 	

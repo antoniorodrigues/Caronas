@@ -7,43 +7,43 @@ package componentesdosistema;
  */
 public class SolicitacaoDeCarona {
 	private Carona carona;
-	private String donoDaCarona;
+	private Usuario donoDaCarona;
 	private Usuario donoDaSolicitacao;
 	private String pontoDeEncontro;
 	private String idSolcitacao;
 
 	/**
-	 * Consrutor da classe Solicitação de Caronas
+	 * Consrutor da classe Solicita��o de Caronas
 	 * 
 	 * @param carona
 	 *            Carona a ser solicitada
 	 * @param donoDaCarona
 	 *            Dono da carona a ser solicitada
 	 * @param donoDasolicitacao
-	 *            Dono da solicitação de uma carona (futuro possível caroneiro)
+	 *            Dono da solicita��o de uma carona (futuro poss�vel caroneiro)
 	 * @param pontoDeEncontro
 	 *            Ponto de encontro entre caroneiros e dono da carona
 	 */
-	public SolicitacaoDeCarona(Carona carona, String donoDaCarona, Usuario donoDasolicitacao, String pontoDeEncontro) {
+	public SolicitacaoDeCarona(Carona carona, Usuario donoDasolicitacao, String pontoDeEncontro) {
 
 		this.setCarona(carona);
-		this.setDonoDaCarona(donoDaCarona);
+		this.setDonoDaCarona(carona.getDono());
 		this.setDonoDaSolicitacao(donoDasolicitacao);
 		this.setPontoDeEncontro(pontoDeEncontro);
 	}
 
 	/**
-	 * Método que solicita uma carona
+	 * M�todo que solicita uma carona
 	 * 
 	 * @param carona
 	 *            Carona a ser solicitada
 	 * @param donoDaCarona
 	 *            Dono da carona a ser solicitada
 	 * @param donoDasolicitacao
-	 *            Dono da solicitação de uma carona (futuro possível caroneiro)
+	 *            Dono da solicita��o de uma carona (futuro poss�vel caroneiro)
 	 */
-	public SolicitacaoDeCarona(Carona carona, String donoDaCarona, Usuario donoDasolicitacao) {
-		this(carona, donoDaCarona, donoDasolicitacao, "");
+	public SolicitacaoDeCarona(Carona carona, Usuario donoDasolicitacao) {
+		this(carona, donoDasolicitacao, "");
 	}
 
 	public String getAtributo(String idSolicitacao, String atributo) {
@@ -53,7 +53,7 @@ public class SolicitacaoDeCarona {
 		} else if (atributo.equals("destino")) {
 			atributoSolicitado = carona.getDestino();
 		} else if (atributo.equals("Dono da carona")) {
-			atributoSolicitado = this.getDonoDaCarona();
+			atributoSolicitado = this.getDonoDaCarona().getNome();
 		} else if (atributo.equals("Dono da solicitacao")) {
 			atributoSolicitado = getDonoDaSolicitacao().getNome();
 		} else if (atributo.equals("Ponto de Encontro")) {
@@ -64,45 +64,45 @@ public class SolicitacaoDeCarona {
 	}
 
 	/**
-	 * Método que retorna o dono da carona
+	 * M�todo que retorna o dono da carona
 	 * 
 	 * @return Dono da carona
 	 */
-	public String getDonoDaCarona() {
+	public Usuario getDonoDaCarona() {
 		return donoDaCarona;
 	}
 
 	/**
-	 * Método que modifica o dono da carona
+	 * M�todo que modifica o dono da carona
 	 * 
 	 * @param donoDaCarona
 	 *            Dono da carona
 	 */
-	public void setDonoDaCarona(String donoDaCarona) {
+	public void setDonoDaCarona(Usuario donoDaCarona) {
 		this.donoDaCarona = donoDaCarona;
 	}
 
 	/**
-	 * Método a identificação (id) da solicitação da carona
+	 * M�todo a identifica��o (id) da solicita��o da carona
 	 * 
-	 * @return Identificação da solicitação da carona
+	 * @return Identifica��o da solicita��o da carona
 	 */
 	public String getIdSolcitacao() {
 		return idSolcitacao;
 	}
 
 	/**
-	 * Método que modifica a identificação (id) da solicitação da carona
+	 * M�todo que modifica a identifica��o (id) da solicita��o da carona
 	 * 
 	 * @param idSolicitacao
-	 *            Solicitação da carona
+	 *            Solicita��o da carona
 	 */
 	public void setIdSolcitacao(String idSolcitacao) {
 		this.idSolcitacao = idSolcitacao;
 	}
 
 	/**
-	 * Método que retorna o ponto de encontro da carona
+	 * M�todo que retorna o ponto de encontro da carona
 	 * 
 	 * @return Ponto de encontro da carona
 	 */
@@ -111,7 +111,7 @@ public class SolicitacaoDeCarona {
 	}
 
 	/**
-	 * Método que modifica o ponto de encontro da carona
+	 * M�todo que modifica o ponto de encontro da carona
 	 * 
 	 * @param pontoDeEncontro
 	 *            Ponto de encontro da carona
@@ -121,7 +121,7 @@ public class SolicitacaoDeCarona {
 	}
 
 	/**
-	 * Método que retorna a carona
+	 * M�todo que retorna a carona
 	 * 
 	 * @return Carona
 	 */
@@ -130,7 +130,7 @@ public class SolicitacaoDeCarona {
 	}
 
 	/**
-	 * Método que modifica a carona
+	 * M�todo que modifica a carona
 	 * 
 	 * @param carona
 	 *            Nova carona
@@ -140,20 +140,20 @@ public class SolicitacaoDeCarona {
 	}
 
 	/**
-	 * Método que retorna o dono da solicitação de uma carona (futuro possível
+	 * M�todo que retorna o dono da solicita��o de uma carona (futuro poss�vel
 	 * caroneiro)
 	 * 
-	 * @return Dono da solicitação de uma carona (futuro possível caroneiro)
+	 * @return Dono da solicita��o de uma carona (futuro poss�vel caroneiro)
 	 */
 	public Usuario getDonoDaSolicitacao() {
 		return donoDaSolicitacao;
 	}
 
 	/**
-	 * Método que modifica quem solicita a carona
+	 * M�todo que modifica quem solicita a carona
 	 * 
 	 * @param donoDaSolicitacao
-	 *            Dono da solicitação de uma carona
+	 *            Dono da solicita��o de uma carona
 	 */
 	public void setDonoDaSolicitacao(Usuario donoDaSolicitacao) {
 		this.donoDaSolicitacao = donoDaSolicitacao;

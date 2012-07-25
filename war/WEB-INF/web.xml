@@ -6,8 +6,22 @@
 <web-app>
 
 	<!-- Default page to serve -->
+	
 	<welcome-file-list>
-		<welcome-file>ImageViewer.html</welcome-file>
+		<welcome-file>ParceirosDaEstrada.html</welcome-file>
 	</welcome-file-list>
+	
+	 <!-- Servlets -->
+	 <servlet>
+        <servlet-name>parceirosDaEstradaService</servlet-name>
+        <servlet-class>parceirosDaEstrada.web.server.ParceirosDaEstradaServerImpl</servlet-class>
+    </servlet>
+	
+    <servlet-mapping>
+        <servlet-name>parceirosDaEstradaService</servlet-name>
+        <url-pattern>/parceirosDaEstrada.web.ImageViewer/parceirosService</url-pattern>
+    </servlet-mapping>    
+    
+  <inherits name="com.google.gwt.http.HTTP" />
 
 </web-app>

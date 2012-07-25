@@ -7,7 +7,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import controllers.SistemaController;
+import sistema.SistemaController;
+
 import easyaccept.EasyAcceptFacade;
 
 

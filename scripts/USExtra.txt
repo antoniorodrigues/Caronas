@@ -1,0 +1,107 @@
+#User Story Extra - Recomendacao de Caronas
+
+#USExtra - Gera recomendacoes de Caronas para um usuario.  Este processo envolve os seguintes passos:
+#          1. Requisitar vaga. Um usuario pode solicitar uma vaga em qualquer carona disponivel no sistema.
+#          2. Aprovar vaga ou segerir novo lugar. O usuario que cadastrou a carona recebe a solicitação e pode aprova-la ou recusa-la. 
+#             Ao aprová-la a quantidade de vagas disponiveis na carona sao atualizada.
+#	   	   3. Ao logar na sessao o usuario pode ver caronas recomendadas para ele:
+#             3.1  Caronas recomendas por popularidade analisa os destinos mais visitados pelos parceiros
+#                  e sugere caronas com esses destinos ao usario, desde que ele não seja passageiro ou dono das mesmas. 
+#             3.2  Caronas recomendadas por historico analisam todas as caronas que o usuario ja foi aceito
+#				   e gera recomedacoes que se baseiam no historico de origens e destios buscados por ele que
+#				   ele ainda nao conhece.
+
+#Limpar os dados do sistema.
+zerarSistema
+
+#Criar usuário.
+criarUsuario login="harry" senha="hp" nome="Harry" endereco="Rua dos Alfeneiros, 4" email="harry@hp.com"
+criarUsuario login="antonio" senha="tony" nome="Antonio" endereco="Logo Ali" email="antonio@gmail.com"
+criarUsuario login="marcos" senha="marcos2012" nome="Marcos" endereco="Rua Joao Pessoa" email="marcos@facebook.com"
+
+#Iniciar sessão Harry.
+sessaoHarry=abrirSessao login="harry" senha="hp"
+
+#Cadastrar caronas do Harry.
+carona1ID=cadastrarCarona idSessao=${sessaoHarry} origem="Londres" destino="Campina Grande" data="27/09/2012" hora="15:00" vagas=1
+carona2ID=cadastrarCarona idSessao=${sessaoHarry} origem="Belem" destino="Campina Grande" data="12/09/2012" hora="21:00" vagas=2
+carona3ID=cadastrarCarona idSessao=${sessaoHarry} origem="Belem" destino="Jo�o Pessoa" data="12/12/2012" hora="23:59" vagas=4
+carona4ID=cadastrarCarona idSessao=${sessaoHarry} origem="Londres" destino="Jo�o Pessoa" data="04/10/2012" hora="08:00" vagas=2
+carona5ID=cadastrarCarona idSessao=${sessaoHarry} origem="Campina Grande" destino="Jo�o Pessoa" data="07/08/2012" hora="16:00" vagas=3
+carona6ID=cadastrarCarona idSessao=${sessaoHarry} origem="Leeds" destino="Londres" data="10/11/2012" hora="12:00" vagas=3
+
+#Encerrar a sessao do harry
+encerrarSessao login="harry"
+
+#Iniciar sessão Antonio.
+sessaoAntonio=abrirSessao login="antonio" senha="tony"
+
+#Cadastrar caronas do Antonio.
+carona7ID=cadastrarCarona idSessao=${sessaoAntonio} origem="Guarabira" destino="Jo�o Pessoa" data="18/11/2012" hora="06:59" vagas=3
+carona8ID=cadastrarCarona idSessao=${sessaoAntonio} origem="Londres" destino="Jo�o Pessoa" data="17/10/2012" hora="21:00" vagas=1
+carona9ID=cadastrarCarona idSessao=${sessaoAntonio} origem="Bananeiras" destino="Jo�o Pessoa" data="09/09/2012" hora="16:00" vagas=4
+carona10ID=cadastrarCarona idSessao=${sessaoAntonio} origem="Londres" destino="Hogwarts" data="01/08/2012" hora="08:00" vagas=1000
+
+#Encerrar a sessao do Antonio
+encerrarSessao login="antonio"
+
+
+#Iniciar sess�o com outro usuario
+sessaoMarcos=abrirSessao login="marcos" senha="marcos2012"
+
+#Sugerir ponto de encontro para uma carona
+solicitacaoID1=solicitarVaga idSessao=${sessaoMarcos} idCarona=${carona1ID} 
+solicitacaoID2=solicitarVaga idSessao=${sessaoMarcos} idCarona=${carona3ID} 
+solicitacaoID3=solicitarVaga idSessao=${sessaoMarcos} idCarona=${carona4ID} 
+solicitacaoID4=solicitarVaga idSessao=${sessaoMarcos} idCarona=${carona5ID} 
+solicitacaoID5=solicitarVaga idSessao=${sessaoMarcos} idCarona=${carona7ID} 
+solicitacaoID6=solicitarVaga idSessao=${sessaoMarcos} idCarona=${carona8ID} 
+encerrarSessao login="marcos"
+
+#Resposta a solicitacao
+sessaoHarry=abrirSessao login="harry" senha="hp"
+
+aceitarSolicitacaoPontoEncontro idSessao=${sessaoHarry} idSolicitacao=${solicitacaoID1}
+aceitarSolicitacaoPontoEncontro idSessao=${sessaoHarry} idSolicitacao=${solicitacaoID2}
+aceitarSolicitacaoPontoEncontro idSessao=${sessaoHarry} idSolicitacao=${solicitacaoID3}
+aceitarSolicitacaoPontoEncontro idSessao=${sessaoHarry} idSolicitacao=${solicitacaoID4}
+
+encerrarSessao login="harry"
+
+
+#Iniciar sessão Antonio.
+sessaoAntonio=abrirSessao login="antonio" senha="tony"
+
+aceitarSolicitacaoPontoEncontro idSessao=${sessaoAntonio} idSolicitacao=${solicitacaoID5}
+aceitarSolicitacaoPontoEncontro idSessao=${sessaoAntonio} idSolicitacao=${solicitacaoID6}
+
+#Testa as Recomendacoes de Caronas
+
+#testa recomendacoes por lugar mais popular no sistema
+expect {${carona3ID},${carona4ID},${carona5ID}}  verRecomendacoesPorLugarPopular idSessao=${sessaoAntonio}
+
+#Antonio ainda nao foi inscrito em nenhuma carona, ent�o seu historico esta vazio (nenhum item � recomendado)
+expect {}  verRecomendacoesPorHistorico idSessao=${sessaoAntonio}
+
+solicitacaoID7=solicitarVaga idSessao=${sessaoAntonio} idCarona=${carona1ID} 
+solicitacaoID8=solicitarVaga idSessao=${sessaoAntonio} idCarona=${carona2ID} 
+solicitacaoID9=solicitarVaga idSessao=${sessaoAntonio} idCarona=${carona4ID} 
+
+sessaoHarry=abrirSessao login="harry" senha="hp"
+rejeitarSolicitacao idSessao=${sessaoHarry} idSolicitacao=${solicitacaoID7}
+aceitarSolicitacao idSessao=${sessaoHarry} idSolicitacao=${solicitacaoID8}
+aceitarSolicitacao idSessao=${sessaoHarry} idSolicitacao=${solicitacaoID9}
+encerrarSessao login="harry"
+
+expect {${carona1ID},${carona3ID}}  verRecomendacoesPorHistorico idSessao=${sessaoAntonio}
+encerrarSessao login="antonio"
+
+
+sessaoAntonio=abrirSessao login="marcos" senha="marcos2012"
+expect {${carona9ID}}  verRecomendacoesPorLugarPopular idSessao=${sessaoAntonio}
+expect {${carona9ID},${carona10ID}}  verRecomendacoesPorHistorico idSessao=${sessaoAntonio}
+
+encerrarSessao login="marcos"
+
+encerrarSistema
+quit
