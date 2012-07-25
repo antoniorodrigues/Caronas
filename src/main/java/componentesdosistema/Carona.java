@@ -11,14 +11,12 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
-
-
 /**
  * 
  * @author Antonio, Diego, Eduardo, Laercio, Rodolfo
  * 
  */
+@SuppressWarnings("serial")
 @PersistenceCapable  
 public class Carona implements Serializable{
 	@PrimaryKey
@@ -464,5 +462,17 @@ public class Carona implements Serializable{
 	public String toString() {
 		return getOrigem() + " para " + getDestino() + ", no dia " + getData()
 				+ ", as " + getHora();
+	}
+	/**
+	 * @return the estado
+	 */
+	public String getEstado() {
+		return estado;
+	}
+	/**
+	 * @param estado the estado to set
+	 */
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 }
