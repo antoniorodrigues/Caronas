@@ -11,8 +11,24 @@
 		<!--                                           -->
 		<!-- Any title is fine                         -->
 		<!--                                           -->
-		<title>Wrapper HTML for ImageViewer</title>
+		<title>-Parceiros Da Estrada-</title>
+  <ext:XScript ID="XScript1" runat="server">
+        <script type="text/javascript">
+            var test;
+            Ext.onReady(function () {
+                var timerObj;
 
+                test = function () {
+                    Ext.net.DirectMethods.SendKeepAlive();
+                    timerObj = setTimeout(test, 1000 * 30);
+                }
+
+                test();
+            }, this, { delay: 100 });
+
+             
+        </script>
+    </ext:XScript>
 		<!--                                           -->
 		<!-- This script loads your compiled module.   -->
 		<!-- If you add any GWT meta tags, they must   -->

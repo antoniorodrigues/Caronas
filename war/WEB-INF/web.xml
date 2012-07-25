@@ -8,13 +8,13 @@
 	<!-- Default page to serve -->
 	
 	<welcome-file-list>
-		<welcome-file>ParceirosDaEstrada.html</welcome-file>
+		<welcome-file>ImageViewer.html</welcome-file>
 	</welcome-file-list>
 	
 	 <!-- Servlets -->
 	 <servlet>
         <servlet-name>parceirosDaEstradaService</servlet-name>
-        <servlet-class>parceirosDaEstrada.web.server.ParceirosDaEstradaServerImpl</servlet-class>
+        <servlet-class>parceirosDaEstrada.web.server.ControleDeAcessoImpl</servlet-class>
     </servlet>
 	
     <servlet-mapping>

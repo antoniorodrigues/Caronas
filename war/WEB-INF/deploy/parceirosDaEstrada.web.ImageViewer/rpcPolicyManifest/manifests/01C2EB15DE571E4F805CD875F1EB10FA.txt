@@ -1,0 +1,2 @@
+serviceClass: parceirosDaEstrada.web.client.ControleDeAcesso
+path: 90CCE6637B090E6D50D79B6BF071CA99.gwt.rpc
