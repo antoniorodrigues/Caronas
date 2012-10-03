@@ -55,7 +55,7 @@ public class PerfilDoUsuario implements Serializable{
 	 * Construtor da classe Perfil do Usuario
 	 * 
 	 * @param login
-	 *            Login do usu�rio
+	 *            Login do usuario
 	 * @param login
 	 *            Login do Usuario.
 	 * @param senha
@@ -83,16 +83,16 @@ public class PerfilDoUsuario implements Serializable{
 	}
 
 	/**
-	 * Metodo que retorna as caronas n�o realizadas
+	 * Metodo que retorna as caronas não realizadas
 	 * 
-	 * @return Caronas n�o realizadas
+	 * @return Caronas nãorealizadas
 	 */
 	public String getCaronasNaoFuncionaram() {
 		return caronasNaoFuncionaram + "";
 	}
 
 	/**
-	 * Metodo que incrementa o numero de caronas n�o realizadas
+	 * Metodo que incrementa o numero de caronas não realizadas
 	 */
 	public void setCaronasNaoFuncionaram() {
 		this.caronasNaoFuncionaram += 1;
@@ -132,7 +132,7 @@ public class PerfilDoUsuario implements Serializable{
 	 */
 	public void setNome(String nome) throws DadosUsuarioException {
 		if (nome == null || nome.equals("")) {
-			throw new DadosUsuarioException("Nome inv�lido");
+			throw new DadosUsuarioException("Nome inválido");
 		}
 
 		this.nome = nome;
@@ -148,7 +148,7 @@ public class PerfilDoUsuario implements Serializable{
 	}
 
 	/**
-	 * Metodo que modifica o n�mero de presen�as na carona, incrementando em um
+	 * Metodo que modifica o numero de presenças na carona, incrementando em um
 	 */
 	public void setPresencaCaronas() {
 		this.presencaEmCaronas += 1;
@@ -191,7 +191,7 @@ public class PerfilDoUsuario implements Serializable{
 	 */
 	public void setEmail(String email) throws DadosUsuarioException {
 		if (email == null || email.equals("")) {
-			throw new DadosUsuarioException("Email inv�lido");
+			throw new DadosUsuarioException("Email inválido");
 		}
 		this.email = email;
 	}
@@ -215,7 +215,7 @@ public class PerfilDoUsuario implements Serializable{
 	 */
 	public void setSenha(String senha) throws DadosUsuarioException {
 		if(senha == null || senha.equals("")){ 
-			throw new DadosUsuarioException("Senha inv�lida");
+			throw new DadosUsuarioException("Senha inválida");
 		}
 		
 		this.senha = senha;
@@ -240,7 +240,7 @@ public class PerfilDoUsuario implements Serializable{
 	 */
 	public void setLogin(String login) throws DadosUsuarioException {
 		if (login == null || login.equals("")) {
-			throw new DadosUsuarioException("Login inv�lido");
+			throw new DadosUsuarioException("Login inválido");
 		}
 
 		this.login = login;
@@ -274,7 +274,7 @@ public class PerfilDoUsuario implements Serializable{
 	 */
 	public void setEndereco(String endereco) throws DadosUsuarioException {
 		if (endereco == null || endereco.equals("")) {
-			throw new DadosUsuarioException("Endere�o inv�lido");
+			throw new DadosUsuarioException("Endereço inválido");
 		}
 		this.endereco = endereco;
 	}
@@ -337,7 +337,7 @@ public class PerfilDoUsuario implements Serializable{
 	 *            Atributo a ser retornado
 	 * @return Atributo de escolha do usuario do sistema
 	 * @throws Exception
-	 *             Caso o atributo n�o exista
+	 *             Caso o atributo nao exista
 	 */
 	public String getAtributo(String atributo) throws AtributoIlegalException {
 		if (atributo.equals("nome")) {
@@ -361,13 +361,13 @@ public class PerfilDoUsuario implements Serializable{
 		else if (atributo.equals("caronas seguras e tranquilas")) {
 			return this.getCaronasSeguras();
 		}
-		else if (atributo.equals("caronas que n�o funcionaram")) {
+		else if (atributo.equals("caronas que não funcionaram")) {
 			return this.getCaronasNaoFuncionaram();
 		}
 		else if (atributo.equals("faltas em vagas de caronas")) {
 			return this.getFaltaCaronas();
 		}
-		else if (atributo.equals("presen�as em vagas de caronas")) {
+		else if (atributo.equals("presenças em vagas de caronas")) {
 			return this.getPresencaCaronas();
 		} 
 		else {
@@ -389,7 +389,7 @@ public class PerfilDoUsuario implements Serializable{
 	 * Metodo que adiciona uma vaga na carona
 	 * 
 	 * @param carona
-	 *            Carona em qe ser� adicionada uma vaga
+	 *            Carona em qe será adicionada uma vaga
 	 */
 	public void adicionaVaga(Carona carona) {
 		historicoVagas.add(carona);
