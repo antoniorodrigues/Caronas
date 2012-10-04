@@ -69,7 +69,7 @@ public class Usuario implements Serializable{
 	}
 
 	/**
-	 * M�todo que cadastra uma nova carona criada pelo Usuario
+	 * Metodo que cadastra uma nova carona criada pelo Usuario
 	 * 
 	 * @param origem
 	 *            Lugar de saida da Carona
@@ -83,8 +83,8 @@ public class Usuario implements Serializable{
 	 *            Quantidade de vagas da Carona
 	 * @return Um identificador (id) da carona
 	 * @throws Exception
-	 *             Quando algum dos atributos do m�todo possuir uma entrada
-	 *             inv�lida
+	 *             Quando algum dos atributos do metodo possuir uma entrada
+	 *             invalida
 	 */
 	public String cadastrarCarona(String origem, String destino, String data, String hora, String vagas) throws DadosCaronaException {
 		return cadastrarCaronaMunicipal(origem, destino, null, data, hora, vagas);
@@ -112,44 +112,44 @@ public class Usuario implements Serializable{
 	}
 
 	/**
-	 * M�todo que retorna o identificador (id) do usu�rio
+	 * Metodo que retorna o identificador (id) do usuário
 	 * 
-	 * @return Identificador (id) do usu�rio
+	 * @return Identificador (id) do usuário
 	 */
 	public String getID() {
 		return this.ID;
 	}
 
 	/**
-	 * M�todo que muda o identificador (id) do Usuario
+	 * Metodo que muda o identificador (id) do Usuario
 	 * 
 	 * @param iD
-	 *            Novo valor para o identificador (iD) do usu�rio
+	 *            Novo valor para o identificador (iD) do usuário
 	 */
 	public void setID(String iD) {
 		this.ID = iD;
 	}
 
 	/**
-	 * M�todo que retorna o login do usu�rio
+	 * Metodo que retorna o login do usuário
 	 * 
-	 * @return Login do usu�rio
+	 * @return Login do usuário
 	 */
 	public String getLogin() {
 		return perfil.getLogin();
 	}
 
 	/**
-	 * M�todo que retorna a senha do usu�rio
+	 * Metodo que retorna a senha do usuario
 	 * 
-	 * @return Senha do usu�rio
+	 * @return Senha do usuario
 	 */
 	public String getSenha() {
 		return perfil.getSenha();
 	}
 
 	/**
-	 * M�todo que retorna o nome do usu�rio
+	 * Método que retorna o nome do usuário
 	 * 
 	 * @return Nome do usu�rio
 	 */
@@ -158,7 +158,7 @@ public class Usuario implements Serializable{
 	}
 
 	/**
-	 * M�todo que retorna uma lista de caronas pertecentes ao usu�rio
+	 * Método que retorna uma lista de caronas pertecentes ao usuario
 	 * 
 	 * @return Lista de caronas pertecentes ao usu�rio
 	 */
@@ -167,7 +167,7 @@ public class Usuario implements Serializable{
 	}
 
 	/**
-	 * M�todo que retorna o email do usu�rio
+	 * Metodo que retorna o email do usuario
 	 * 
 	 * @return Email do usu�rio
 	 */
@@ -192,7 +192,7 @@ public class Usuario implements Serializable{
 	}
 
 	/**
-	 * M�todo que retorna o atributo login do usu�rio
+	 * Método que retorna o atributo login do usuario
 	 * 
 	 * @param login
 	 *            Login do usuario
@@ -205,7 +205,7 @@ public class Usuario implements Serializable{
 	}
 
 	/**
-	 * M�todo que retorna o perfil do usiario, atrav�s de seu login
+	 * Metodo que retorna o perfil do usiario, atraves de seu login
 	 * 
 	 * @param login
 	 *            Login do usu�rio
@@ -215,12 +215,12 @@ public class Usuario implements Serializable{
 	 */
 	public PerfilDoUsuario getPerfil(String login) throws DadosUsuarioException {
 		if (!this.getLogin().equals(login))
-			throw new DadosUsuarioException("Login inv�lido");
+			throw new DadosUsuarioException("Login inválido");
 		return perfil;
 	}
 
 	/**
-	 * M�todo que adiciona uma nova carona
+	 * Método que adiciona uma nova carona
 	 * 
 	 * @param novaCarona
 	 *            Nova carona a ser adicionada
@@ -230,10 +230,10 @@ public class Usuario implements Serializable{
 	}
 
 	/**
-	 * M�todo que muda o hist�rico de vagas
+	 * Metodo que muda o histórico de vagas
 	 * 
 	 * @param carona
-	 *            Carona que ir� adicionar uma vaga
+	 *            Carona que irá adicionar uma vaga
 	 */
 	public void setHistoricoEmVagas(Carona carona) {
 		perfil.adicionaVaga(carona);
@@ -253,12 +253,12 @@ public class Usuario implements Serializable{
 	 * 			
 	 */
 	public void reviewVagaEmCarona(String idCarona, String loginCaroneiro, String review) throws DadosCaronaException {
-		if (review.equals("n�o dou mais carona")) {
-			throw new DadosCaronaException("Op��o inv�lida.");
+		if (review.equals("não dou mais carona")) {
+			throw new DadosCaronaException("Opção inválida.");
 		}
 
-		if (review.equals("n�o funcionou")) {
-			throw new DadosCaronaException("Usu�rio n�o possui vaga na carona.");
+		if (review.equals("não funcionou")) {
+			throw new DadosCaronaException("Usuário não possui vaga na carona.");
 		}
 
 		for (Carona carona : caronas) {
@@ -268,7 +268,7 @@ public class Usuario implements Serializable{
 						if (review.equals("faltou")) {
 							caroneiro.setFaltasEmCaronas();
 						}
-						else if (review.equals("n�o faltou")) {
+						else if (review.equals("não faltou")) {
 							caroneiro.setPresencasEmCaronas();
 						}
 					}
@@ -278,14 +278,14 @@ public class Usuario implements Serializable{
 	}
 
 	/**
-	 * M�todo que muda o n�mero de faltas em caronas
+	 * Metodo que muda o numero de faltas em caronas
 	 */
 	public void setFaltasEmCaronas() {
 		perfil.setFaltaCaronas();
 	}
 
 	/**
-	 * M�todo que muda o n�mero de presen�as em caronas
+	 * Metodo que muda o numero de presenças em caronas
 	 */
 	public void setPresencasEmCaronas() {
 		perfil.setPresencaCaronas();
@@ -347,7 +347,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void notificaCaronaPublicada(Carona carona) {
-		String mensagem = "Carona cadastrada no dia " +  carona.getData() + ", �s " + carona.getHora() + "de acordo com os seus interesses registrados. Entrar em contato com " + carona.getDono().getEmail();
+		String mensagem = "Carona cadastrada no dia " +  carona.getData() + ", às " + carona.getHora() + " de acordo com os seus interesses registrados. Entrar em contato com " + carona.getDono().getEmail();
 		this.mensagens.add(mensagem);
 	}
 	

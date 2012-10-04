@@ -3,6 +3,8 @@ package sistema;
 import java.util.List;
 
 import componentesdosistema.Carona;
+import componentesdosistema.DadosCaronaException;
+import componentesdosistema.DadosUsuarioException;
 import componentesdosistema.PerfilDoUsuario;
 import componentesdosistema.SolicitacaoDeCarona;
 import componentesdosistema.SolicitacaoIlegalException;
@@ -47,9 +49,25 @@ public class SistemaController {
 	public String localizarCarona(String idSessao, String origem, String destino) throws Exception {
 		return sistema.localizarCarona(idSessao, origem, destino);
 	}
+	
+	public String localizarCaronaMunicipal(String idSessao, String cidade) throws Exception {
+		return sistema.localizarCaronaMunicipal(idSessao, cidade);
+	}
+	
+	public String localizarCaronaMunicipal(String idSessao, String cidade, String origem, String destino) throws Exception {
+		return sistema.localizarCaronaMunicipal(idSessao, cidade, origem, destino);
+	}
 
 	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, String vagas) throws Exception {
 		return sistema.cadastrarCarona(idSessao, origem, destino, data, hora, vagas);
+	}
+	
+	public String cadastrarCaronaMunicipal(String idSessao, String origem, String destino, String cidade, String data, String hora, String vagas) throws Exception {
+		return sistema.cadastrarCaronaMunicipal(idSessao, origem, destino, cidade, data, hora, vagas);
+	}
+	
+	public void cadastrarInteresse(String idSessao, String origem, String destino, String data, String horaInicio, String HoraFim) throws DadosCaronaException, DadosUsuarioException{
+		sistema.cadastrarInteresse(idSessao, origem, destino, data, horaInicio, HoraFim);		
 	}
 
 	public String getAtributoCarona(String ID, String atributo) throws Exception {
@@ -115,7 +133,9 @@ public class SistemaController {
 	public String reviewVagaEmCarona(String idSessao, String idCarona, 	String loginCaroneiro, String review) throws Exception {
 		return sistema.reviewVagaEmCarona(idSessao, idCarona, loginCaroneiro, review);
 	}
-
+	public void reviewCarona(String idSessao, String idCarona, String review) throws DadosCaronaException{
+		sistema.reviewCarona(idSessao, idCarona, review);
+	}
 	public String getSolicitacoesPendentes(String idSessao, String idCarona) throws Exception {
 		return sistema.getSolicitacoesPendentes(idSessao, idCarona);
 	}
@@ -139,7 +159,9 @@ public class SistemaController {
 	public void encerrarSistema() throws Exception {
 		sistema.encerrar();
 	}
-
+	public String verificarMensagensPerfil(String idSessao) throws DadosUsuarioException{
+		return sistema.verificarMensagensPerfil(idSessao);
+	}
 
 	public List<Carona> localizarCarona(String origem, String destino)throws Exception {
 		return sistema.localizarCarona(origem, destino);
@@ -157,5 +179,8 @@ public class SistemaController {
 	}
 	public String verRecomendacoesPorHistorico(String idSessao){
 		return sistema.verRecomendacoesPorHisorico(idSessao);
+	}
+	public String enviarEmail(String idSessao, String destino, String message) throws DadosUsuarioException{
+		return sistema.enviarEmail(idSessao, destino, message);
 	}
 }

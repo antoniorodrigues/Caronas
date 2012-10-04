@@ -16,7 +16,13 @@ q:before,q:after{content:'';}
 
 .ext-el-mask{z-index:20000;position:absolute;top:0;left:0;-moz-opacity:0.5;opacity:.50;filter:alpha(opacity=50);background-color:#CCC;width:100%;height:100%;zoom:1;}
 .ext-el-mask-msg{z-index:20001;position:absolute;top:0;left:0;border:1px solid #6593cf;background:#c3daf9 url(../images/default/box/tb-blue.gif) repeat-x 0 -16px;padding:2px;}
-.ext-el-mask-msg div{padding:5px 10px 5px 10px;background:#eee;border:1px solid #a3bad9;color:#222;font:normal 11px tahoma,arial,helvetica,sans-serif;cursor:wait;}
+.ext-el-mask-msg div{background:#eee;font:normal 11px tahoma,arial,helvetica,sans-serif;	color: #990000;
+	padding: 5px 10px;
+	border: 1px solid #a3bad9;
+	font-size: 8px;
+	font-style: italic;
+	text-align: center;
+	cursor: wait;}
 .ext-shim{position:absolute;visibility:hidden;left:0;top:0;overflow:hidden;}
 .ext-ie .ext-shim{filter:alpha(opacity=0);}
 .ext-ie6 .ext-shim{margin-left:5px;margin-top:3px;}
@@ -343,14 +349,27 @@ fieldset.x-panel-collapsed .x-fieldset-bwrap{visibility:hidden;position:absolute
 .x-grid3-row-over{border:1px solid #ddd;background:#efefef url(../images/default/grid/row-over.gif) repeat-x left top;}
 .x-grid3-resize-proxy{width:1px;left:0;background-color:#777;cursor:e-resize;cursor:col-resize;position:absolute;top:0;height:100px;overflow:hidden;visibility:hidden;border:0 none;z-index:7;}
 .x-grid3-resize-marker{width:1px;left:0;background-color:#777;position:absolute;top:0;height:100px;overflow:hidden;visibility:hidden;border:0 none;z-index:7;}
-.x-grid3-focus{position:absolute;top:0;-moz-outline:0 none;outline:0 none;-moz-user-select:normal;-khtml-user-select:normal;}
-.x-grid3-header{background:#f9f9f9 url(../images/default/grid/grid3-hrow.gif) repeat-x 0 bottom;cursor:default;zoom:1;padding:1px 0 0 0;}
-.x-grid3-header-pop{border-left:1px solid #d0d0d0;float:right;clear:none;}
+.x-grid3-focus{position:absolute;top:0;-moz-outline:0 none;outline:0 none;
+	border: groove;
+	font-size: 18px;-moz-user-select:normal;-khtml-user-select:normal;}
+.x-grid3-header{background:#f9f9f9 url(../images/default/grid/grid3-hrow.gif) repeat-x 0 bottom;zoom:1;
+	padding: 1px 0px 0px;
+	font-size: 18px;
+	font-weight: 700;
+	cursor: default;}
+.x-grid3-header-pop{float:right;clear:none;
+	border-left: 1px solid #d0d0d0;
+	font-size: 18px;
+	font-weight: 700;}
 .x-grid3-header-pop-inner{border-left:1px solid #eee;width:14px;height:19px;background:transparent url(../images/default/grid/hd-pop.gif) no-repeat center center;}
 .ext-ie .x-grid3-header-pop-inner{width:15px;}
 .ext-strict .x-grid3-header-pop-inner{width:14px;}
 .x-grid3-header-inner{overflow:hidden;zoom:1;float:left;}
-.x-grid3-header-offset{padding-left:1px;width:10000px;}
+.x-grid3-header-offset{width:10000px;
+	padding-left: 1px;
+	font-size: 14px;
+	font-weight: 600;
+	text-align: center;}
 td.x-grid3-hd-over,td.sort-desc,td.sort-asc,td.x-grid3-hd-menu-open{border-left:1px solid #aaccf6;border-right:1px solid #aaccf6;}
 td.x-grid3-hd-over .x-grid3-hd-inner,td.sort-desc .x-grid3-hd-inner,td.sort-asc .x-grid3-hd-inner,td.x-grid3-hd-menu-open .x-grid3-hd-inner{background:#ebf3fd url(../images/default/grid/grid3-hrow-over.gif) repeat-x left bottom;}
 .x-grid3-sort-icon{background-repeat:no-repeat;display:none;height:4px;width:13px;margin-left:3px;vertical-align:middle;}
@@ -421,11 +440,11 @@ a.x-grid3-hd-btn:hover{background-position:-14px center;}
 .x-show-groups-icon{background-image:url(../images/default/grid/group-by.gif);}
 .ext-ie .x-grid3 .x-editor .x-form-text{position:relative;top:-1px;}
 .ext-ie .x-props-grid .x-editor .x-form-text{position:static;top:0;}
-.x-grid-empty{padding:10px;color:gray;font:normal 11px tahoma,arial,helvetica,sans-serif;}
+.x-grid-empty{padding:10px;color:red;font:normal 11px tahoma,arial,helvetica,sans-serif;}
 .ext-ie7 .x-grid-panel .x-panel-bbar{position:relative;}
 
 .x-dd-drag-proxy{position:absolute;left:0;top:0;visibility:hidden;z-index:15000;}
-.x-dd-drag-ghost{color:black;font:normal 11px arial,helvetica,sans-serif;-moz-opacity:0.85;opacity:.85;filter:alpha(opacity=85);border-top:1px solid #ddd;border-left:1px solid #ddd;border-right:1px solid #bbb;border-bottom:1px solid #bbb;padding:3px;padding-left:20px;background-color:white;white-space:nowrap;}
+.x-dd-drag-ghost{color:red;font:italic 11px arial,helvetica,sans-serif;-moz-opacity:0.85;opacity:.85;filter:alpha(opacity=85);border-top:1px solid #ddd;border-left:1px solid #ddd;border-right:1px solid #bbb;border-bottom:2px solid #bbb;padding:3px;padding-left:20px;background-color:white;white-space:nowrap;}
 .x-dd-drag-repair .x-dd-drag-ghost{-moz-opacity:0.4;opacity:.4;filter:alpha(opacity=40);border:0 none;padding:0;background-color:transparent;}
 .x-dd-drag-repair .x-dd-drop-icon{visibility:hidden;}
 .x-dd-drop-icon{position:absolute;top:3px;left:3px;display:block;width:16px;height:16px;background-color:transparent;background-position:center;background-repeat:no-repeat;z-index:1;}
@@ -476,7 +495,11 @@ input.x-tree-node-cb{margin-left:1px;}
 .x-tree-arrows .x-tree-ec-over .x-tree-elbow-end-minus{background-position:-48px 0;}
 .x-tree-elbow-plus,.x-tree-elbow-minus,.x-tree-elbow-end-plus,.x-tree-elbow-end-minus{cursor:pointer;}
 .ext-ie ul.x-tree-node-ct{font-size:0;line-height:0;zoom:1;}
-.x-tree-node{color:black;font:normal 11px arial,tahoma,helvetica,sans-serif;white-space:nowrap;}
+.x-tree-node{font:italic 12px arial,tahoma,helvetica,sans-serif;	color: #cc0000;
+	font-size: 13px;
+	font-style: italic;
+	font-weight: 500;
+	white-space: nowrap;}
 .x-tree-node-el{line-height:18px;cursor:pointer;}
 .x-tree-node a,.x-dd-drag-ghost a{text-decoration:none;color:black;-khtml-user-select:none;-moz-user-select:none;-kthml-user-focus:normal;-moz-user-focus:normal;-moz-outline:0 none;outline:0 none;}
 .x-tree-node a span,.x-dd-drag-ghost a span{text-decoration:none;color:black;padding:1px 3px 1px 2px;}
@@ -621,7 +644,7 @@ td.x-date-mp-sep{border-right:1px solid #c5d2df;}
 .x-box-blue .x-box-mr{background-image:url(../images/default/box/r-blue.gif);}
 
 #x-debug-browser .x-tree .x-tree-node a span{color:#222297;font-size:11px;padding-top:2px;font-family:"monotype","courier new",sans-serif;line-height:18px;}
-#x-debug-browser .x-tree a i{color:#FF4545;font-style:normal;}
+#x-debug-browser .x-tree a i{color:#FF4545;font-style:italic;}
 #x-debug-browser .x-tree a em{color:#999;}
 #x-debug-browser .x-tree .x-tree-node .x-tree-selected a span{background:#c3daf9;}
 #x-debug-browser .x-tool-toggle{background-position:0 -75px;}

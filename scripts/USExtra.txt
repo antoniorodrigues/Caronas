@@ -23,12 +23,12 @@ criarUsuario login="marcos" senha="marcos2012" nome="Marcos" endereco="Rua Joao 
 sessaoHarry=abrirSessao login="harry" senha="hp"
 
 #Cadastrar caronas do Harry.
-carona1ID=cadastrarCarona idSessao=${sessaoHarry} origem="Londres" destino="Campina Grande" data="27/09/2012" hora="15:00" vagas=1
-carona2ID=cadastrarCarona idSessao=${sessaoHarry} origem="Belem" destino="Campina Grande" data="12/09/2012" hora="21:00" vagas=2
+carona1ID=cadastrarCarona idSessao=${sessaoHarry} origem="Londres" destino="Campina Grande" data="27/12/2012" hora="15:00" vagas=1
+carona2ID=cadastrarCarona idSessao=${sessaoHarry} origem="Belem" destino="Campina Grande" data="12/12/2012" hora="21:00" vagas=2
 carona3ID=cadastrarCarona idSessao=${sessaoHarry} origem="Belem" destino="Jo�o Pessoa" data="12/12/2012" hora="23:59" vagas=4
-carona4ID=cadastrarCarona idSessao=${sessaoHarry} origem="Londres" destino="Jo�o Pessoa" data="04/10/2012" hora="08:00" vagas=2
-carona5ID=cadastrarCarona idSessao=${sessaoHarry} origem="Campina Grande" destino="Jo�o Pessoa" data="07/08/2012" hora="16:00" vagas=3
-carona6ID=cadastrarCarona idSessao=${sessaoHarry} origem="Leeds" destino="Londres" data="10/11/2012" hora="12:00" vagas=3
+carona4ID=cadastrarCarona idSessao=${sessaoHarry} origem="Londres" destino="Jo�o Pessoa" data="04/01/2013" hora="08:00" vagas=2
+carona5ID=cadastrarCarona idSessao=${sessaoHarry} origem="Campina Grande" destino="Jo�o Pessoa" data="07/03/2013" hora="16:00" vagas=3
+carona6ID=cadastrarCarona idSessao=${sessaoHarry} origem="Leeds" destino="Londres" data="10/01/2013" hora="12:00" vagas=3
 
 #Encerrar a sessao do harry
 encerrarSessao login="harry"
@@ -38,9 +38,9 @@ sessaoAntonio=abrirSessao login="antonio" senha="tony"
 
 #Cadastrar caronas do Antonio.
 carona7ID=cadastrarCarona idSessao=${sessaoAntonio} origem="Guarabira" destino="Jo�o Pessoa" data="18/11/2012" hora="06:59" vagas=3
-carona8ID=cadastrarCarona idSessao=${sessaoAntonio} origem="Londres" destino="Jo�o Pessoa" data="17/10/2012" hora="21:00" vagas=1
-carona9ID=cadastrarCarona idSessao=${sessaoAntonio} origem="Bananeiras" destino="Jo�o Pessoa" data="09/09/2012" hora="16:00" vagas=4
-carona10ID=cadastrarCarona idSessao=${sessaoAntonio} origem="Londres" destino="Hogwarts" data="01/08/2012" hora="08:00" vagas=1000
+carona8ID=cadastrarCarona idSessao=${sessaoAntonio} origem="Londres" destino="Jo�o Pessoa" data="17/12/2012" hora="21:00" vagas=1
+carona9ID=cadastrarCarona idSessao=${sessaoAntonio} origem="Bananeiras" destino="Jo�o Pessoa" data="09/02/2013" hora="16:00" vagas=4
+carona10ID=cadastrarCarona idSessao=${sessaoAntonio} origem="Londres" destino="Hogwarts" data="01/04/2013" hora="08:00" vagas=1000
 
 #Encerrar a sessao do Antonio
 encerrarSessao login="antonio"

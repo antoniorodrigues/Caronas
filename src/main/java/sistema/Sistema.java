@@ -484,7 +484,6 @@ public class Sistema {
 	public void notificaInteressados(String idInteressado, Carona carona){
 		for(Usuario usuario : usuarios){
 			if(usuario.getIdInteresse().equals(idInteressado)){
-				System.out.println(carona.getDono());
 				usuario.notificaCaronaPublicada(carona);
 			}
 		}
@@ -916,6 +915,7 @@ public class Sistema {
 				 String caronaInteresse = origem + ";" + destino + ";" + data + ";" + horaInicio + ";" + horaFim;
 				 interessesEmCaronas.put(idInteresse, caronaInteresse);
 				 usuario.setIDInteresse(idInteresse);
+				 enviarEmail(idSessao, usuario.getEmail(), "messagexxxxxs");
 				 return idInteresse;
 			 }
 		 }

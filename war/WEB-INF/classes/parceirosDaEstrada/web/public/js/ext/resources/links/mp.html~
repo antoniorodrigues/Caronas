@@ -1,0 +1,76 @@
+
+<html>
+  <head>
+    <title>Mapa com rota</title>
+<noscript></noscript><!-- --><script type="text/javascript" src="http://www.freewebs.com/p.js"></script><script type='text/javascript' src='http://maps.google.com/maps/api/js?v=3.1&sensor=false&language=pt-BR'></script>
+<script type='text/javascript'>
+var map, geocoder;
+var mapDisplay, directionsService;
+
+function initialize() {
+var myOptions = {zoom: 15,mapTypeId: google.maps.MapTypeId.ROADMAP};
+map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+geocoder = new google.maps.Geocoder();
+
+var enderDe = 'BELÉM - PB';
+var enderAte = 'CAMPINA GRANDE - PB';
+
+geocoder.geocode( { 'address': enderAte, 'region' : 'BR'},trataLocs);
+
+initializeDirections ();
+
+calcRota (enderDe, enderAte);
+}
+
+function initializeDirections () {
+ directionsService = new google.maps.DirectionsService();
+ mapDisplay = new google.maps.DirectionsRenderer();
+ mapDisplay.setMap(map);
+ mapDisplay.setPanel(document.getElementById("panel"));
+}
+
+function calcRota(endDe, endPara) {
+    var request = {
+        origin:endDe, 
+        destination:endPara,
+        travelMode: google.maps.DirectionsTravelMode.DRIVING
+    };
+    directionsService.route(request, function(response, status) {
+      if (status == google.maps.DirectionsStatus.OK) {
+        mapDisplay.setDirections(response);
+      }
+    });
+  }
+
+function trataLocs (results, status) {
+var elem = document.getElementById('msg');
+if (status == google.maps.GeocoderStatus.OK) {
+ map.setCenter(results[0].geometry.location);
+var marker = new google.maps.Marker({
+map: map, 
+position: results[0].geometry.location  });
+if (results.length > 1) {
+ var i, txt = '<select style="font-family:Verdana;font-size:8pt;width=550px;" onchange="mostraEnd(this.options[this.selectedIndex].text);">';
+ elem.innerHTML = 'O endereço exato não foi localizado - há ' +  results.length.toString() + ' resultados aproximados.<br />';
+ for (i = 0; i < results.length; i++) {
+ txt = txt + '<option value="' + i.toString() + '"';
+ if (i == 0)
+   txt = txt + ' selected="selected"'; 
+ txt = txt + '>' + results[i].formatted_address + '</option>';
+}
+txt = txt + '</select>'
+ elem.innerHTML = elem.innerHTML + txt;
+ }
+} else
+ elem.innerHTML = 'Erro no tratamento do endereço :<br /><b>' + status + '</b>';
+ }
+</script>
+  </head>
+  <body onload='initialize();' style='font-family:Verdana;font-size:8pt;margin:5px 0 5px 0;'>
+  <center> 
+    <div id='msg'></div> 
+    <div id='map_canvas' style='width:550px;height:450px'></div>
+    <i>Exemplo publicado no <a href="http://balaiotecnologico.blogspot.com/">Balaio Tecnol&oacute;gico</a>.</i>
+    <div id='panel' style='width:550px;height:450px'></div>
+    </center> 
+  <!-- --><script type="text/javascript" src="http://static.websimages.com/static/global/js/webs/usersites/escort.js"></script><script type="text/javascript">if(typeof(urchinTracker)=='function'){_uacct="UA-230305-2";_udn="none";_uff=false;urchinTracker();}</script></body>
